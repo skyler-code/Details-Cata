@@ -1,4 +1,4 @@
-## Interface: 30300
+## Interface: 40300
 ## LoadOnDemand: 1
 ## Title: Lib: TalentQuery 1.0
 ## Notes: Library to help with querying unit talents.

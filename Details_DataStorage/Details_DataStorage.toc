@@ -1,4 +1,4 @@
-## Interface: 30300
+## Interface: 40300
 ## Title: Details!: Storage
 ## Notes: Stores information for Details! Damage Meter
 ## DefaultState: Enabled
