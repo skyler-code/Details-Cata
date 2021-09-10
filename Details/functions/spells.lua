@@ -11,44 +11,43 @@ do
 	_detalhes.SpecSpellList = { --~spec
 		-- Unholy Death Knight:
 		[49206] = 252, -- Summon Gargoyle
-		[55271] = 252, -- Scourge Strike, Rank 4
-		[51161] = 252, -- Ebon Plaguebringer, Rank 3
-		[55271] = 252, -- Scourge Strike, Rank 4
+		[55090] = 252, -- Scourge Strike (Physical)
+		[70890] = 252, -- Scourge Strike (Shadow)
+		[65142] = 252, -- Ebon Plague
 
 		-- Frost Death Knight:
-		[55268] = 251, -- Frost Strike, Rank 6
-		[66962] = 251, -- Frost Strike Off-Hand, Rank 6
-		[51411] = 251, -- Howling Blast, Rank 4
+		[49143] = 251, -- Frost Strike
+		[66196] = 251, -- Frost Strike Off-Hand
+		[49184] = 251, -- Howling Blast
 
 		-- Blood Death Knight:
 		[55233] = 250, -- Vampiric Blood
-		[49028] = 250, -- Dancing Rune Weapon
-		[55262] = 250, -- Heart Strike
+		[53138] = 250, -- Abomination's Might
+		[55050] = 250, -- Heart Strike
 
 		-- Balance Druid:
-		[53201] = 102, -- Starfall, Rank 4
-		[48465] = 102, -- Starfire, Rank 10
-		[48468] = 102, -- Insect Swarm, Rank 7
+		[50288] = 102, -- Starfall
+		[24858] = 102, -- Moonkin Form
+		[78674] = 102, -- Starsurge
 
 		-- Feral Druid:
-		[49802] = 103, -- Maim, Rank 2
 		[52610] = 103, -- Savage Roar
-		[50213] = 103, -- Tiger's Fury, Rank 6
-		[48574] = 103, -- Rake, Rank 7
-		[49800] = 103, -- Rip, Rank 9
+		[5217] = 103, -- Tiger's Fury, Rank 6
+		[1822] = 103, -- Rake, Rank 7
+		[1079] = 103, -- Rip, Rank 9
 
 		-- Guardian Druid:
-		[48568] = 104, -- Lacerate, Rank 3
-		[48480] = 104, -- Maul, Rank 10
+		[33745] = 104, -- Lacerate
+		[6807] = 104, -- Maul
 		[62606] = 104, -- Savage Defense
 
 		-- Restoration Druid:
-		[48451] = 105, -- Lifebloom, Rank 3
-		[53251] = 105, -- Wild Growth, Rank 4
+		[100977] = 105, -- Harmony
+		[48438] = 105, -- Wild Growth
 		[18562] = 105, -- Swiftmend
 
 		-- Beast Mastery Hunter:
-		[19574] = 253, -- Bestial Wrath
+		[34471] = 253, -- Bestial Wrath
 		[53257] = 253, -- Cobra Strikes
 
 		-- Marksmanship Hunter:
@@ -56,26 +55,24 @@ do
 		[19506] = 254, -- Trueshot Aura
 
 		-- Survival Hunter:
-		[63672] = 255, -- Black Arrow Rank 6
-		[60053] = 255, -- Explosive Shot Rank 4
+		[3674] = 255, -- Black Arrow Rank 6
+		[53301] = 255, -- Explosive Shot Rank 4
+		[53290] = 255, -- Hunting Party
 
 		-- Arcane Mage:
 		[12042] = 62, -- Arcane Power
 		[31589] = 62, -- Slow
-		[42846] = 62, -- Arcane Missiles, Rank 13
-		[44781] = 62, -- Arcane Barrage, Rank 3
-		[42897] = 62, -- Arcane Blast, Rank 4
+		[44425] = 62, -- Arcane Barrage
+		[82930] = 62, -- Arcane Tactics
 
 		-- Fire Mage:
-		[55360] = 63, -- Living Bomb, Rank 3
-		[42950] = 63, -- Dragon's Breath, Rank 6
-		[42859] = 63, -- Scorch, Rank 11
-		[42833] = 63, -- Fireball, Rank 16
-		[42891] = 63, -- Pyroblast, Rank 12
+		[44457] = 63, -- Living Bomb (DoT)
+		[31661] = 63, -- Dragon's Breath, Rank 6
+		[11366] = 63, -- Pyroblast
 
 		-- Frost Mage:
-		[42914] = 64, -- Ice Lance, Rank 3
-		[42842] = 64, -- Frostbolt, Rank 16
+		[44544] = 64, -- Fingers of Frost
+		[11426] = 64, -- Ice Barrier
 		[44572] = 64, -- Deep Freeze
 
 		-- Holy Paladin:
