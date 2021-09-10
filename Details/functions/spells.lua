@@ -76,14 +76,15 @@ do
 		[44572] = 64, -- Deep Freeze
 
 		-- Holy Paladin:
-		[53563] = 65, -- Beacon of Light
-		[48825] = 65, -- Holy Shock, Rank 7
-		[54937] = 65, -- Glyph of Holy Light
+		[31842] = 65, -- Divine Favor
+		[25914] = 65, -- Holy Shock
+		[54149] = 65, -- Infusion of Light
+		[20053] = 65, -- Conviction
 
 		-- Protection Paladin:
-		[53595] = 66, -- Hammer of the Righteous
-		[48827] = 66, -- Avenger's Shield, Rank 5
-		[48952] = 66, -- Holy Shield, Rank 6
+		[88263] = 66, -- Hammer of the Righteous
+		[31935] = 66, -- Avenger's Shield, Rank 5
+		[20925] = 66, -- Holy Shield, Rank 6
 
 		-- Retribution Paladin:
 		[53385] = 70, -- Divine Storm
