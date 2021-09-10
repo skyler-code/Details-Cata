@@ -973,16 +973,16 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 	end
 
 	--function parser:swingmissed(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, missType, amountMissed)
-	function parser:swingmissed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, missType, amountMissed) --, amountMissed, arg1
-		return parser:missed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, 1, "Corpo-a-Corpo", 00000001, missType, amountMissed) --, amountMissed, arg1
+	function parser:swingmissed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, missType, _, amountMissed) --, amountMissed, arg1
+		return parser:missed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, 1, "Corpo-a-Corpo", 00000001, missType, nil, amountMissed) --, amountMissed, arg1
 	end
 
-	function parser:rangemissed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, missType, amountMissed) --, amountMissed, arg1
-		return parser:missed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, 2, "Tiro-Autom�tico", 00000001, missType, amountMissed) --, amountMissed, arg1
+	function parser:rangemissed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, missType, _, amountMissed) --, amountMissed, arg1
+		return parser:missed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, 2, "Tiro-Autom�tico", 00000001, missType, nil, amountMissed) --, amountMissed, arg1
 	end
 
 	-- ~miss
-	function parser:missed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, missType, amountMissed, arg1, arg2, arg3)
+	function parser:missed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, missType, _, amountMissed, arg1, arg2, arg3)
 
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
@@ -1077,11 +1077,11 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 
 			if(token == "SWING_MISSED") then
 				este_jogador.totalabsorbed = este_jogador.totalabsorbed + amountMissed
-				return parser:swing("SWING_DAMAGE", time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, amountMissed, -1, 1, nil, nil, nil, false, false, false, false)
+				return parser:swing("SWING_DAMAGE", time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, amountMissed, -1, 1, nil, nil, nil, false, false, false, false)
 
 			elseif(token == "RANGE_MISSED") then
 				este_jogador.totalabsorbed = este_jogador.totalabsorbed + amountMissed
-				return parser:range("RANGE_DAMAGE", time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, amountMissed, -1, 1, nil, nil, nil, false, false, false, false)
+				return parser:range("RANGE_DAMAGE", time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amountMissed, -1, 1, nil, nil, nil, false, false, false, false)
 
 			else
 				este_jogador.totalabsorbed = este_jogador.totalabsorbed + amountMissed
@@ -2457,7 +2457,7 @@ local energy_types = {
 
 	-- ~energy ~resource
 	function parser:energize(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, powertype)
-		print(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, powertype)
+		--print(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, powertype)
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
 

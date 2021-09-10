@@ -1333,7 +1333,7 @@ function _detalhes:CatchRaidDebuffUptime (in_or_out) -- "DEBUFF_UPTIME_IN"
 								playerName = playerName .. "-" .. realmName
 							end
 
-							_detalhes.parser:add_debuff_uptime (nil, GetTime(), playerGUID, playerName, 0x00000417, his_target, _UnitName ("party"..raidIndex.."target"), 0x842, spellid, name, in_or_out)
+							_detalhes.parser:add_debuff_uptime (nil, GetTime(), nil, playerGUID, playerName, 0x00000417, nil, his_target, _UnitName ("party"..raidIndex.."target"), 0x842, nil, spellid, name, in_or_out)
 						end
 					end
 				end
@@ -1352,7 +1352,7 @@ function _detalhes:CatchRaidDebuffUptime (in_or_out) -- "DEBUFF_UPTIME_IN"
 						if (realmName and realmName ~= "") then
 							playerName = playerName .. "-" .. realmName
 						end
-						_detalhes.parser:add_debuff_uptime (nil, GetTime(), playerGUID, playerName, 0x00000417, his_target, _UnitName ("playertarget"), 0x842, spellid, name, in_or_out)
+						_detalhes.parser:add_debuff_uptime (nil, GetTime(), nil, playerGUID, playerName, 0x00000417, nil, his_target, _UnitName ("playertarget"), 0x842, nil, spellid, name, in_or_out)
 					end
 				end
 			end
@@ -1372,7 +1372,7 @@ function _detalhes:CatchRaidDebuffUptime (in_or_out) -- "DEBUFF_UPTIME_IN"
 							if (realmName and realmName ~= "") then
 								playerName = playerName .. "-" .. realmName
 							end
-							_detalhes.parser:add_debuff_uptime (nil, GetTime(), playerGUID, playerName, 0x00000417, his_target, _UnitName ("playertarget"), 0x842, spellid, name, in_or_out)
+							_detalhes.parser:add_debuff_uptime (nil, GetTime(), nil, playerGUID, playerName, 0x00000417, nil, his_target, _UnitName ("playertarget"), 0x842, nil, spellid, name, in_or_out)
 						end
 					end
 				end
