@@ -1441,7 +1441,7 @@ function TimeLine:ArrangeCooldownsInOrder(auraType, auraList)
 	end
 end
 
-function TimeLine:OnCooldown(token, time, who_serial, who_name, who_flags, target_serial, target_name, target_flags, spellid, spellname)
+function TimeLine:OnCooldown(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, target_serial, target_name, target_flags, target_flags2, spellid, spellname)
 	--> hooks run inside parser and do not check if the plugin is enabled or not.
 	--> we need to check this here before continue.
 	if not TimeLine.__enabled then
@@ -1461,7 +1461,7 @@ function TimeLine:OnCooldown(token, time, who_serial, who_name, who_flags, targe
 	tinsert(player_table, data)
 end
 
-function TimeLine:EnemySpellCast(time, token, sourceGUID, sourceName, sourceFlag, targetGUID, targetName, targetFlag, spellID, spellName, spellType, amount, overKill, school, resisted, blocked, absorbed, isCritical)
+function TimeLine:EnemySpellCast(time, token, hide_caster, sourceGUID, sourceName, sourceFlag, sourceFlag2, targetGUID, targetName, targetFlag, targetFlag2, spellID, spellName, spellType, amount, overKill, school, resisted, blocked, absorbed, isCritical)
 	if sourceFlag then
 		if _bit_band(sourceFlag, 0x00000060) ~= 0 then --is enemy
 			if _bit_band(sourceFlag, 0x00000400) == 0 then --is not player
@@ -1492,7 +1492,7 @@ function TimeLine:EnemySpellCast(time, token, sourceGUID, sourceName, sourceFlag
 	end
 end
 
-function TimeLine:AuraOn(time, _, who_serial, who_name, who_flags, target_serial, target_name, target_flags, spellid, spellname, spelltype, auratype, amount)
+function TimeLine:AuraOn(time, _, _, who_serial, who_name, who_flags, who_flags2, target_serial, target_name, target_flags, target_flags2, spellid, spellname, spelltype, auratype, amount)
 	if auratype == "DEBUFF" then
 		--> is the target a player?
 		if _bit_band(target_flags, 0x00000400) ~= 0 then

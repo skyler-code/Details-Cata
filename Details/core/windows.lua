@@ -6077,7 +6077,7 @@ local CreateEventTrackerFrame = function (parent, name)
 			return bit.band (flag, OBJECT_TYPE_ENEMY) ~= 0
 		end
 
-		combatLog:SetScript ("OnEvent", function (self, event, time, token, caster_serial, caster_name, caster_flags, target_serial, target_name, target_flags, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)
+		combatLog:SetScript ("OnEvent", function (self, event, time, token, hide_caster, caster_serial, caster_name, caster_flags, caster_flags2, target_serial, target_name, target_flags, target_flags2, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)
 			local added = false
 
 			--> defensive cooldown

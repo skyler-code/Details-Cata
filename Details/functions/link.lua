@@ -90,7 +90,7 @@
 			["events"] = "COMBAT_LOG_EVENT_UNFILTERED, ENCOUNTER_START",
 			["use_spellName"] = false,
 			["use_spellId"] = false,
-			["custom"] = "function (event, time, token, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)\n    if (event == \"COMBAT_LOG_EVENT_UNFILTERED\") then\n        \n        if ((token == \"SPELL_DISPEL\" or token == \"SPELL_STOLEN\") and extraSpellID == 159947) then\n            aura_env.dispelled = aura_env.dispelled + 1\n            aura_env.dispels_by [who_name] = (aura_env.dispels_by [who_name] or 0) + 1\n            \n            aura_env.text = aura_env.text .. \"|cffd2e8ff\" .. who_name ..  \" (\" .. aura_env.dispels_by [who_name] .. \") \".. \"|r\\n\"\n            \n            if (select (2, aura_env.text:gsub (\"\\n\", \"\")) == 9) then\n                aura_env.text = aura_env.text:gsub (\".-\\n\", \"\", 1)\n            end\n            return true\n        end        \n    else\n        aura_env.text = \"\"\n        aura_env.success = 0\n        aura_env.dispelled = 0\n        wipe (aura_env.dispels_by)\n        return true        \n    end\nend",
+			["custom"] = "function (event, time, token, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)\n    if (event == \"COMBAT_LOG_EVENT_UNFILTERED\") then\n        \n        if ((token == \"SPELL_DISPEL\" or token == \"SPELL_STOLEN\") and extraSpellID == 159947) then\n            aura_env.dispelled = aura_env.dispelled + 1\n            aura_env.dispels_by [who_name] = (aura_env.dispels_by [who_name] or 0) + 1\n            \n            aura_env.text = aura_env.text .. \"|cffd2e8ff\" .. who_name ..  \" (\" .. aura_env.dispels_by [who_name] .. \") \".. \"|r\\n\"\n            \n            if (select (2, aura_env.text:gsub (\"\\n\", \"\")) == 9) then\n                aura_env.text = aura_env.text:gsub (\".-\\n\", \"\", 1)\n            end\n            return true\n        end        \n    else\n        aura_env.text = \"\"\n        aura_env.success = 0\n        aura_env.dispelled = 0\n        wipe (aura_env.dispels_by)\n        return true        \n    end\nend",
 			["spellIds"] = {
 			},
 			["use_message"] = true,
@@ -1303,7 +1303,7 @@
 			new_aura = _detalhes.table.copy ({}, text_interrupt_prototype)
 
 			new_aura.trigger.custom = [[
-				function (event, time, token, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)
+				function (event, time, token, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)
 					if (event == "COMBAT_LOG_EVENT_UNFILTERED") then
 						if (token == "SPELL_CAST_SUCCESS" and spellid == @spellid) then
 							aura_env.success = aura_env.success + 1
@@ -1348,7 +1348,7 @@
 			new_aura = _detalhes.table.copy ({}, text_dispell_prototype)
 
 			new_aura.trigger.custom = [[
-				function (event, time, token, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)
+				function (event, time, token, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)
 					if (event == "COMBAT_LOG_EVENT_UNFILTERED") then
 						if ((token == "SPELL_DISPEL" or token == "SPELL_STOLEN") and extraSpellID == @spellid) then
 							aura_env.dispelled = aura_env.dispelled + 1

@@ -245,12 +245,12 @@ local spell_create_is_summon = {
 	--> DAMAGE 	serach key: ~damage											|
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-function parser:swing(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing)
-	return parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, 1, "Corpo-a-Corpo", 00000001, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing) --> localize-me
+function parser:swing(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing)
+	return parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, 1, "Corpo-a-Corpo", 00000001, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing) --> localize-me
 end
 
-function parser:range(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing)
-	return parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing) --> localize-me
+function parser:range(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing)
+	return parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing) --> localize-me
 end
 
 --	/run local f=CreateFrame("Frame");f:RegisterAllEvents();f:SetScript("OnEvent", function(self, ...)print(...);end)
@@ -384,7 +384,7 @@ local function check_boss(npcID)
 	end
 end
 
-function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing)
+function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing)
 ------------------------------------------------------------------------------------------------
 --> early checks and fixes
 	if who_serial == "" then
@@ -450,7 +450,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 			spelltype = reflection.spelltype
 			--> data of the aura that caused the reflection
 
-			return parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, amount, -1, nil, nil, nil, nil, false, false, false)
+			return parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, -1, nil, nil, nil, nil, false, false, false)
 		else
 			--> saving information about this damage because it may occurred before a reflect event
 			reflection_damage[who_serial] = reflection_damage[who_serial] or {}
@@ -496,7 +496,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 	end
 
 	if absorbed and absorbed > 0 and alvo_name and escudo[alvo_name] and who_name then
-		parser:heal_absorb(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, absorbed, spelltype)
+		parser:heal_absorb(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, absorbed, spelltype)
 	end
 
 ------------------------------------------------------------------------------------------------
@@ -800,7 +800,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 	end
 
 	--special rule for LOTM
-	function parser:LOTM_damage(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing)
+	function parser:LOTM_damage(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing)
 
 		if(absorbed) then
 			amount = absorbed +(amount or 0)
@@ -866,7 +866,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 	end
 
 	--special rule of SLT
-	function parser:SLT_damage(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing)
+	function parser:SLT_damage(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing)
 
 		--> damager
 		local este_jogador, meu_dono = damage_cache[who_serial] or damage_cache_pets[who_serial] or damage_cache[who_name], damage_cache_petsOwners[who_serial]
@@ -973,16 +973,16 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 	end
 
 	--function parser:swingmissed(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, missType, amountMissed)
-	function parser:swingmissed(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, missType, amountMissed) --, amountMissed, arg1
-		return parser:missed(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, 1, "Corpo-a-Corpo", 00000001, missType, amountMissed) --, amountMissed, arg1
+	function parser:swingmissed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, missType, amountMissed) --, amountMissed, arg1
+		return parser:missed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, 1, "Corpo-a-Corpo", 00000001, missType, amountMissed) --, amountMissed, arg1
 	end
 
-	function parser:rangemissed(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, missType, amountMissed) --, amountMissed, arg1
-		return parser:missed(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, 2, "Tiro-Autom�tico", 00000001, missType, amountMissed) --, amountMissed, arg1
+	function parser:rangemissed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, missType, amountMissed) --, amountMissed, arg1
+		return parser:missed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, 2, "Tiro-Autom�tico", 00000001, missType, amountMissed) --, amountMissed, arg1
 	end
 
 	-- ~miss
-	function parser:missed(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, missType, amountMissed, arg1, arg2, arg3)
+	function parser:missed(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, missType, amountMissed, arg1, arg2, arg3)
 
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
@@ -1020,7 +1020,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 		este_jogador.last_event = _tempo
 
 		if missType == "ABSORB" and amountMissed and amountMissed > 0 and alvo_name and escudo[alvo_name] and who_name then
-			parser:heal_absorb(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, amountMissed, spelltype)
+			parser:heal_absorb(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, amountMissed, spelltype)
 		end
 
 --[[
@@ -1085,7 +1085,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 
 			else
 				este_jogador.totalabsorbed = este_jogador.totalabsorbed + amountMissed
-				return parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, amountMissed, -1, 1, nil, nil, nil, false, false, false, false)
+				return parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amountMissed, -1, 1, nil, nil, nil, false, false, false, false)
 
 			end
 	------------------------------------------------------------------------------------------------
@@ -1126,7 +1126,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 					--> this is so bad at clearing, there should be a better way of handling this
 					reflection_damage[who_serial] = nil
 				end
-				return parser:spell_dmg(token, time, alvo_serial, alvo_name, alvo_flags, who_serial, who_name, who_flags, spellid, spellname, spelltype, amount, -1, nil, nil, nil, nil, false, false, false)
+				return parser:spell_dmg(token, time, hide_caster, alvo_serial, alvo_name, alvo_flags, alvo_flags2, who_serial, who_name, who_flags, who_flags2, spellid, spellname, spelltype, amount, -1, nil, nil, nil, nil, false, false, false)
 			else
 				--> saving information about this reflect because it occurred before the damage event
 				reflection_events[who_serial] = reflection_events[who_serial] or {}
@@ -1157,7 +1157,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 -----------------------------------------------------------------------------------------------------------------------------------------
 	--> SUMMON 	serach key: ~summon										|
 -----------------------------------------------------------------------------------------------------------------------------------------
-	function parser:summon(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellName)
+	function parser:summon(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellName)
 
 		--[[statistics]]-- _detalhes.statistics.pets_summons = _detalhes.statistics.pets_summons + 1
 
@@ -1177,12 +1177,12 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 		--> pet summon another pet
 		local sou_pet = container_pets[who_serial]
 		if(sou_pet) then --> okey, ja � um pet
-			who_name, who_serial, who_flags = sou_pet[1], sou_pet[2], sou_pet[3]
+			who_name, who_serial, who_flags, who_flags2 = sou_pet[1], sou_pet[2], sou_pet[3], sou_pet[4]
 		end
 
 		local alvo_pet = container_pets[alvo_serial]
 		if(alvo_pet) then
-			who_name, who_serial, who_flags = alvo_pet[1], alvo_pet[2], alvo_pet[3]
+			who_name, who_serial, who_flags, who_flags2 = alvo_pet[1], alvo_pet[2], alvo_pet[3], alvo_pet[4]
 		end
 
 		--> pet summoned another pet, but the pet was summoned first
@@ -1190,7 +1190,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 			local mobid = tonumber(alvo_serial:sub(3+6,3+9),16)
 			if sub_pet_ids[mobid] then
 				C_Timer.After(0.1, function()
-					parser:summon(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellName)
+					parser:summon(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellName)
 				end)
 				return
 			end
@@ -1304,7 +1304,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 		return a.timestamp < b.timestamp
 	end
 
-	function parser:heal_absorb(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, absorbed, spelltype)
+	function parser:heal_absorb(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, absorbed, spelltype)
 		local found_absorb
 
 		escudo[alvo_name] = escudo[alvo_name] or {}
@@ -1352,11 +1352,11 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 			end
 		end
 		if found_absorb then
-			return parser:heal(token, time, found_absorb.serial, found_absorb.name, found_absorb.flags, alvo_serial, alvo_name, alvo_flags, found_absorb.spellid, found_absorb.spellname, nil, absorbed, 0, 0, nil, true)
+			return parser:heal(token, time, hide_caster, found_absorb.serial, found_absorb.name, found_absorb.flags, found_absorb.flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, found_absorb.spellid, found_absorb.spellname, nil, absorbed, 0, 0, nil, true)
 		end -- should we do something if it expected to absorb but couldn't?
 	end
 
-	function parser:heal(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, amount, overhealing, absorbed, critical, is_shield)
+	function parser:heal(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, overhealing, absorbed, critical, is_shield)
 
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
@@ -1577,7 +1577,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 		end
 	end
 
-	function parser:SLT_healing(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, amount, overhealing, absorbed, critical, is_shield)
+	function parser:SLT_healing(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, overhealing, absorbed, critical, is_shield)
 
 	--> get actors
 		local este_jogador, meu_dono = healing_cache[who_serial]
@@ -1638,7 +1638,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 	--> BUFFS & DEBUFFS 	search key: ~buff ~aura ~shield								|
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-	function parser:buff(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spellschool, tipo, amount, arg1, arg2, arg3)
+	function parser:buff(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spellschool, tipo, amount, arg1, arg2, arg3)
 
 	--> not yet well know about unnamed buff casters
 		if(not alvo_name) then
@@ -1661,6 +1661,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 				who_serial = who_serial,
 				who_name = who_name,
 				who_flags = who_flags,
+				who_flags2 = who_flags2,
 				spellid = spellid,
 				spellname = spellname,
 				spelltype = spellschool,
@@ -1681,6 +1682,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 			absorb.name = who_name
 			absorb.serial = who_serial
 			absorb.flags = who_flags
+			absorb.flags2 = who_flags2
 			absorb.spellid = spellid
 			absorb.spellname = spellname
 			-- insert absorb at the end of the absorb stack
@@ -1693,7 +1695,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 			--> buff uptime
 
 			if(spellid == 27827) then --> spirit of redemption(holy priest)
-				parser:dead("UNIT_DIED", time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags)
+				parser:dead("UNIT_DIED", time, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2)
 				ignore_death[who_name] = true
 				return
 			end
@@ -1701,11 +1703,11 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 			if(_recording_buffs_and_debuffs) then
 				if(who_name == alvo_name and raid_members_cache[who_serial] and _in_combat) then
 					--> call record buffs uptime
-					parser:add_buff_uptime(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, "BUFF_UPTIME_IN")
+					parser:add_buff_uptime(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, "BUFF_UPTIME_IN")
 
 				elseif(container_pets[who_serial] and container_pets[who_serial][2] == alvo_serial) then
 					--um pet colocando uma aura do dono
-					parser:add_buff_uptime(token, time, alvo_serial, alvo_name, alvo_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, "BUFF_UPTIME_IN")
+					parser:add_buff_uptime(token, time, hide_caster, alvo_serial, alvo_name, alvo_flags, alvo_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, "BUFF_UPTIME_IN")
 				end
 			end
 
@@ -1729,7 +1731,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 				if(_recording_buffs_and_debuffs) then
 
 					if(cc_spell_list[spellid]) then
-						parser:add_cc_done(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname)
+						parser:add_cc_done(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname)
 					end
 
 					if(bitfield_debuffs[spellname] and raid_members_cache[alvo_serial]) then
@@ -1738,10 +1740,10 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 
 					if(raid_members_cache[who_serial]) then
 						--> call record debuffs uptime
-						parser:add_debuff_uptime(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, "DEBUFF_UPTIME_IN")
+						parser:add_debuff_uptime(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, "DEBUFF_UPTIME_IN")
 
 					elseif(raid_members_cache[alvo_serial] and not raid_members_cache[who_serial]) then --> alvo � da raide e who � alguem de fora da raide
-						parser:add_bad_debuff_uptime(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spellschool, "DEBUFF_UPTIME_IN")
+						parser:add_bad_debuff_uptime(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spellschool, "DEBUFF_UPTIME_IN")
 					end
 				end
 
@@ -1813,7 +1815,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 	end
 
 	-- ~crowd control ~ccdone
-	function parser:add_cc_done(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname)
+	function parser:add_cc_done(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname)
 
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
@@ -1899,7 +1901,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 		end
 	end
 
-	function parser:buff_refresh(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spellschool, tipo, amount)
+	function parser:buff_refresh(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spellschool, tipo, amount)
 
 	------------------------------------------------------------------------------------------------
 	--> handle shields
@@ -1942,10 +1944,10 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 				if(_recording_buffs_and_debuffs) then
 					if(who_name == alvo_name and raid_members_cache[who_serial] and _in_combat) then
 						--> call record buffs uptime
-						parser:add_buff_uptime(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, "BUFF_UPTIME_REFRESH")
+						parser:add_buff_uptime(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, "BUFF_UPTIME_REFRESH")
 					elseif(container_pets[who_serial] and container_pets[who_serial][2] == alvo_serial) then
 						--um pet colocando uma aura do dono
-						parser:add_buff_uptime(token, time, alvo_serial, alvo_name, alvo_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, "BUFF_UPTIME_REFRESH")
+						parser:add_buff_uptime(token, time, hide_caster, alvo_serial, alvo_name, alvo_flags, alvo_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, "BUFF_UPTIME_REFRESH")
 					end
 				end
 
@@ -1977,9 +1979,9 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 				if(_recording_buffs_and_debuffs) then
 					if(raid_members_cache[who_serial]) then
 						--> call record debuffs uptime
-						parser:add_debuff_uptime(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, "DEBUFF_UPTIME_REFRESH")
+						parser:add_debuff_uptime(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, "DEBUFF_UPTIME_REFRESH")
 					elseif(raid_members_cache[alvo_serial] and not raid_members_cache[who_serial]) then --> alvo � da raide e o caster � inimigo
-						parser:add_bad_debuff_uptime(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spellschool, "DEBUFF_UPTIME_REFRESH", amount)
+						parser:add_bad_debuff_uptime(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spellschool, "DEBUFF_UPTIME_REFRESH", amount)
 					end
 				end
 
@@ -2051,7 +2053,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 		end
 	end
 
-	function parser:unbuff(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spellschool, tipo, amount)
+	function parser:unbuff(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spellschool, tipo, amount)
 
 	------------------------------------------------------------------------------------------------
 	--> handle shields
@@ -2077,10 +2079,10 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 				if(_recording_buffs_and_debuffs) then
 					if(who_name == alvo_name and raid_members_cache[who_serial] and _in_combat) then
 						--> call record buffs uptime
-						parser:add_buff_uptime(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, "BUFF_UPTIME_OUT")
+						parser:add_buff_uptime(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, "BUFF_UPTIME_OUT")
 					elseif(container_pets[who_serial] and container_pets[who_serial][2] == alvo_serial) then
 						--um pet colocando uma aura do dono
-						parser:add_buff_uptime(token, time, alvo_serial, alvo_name, alvo_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, "BUFF_UPTIME_OUT")
+						parser:add_buff_uptime(token, time, hide_caster, alvo_serial, alvo_name, alvo_flags, alvo_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, "BUFF_UPTIME_OUT")
 					end
 				end
 			------------------------------------------------------------------------------------------------
@@ -2140,9 +2142,9 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 				if(_recording_buffs_and_debuffs) then
 					if(raid_members_cache[who_serial]) then
 						--> call record debuffs uptime
-						parser:add_debuff_uptime(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, "DEBUFF_UPTIME_OUT")
+						parser:add_debuff_uptime(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, "DEBUFF_UPTIME_OUT")
 					elseif(raid_members_cache[alvo_serial] and not raid_members_cache[who_serial]) then --> alvo � da raide e o caster � inimigo
-						parser:add_bad_debuff_uptime(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spellschool, "DEBUFF_UPTIME_OUT")
+						parser:add_bad_debuff_uptime(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spellschool, "DEBUFF_UPTIME_OUT")
 					end
 				end
 
@@ -2191,7 +2193,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 	--> MISC 	search key: ~buffuptime ~buffsuptime									|
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-	function parser:add_bad_debuff_uptime(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spellschool, in_out, stack_amount)
+	function parser:add_bad_debuff_uptime(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spellschool, in_out, stack_amount)
 
 		if(not alvo_name) then
 			--> no target name, just quit
@@ -2352,7 +2354,7 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 	end
 
 	-- ~debuff
-	function parser:add_debuff_uptime(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, in_out)
+	function parser:add_debuff_uptime(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, in_out)
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
 
@@ -2390,8 +2392,8 @@ function parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_ser
 
 	end
 
-	function parser:add_buff_uptime(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, in_out)
-
+	function parser:add_buff_uptime(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, in_out)
+		--print(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, in_out)
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
 
@@ -2454,8 +2456,8 @@ local energy_types = {
 	}
 
 	-- ~energy ~resource
-	function parser:energize(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, amount, powertype)
-
+	function parser:energize(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, powertype)
+		print(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, powertype)
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
 
@@ -2567,7 +2569,7 @@ local energy_types = {
 	--> MISC 	search key: ~cooldown											|
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-	function parser:add_defensive_cooldown(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname)
+	function parser:add_defensive_cooldown(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname)
 
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
@@ -2661,16 +2663,16 @@ local energy_types = {
 		if(_hook_cooldowns) then
 			--> send event to registred functions
 			for _, func in _ipairs(_hook_cooldowns_container) do
-				func(nil, token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname)
+				func(nil, token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname)
 			end
 		end
 
-		return spell_misc_func(spell, alvo_serial, alvo_name, alvo_flags, who_name, token, "BUFF_OR_DEBUFF", "COOLDOWN")
+		return spell_misc_func(spell, alvo_serial, alvo_name, alvo_flags, alvo_flags2, who_name, token, "BUFF_OR_DEBUFF", "COOLDOWN")
 	end
 
 
 	--serach key: ~interrupts
-	function parser:interrupt(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)
+	function parser:interrupt(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)
 
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
@@ -2759,14 +2761,14 @@ local energy_types = {
 			--> pet interrupt
 			if(_hook_interrupt) then
 				for _, func in _ipairs(_hook_interrupt_container) do
-					func(nil, token, time, meu_dono.serial, meu_dono.nome, meu_dono.flag_original, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)
+					func(nil, token, time, hide_caster, meu_dono.serial, meu_dono.nome, meu_dono.flag_original, meu_dono.flag2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)
 				end
 			end
 		else
 			--> player interrupt
 			if(_hook_interrupt) then
 				for _, func in _ipairs(_hook_interrupt_container) do
-					func(nil, token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)
+					func(nil, token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)
 				end
 			end
 		end
@@ -2774,7 +2776,7 @@ local energy_types = {
 	end
 
 	--> search key: ~spellcast ~castspell ~cast
-	function parser:spellcast(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype)
+	function parser:spellcast(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype)
 
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
@@ -2845,7 +2847,7 @@ local energy_types = {
 						alvo_name = "--x--x--"
 					end
 				end
-				return parser:add_defensive_cooldown(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname)
+				return parser:add_defensive_cooldown(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname)
 			end
 
 		else
@@ -2869,7 +2871,7 @@ local energy_types = {
 
 
 	--serach key: ~dispell
-	function parser:dispell(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool, auraType)
+	function parser:dispell(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool, auraType)
 
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
@@ -2973,7 +2975,7 @@ local energy_types = {
 	end
 
 	--serach key: ~ress
-	function parser:ress(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname)
+	function parser:ress(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname)
 
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
@@ -3051,7 +3053,7 @@ local energy_types = {
 
 			if(_hook_battleress) then
 				for _, func in _ipairs(_hook_battleress_container) do
-					func(nil, token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname)
+					func(nil, token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname)
 				end
 			end
 
@@ -3069,7 +3071,7 @@ local energy_types = {
 	end
 
 	--serach key: ~cc
-	function parser:break_cc(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool, auraType)
+	function parser:break_cc(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool, auraType)
 
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
@@ -3152,7 +3154,7 @@ local energy_types = {
 	end
 
 	--serach key: ~dead ~death ~morte
-	function parser:dead(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags)
+	function parser:dead(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2)
 
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
@@ -3311,7 +3313,7 @@ local energy_types = {
 		end
 	end
 
-	function parser:environment(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, env_type, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing)
+	function parser:environment(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, env_type, amount, overkill, school, resisted, blocked, absorbed, critical, glacing, crushing)
 
 		local spelid
 
@@ -3336,10 +3338,10 @@ local energy_types = {
 		end
 
 		if absorbed and absorbed > 0 and alvo_name and escudo[alvo_name] and who_name then
-			parser:heal_absorb(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, absorbed, 0)
+			parser:heal_absorb(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, absorbed, 0)
 		end
 
-		return parser:spell_dmg(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spelid or 1, env_type, 00000003, amount, -1, 1) --> localize-me
+		return parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spelid or 1, env_type, 00000003, amount, -1, 1) --> localize-me
 	end
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -4560,10 +4562,10 @@ end)
 
 -- ~parserstart ~startparser
 
-function _detalhes.OnParserEvent(_, _, time, token, who_serial, who_name, who_flags, target_serial, target_name, target_flags, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)
+function _detalhes.OnParserEvent(_, _, time, token, hide_caster, who_serial, who_name, who_flags, who_flags2, target_serial, target_name, target_flags, target_flags2, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)
 	local funcao = token_list[token]
 	if funcao then
-		return funcao(nil, token, time, who_serial, who_name, who_flags, target_serial, target_name, target_flags, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)
+		return funcao(nil, token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, target_serial, target_name, target_flags, target_flags2, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)
 	else
 		return
 	end

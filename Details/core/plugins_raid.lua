@@ -245,7 +245,7 @@ function _detalhes:SendMsgToChannel(msg, channel, towho)
 end
 
 --/run local s = "teste {spell}"; s = s:gsub("{spell}", "tercio"); print(s)
-function _detalhes:interrupt_announcer(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)
+function _detalhes:interrupt_announcer(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, extraSpellID, extraSpellName, extraSchool)
 	local channel = _detalhes.announce_interrupts.channel
 	if channel ~= "PRINT" and who_name == _detalhes.playername then
 		local next = _detalhes.announce_interrupts.next
@@ -325,7 +325,7 @@ function _detalhes:interrupt_announcer(token, time, who_serial, who_name, who_fl
 	end
 end
 
-function _detalhes:cooldown_announcer(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname)
+function _detalhes:cooldown_announcer(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname)
 	local channel = _detalhes.announce_cooldowns.channel
 
 	if channel ~= "PRINT" and who_name == _detalhes.playername then
@@ -428,7 +428,7 @@ function _detalhes:cooldown_announcer(token, time, who_serial, who_name, who_fla
 	end
 end
 
-function _detalhes:death_announcer(token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, death_table, last_cooldown, death_at, max_health)
+function _detalhes:death_announcer(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, death_table, last_cooldown, death_at, max_health)
 	local where = _detalhes.announce_deaths.where
 	local zone = _detalhes:GetZoneType()
 	local channel = ""

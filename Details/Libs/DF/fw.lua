@@ -103,7 +103,7 @@ function DF.GetSpecialization(unit)
 	local maxPoints, specIdx = 0, 0
 
 	for i = 1, MAX_TALENT_TABS do
-		local name, icon, pointsSpent = LibGroupTalents:GetTalentTabInfo(unit, i, talantGroup)
+		local _, name, _, icon, pointsSpent = LibGroupTalents:GetTalentTabInfo(unit, i, talantGroup)
 		if pointsSpent ~= nil then
 			if maxPoints < pointsSpent then
 				maxPoints = pointsSpent

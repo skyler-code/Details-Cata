@@ -808,7 +808,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 							playerName = playerName .. "-" .. realmName
 						end
 
-						_detalhes.parser:add_buff_uptime (nil, GetTime(), UnitGUID ("raid"..raidIndex), playerName, 0x00000417, UnitGUID ("raid"..raidIndex), playerName, spellid, name, in_or_out)
+						_detalhes.parser:add_buff_uptime (nil, GetTime(), nil, UnitGUID ("raid"..raidIndex), playerName, 0x00000417, nil, UnitGUID ("raid"..raidIndex), playerName, nil, spellid, name, in_or_out)
 
 					else
 						--break

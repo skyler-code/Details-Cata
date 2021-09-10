@@ -1,6 +1,6 @@
 --[[
 Name: LibGroupTalents-1.0
-Revision: $Rev: 55 $
+Revision: $Rev: 70 $
 Author: Zek
 Documentation: http://wowace.com/wiki/LibGroupTalents-1.0
 SVN: svn://svn.wowace.com/wow/libgrouptalents-1-0/mainline/trunk
@@ -23,7 +23,7 @@ Notes:
 Functions:
 	UnitHasTalent(unit, talentName[, group])-- Returns: Points spent in talent or nil
 	GUIDHasTalent(guid, talentName[, group])-- As UnitHasTalent
-	GetUnitTalentSpec(unitid[, group])		-- Returns: Dominant Tree, spent1, spent2, spent3
+	GetUnitTalentSpec(unitid[, group])		-- Returns: Specialization Tree, spent1, spent2, spent3, non-localized name of specialization tree
 	GetGUIDTalentSpec(guid[, group])		-- As GetUnitTalentSpec
 	GetUnitTalents(unit, refresh)			-- Returns: Raw talent information in form of table of 3 strings of points spent. The refresh arg will force a re-query of the unit's talents
 	GetGUIDTalents(guid, refresh)			-- As GetUnitTalents
@@ -31,7 +31,7 @@ Functions:
 	GetGUIDRole(guid)						-- As GetUnitRole
 	RefreshTalentsByUnit(unit)				-- Force a refresh of talents for the specific unit
 	RefreshTalentsByGUID(guid)				-- Force a refresh of talents for the specific player GUID
-	GetTreeNames(class)						-- Returns: The three talent tree names for that class (Note: These return values are only valid after a player of that class has been inspected)
+	GetTreeNames(class)						-- Returns: The three talent tree names for that class, then the three non-localized tree names (Note: These return values are only valid after a player of that class has been inspected)
 	GetTreeIcons(class)						-- Returns: The three talent tree icons for that class (Note: As above)
 	GetTalentCount()						-- Returns: Talent info got, Talent info missing
 	GetTalentMissingNames()					-- Returns: Comma delimited list of player names we're missing talents for
@@ -49,10 +49,16 @@ Convenience Functions (Similar to Blizzard API functions, but callable with a un
 	GetActiveTalentGroup(unit)				-- Returns: Active talent group for unit
 	GetNumTalentGroups(unit)				-- Returns: Number of talent groups for unit
 	GetNumTalentTabs(unit)					-- Returns: Number of talent tabs. Here's a clue; it's going to be 3...
-	GetTalentTabInfo(unit, tab[, group])	-- Returns: Tree Name, Tree Icon, Points Spent, Tree Background
+	GetTalentTabInfo(unit, tab[, group])	-- Returns: Tree ID, tree name, tree description, tree icon, points spent, non-localized tree name, preview points spent (or 0 if not player), isSpecialization
 	GetNumTalents(unit, tab)				-- Returns: Number of talents for specified tree
 	GetTalentInfo(unit, tab, index[, group])-- Returns: Talent Name, Icon, Tier, Column, Points Spent, Max Rank (Note that preview return values are not given unless called with "player")
 	GetUnspentTalentPoints(unit[, group])	-- Returns: Number of un-spent talent points for the unit
+	GetPrimaryTalentTree(unit[, group])		-- Returns: Primary Talent tree for the unit
+	GetMajorTalentTreeBonuses(unit[, tab])	-- Returns: Major talent tree bonus
+	GetMinorTalentTreeBonuses(unit[, tab])	-- Returns: Minor talent tree bonus
+	GetTalentTreeEarlySpells(unit[, tab])	-- Returns: Spells that are learned early?
+	GetTalentTreeMasterySpells(unit[, tab])	-- Returns: Mastery bonus spell
+	GetTalentTreeRoles(unit[, tab ])		-- Returns: Blizzard roles for a talent tree
 
 Events:
 	LibGroupTalents_Update(guid, unit, newSpec, n1, n2, n3 [, oldSpec, o1, o2, o3])	-- Received updated talents. If it's a respec, or old set is know, it passes the old info also (this is not sent if new talent scan is same as previous)
@@ -66,9 +72,23 @@ Events:
 
 local TalentQuery = LibStub("LibTalentQuery-1.0")
 
-local MAJOR, MINOR = "LibGroupTalents-1.0", tonumber(("$Rev: 55 $"):match("(%d+)"))
+local MAJOR, MINOR = "LibGroupTalents-1.0", tonumber(("$Rev: 70 $"):match("(%d+)"))
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
+
+--[===[@debug@
+local function d(...)
+	ChatFrame2:AddMessage(format(...))
+end
+--@end-debug@]===]
+
+local ADDON_PREFIX
+if type(RegisterAddonMessagePrefix) == "function" then
+	ADDON_PREFIX = "LGT-1.0"
+	RegisterAddonMessagePrefix(ADDON_PREFIX)
+else
+	ADDON_PREFIX = MAJOR
+end
 
 local ChatThrottleLib = _G.ChatThrottleLib
 
@@ -306,7 +326,8 @@ end
 -- UNIT_AURA
 function lib:UNIT_AURA(unit)
 	local guid = UnitGUID(unit)
-	if (not UnitIsVisible(unit) or (self.wasOffline and self.wasOffline[guid])) then
+	local r = guid and self.roster[guid]
+	if (r and (not UnitIsVisible(unit) or (self.wasOffline and self.wasOffline[guid]))) then
 		if (not self.outOfSight) then
 			self.outOfSight = {}
 		end
@@ -399,6 +420,13 @@ function lib:OnRaidRosterUpdate()
 
 	if (next(subtractions)) then
 		for guid in pairs(subtractions) do
+			if (self.outOfSight) then
+				self.outOfSight[guid] = nil
+				if (not next(self.outOfSight)) then
+					self.outOfSight = del(self.outOfSight)
+				end
+			end
+
 			local r = self.roster[guid]
 			if (r) then
 				self.events:Fire("LibGroupTalents_Remove", guid, r.name, r.realm)
@@ -408,7 +436,7 @@ function lib:OnRaidRosterUpdate()
 				if (classStorageStrings) then
 				    classStorageStrings[guid] = del(classStorageStrings[guid])
 				    if (not next(classStorageStrings)) then
-				    	self.pendingStorageStrings[r.class] = del(self.pendingStorageStrings[r.class])
+						self.pendingStorageStrings[r.class] = del(self.pendingStorageStrings[r.class])
 				    end
 				end
 			end
@@ -476,12 +504,12 @@ local function TalentWeight(talents, class)
 
 		local data = lib.classTalentData[class]
 		if (data and data[weight]) then
-			return data[weight].name, c1, c2, c3
+			return data[weight].name, c1, c2, c3, data[weight].nlname
 		end
 
-		return weight, c1, c2, c3
+		return weight, c1, c2, c3, nil
 	end
-	return nil, 0, 0, 0
+	return nil, 0, 0, 0, nil
 end
 
 do
@@ -525,7 +553,7 @@ do
 				for i = 1,r.numActive do
 					local t = r.talents[i]
 					if (t) then
-						str = format("%s;%d,%s", str, i, table.concat(t, "-"))
+						str = format("%s;%d,%s,%s", str, i, table.concat(t, "-"), (r.primary and r.primary[i]) or "")
 					end
 				end
 				return format("%s;%d", str, crc32(str))
@@ -608,17 +636,32 @@ do
 
 						-- Now the talent trees
 						local talents = new()
+						local primary = new()
 						for i = 2,#parts - 1 do
 							local partN = new(strsplit(",", parts[i]))
-							if (#partN == 2) then
+							if (#partN >= 2) then
 								local specNumber = tonumber(partN[1])
 								local specTalents = new(strsplit("-", partN[2]))
 
 								if (specNumber and #specTalents >= 3) then
 									talents[specNumber] = specTalents
+									
+									if (#partN >= 3) then
+										primary[specNumber] = tonumber(partN[3])
+									else
+										-- Don't have stored primary.. we'll infer it
+										if (#specTalents[1] > 0 and #specTalents[1] > #specTalents[2] and #specTalents[1] > #specTalents[3]) then
+											primary[specNumber] = 1
+										elseif (#specTalents[2] > 0 and #specTalents[2] > #specTalents[1] and #specTalents[2] > #specTalents[3]) then
+											primary[specNumber] = 2
+										elseif (#specTalents[3] > 0 and #specTalents[3] > #specTalents[1] and #specTalents[3] > #specTalents[2]) then
+											primary[specNumber] = 3
+										end
+									end
 								else
 									del(specTalents)
 									talents = del(talents)
+									primary = del(primary)
 									retInfo = "Invalid talent specs in tree "..i
 									break
 								end
@@ -629,6 +672,7 @@ do
 							r.talents = talents
 							r.active = active
 							r.numActive = numActive
+							r.primary = primary
 							if (comms ~= r.name) then
 								-- If comms part sends player name along with packet, then we'll skip the refresh later
 								-- which we'd normally do when Storage is set via app startup
@@ -658,9 +702,43 @@ do
 	end
 end
 
+-- AddTreeBonuses
+local function AddTreeBonuses(data, tree, tab, bonusIndex, bonuskey, ...)
+    local count = select("#", ...)
+    if (count > 0) then
+		for i = 1,count do
+			local spellId = select(i, ...)
+			if (spellId) then
+				local name, rank, icon = GetSpellInfo(spellId)
+				local entry = new()
+				entry.spellId = spellId
+--[===[@debug@
+				entry.name = name
+				entry.icon = icon
+--@end-debug@]===]
+				entry.tier = 0
+				entry.bonus = bonuskey
+				bonusIndex = bonusIndex + 1
+				entry.bonusIndex = bonusIndex
+				entry.treeIndex = tab
+
+				local bonus = tree.bonus
+				if (not bonus) then
+					bonus = new()
+					tree.bonus = bonus
+				end
+				tinsert(bonus, entry)
+
+				data.list[name] = entry
+			end
+		end
+    end
+    return bonusIndex
+end
+
 -- GetClassTalentData
 -- Builds an internal table for talent name -> tree/index lookups.
-function GetClassTalentData(unit)
+local function GetClassTalentData(unit)
 	local _, class = UnitClass(unit)
 	if (class) then
 		local data = lib.classTalentData[class]
@@ -672,13 +750,12 @@ function GetClassTalentData(unit)
 				for tab = 1, GetNumTalentTabs(isnotplayer) do
 					local tree = new()
 					local _
-					tree.name, tree.icon, _, tree.background = GetTalentTabInfo(tab, isnotplayer)
+					tree.tabid, tree.name, tree.desc, tree.icon, _, tree.nlname = GetTalentTabInfo(tab, isnotplayer)
 					tinsert(data, tree)
-
 					tree.list = new()
 					for i = 1,GetNumTalents(tab, isnotplayer) do
 						local name, icon, tier, column, currentRank, maxRank = GetTalentInfo(tab, i, isnotplayer)
-						if (name) then
+--						if (name) then		-- Removed. There's a mage entry that's blank (WoW 4.0.x - Arcane tree, element 15)...
 							local entry = new()
 							entry.name = name
 							entry.icon = icon
@@ -691,7 +768,25 @@ function GetClassTalentData(unit)
 							if (not data.list) then
 								data.list = new()
 							end
-							data.list[name] = entry
+							data.list[name or "empty"] = entry
+--						else
+--							d("%s: tab=%d, i=%d = missing name", class, tab, i)
+--						end
+					end
+
+					local bonusIndex = 0
+					bonusIndex = AddTreeBonuses(data, tree, tab, bonusIndex, "major", GetMajorTalentTreeBonuses(tab, isnotplayer))
+					bonusIndex = AddTreeBonuses(data, tree, tab, bonusIndex, "minor", GetMinorTalentTreeBonuses(tab, isnotplayer))
+					bonusIndex = AddTreeBonuses(data, tree, tab, bonusIndex, "early", GetTalentTreeEarlySpells(tab, isnotplayer))
+					bonusIndex = AddTreeBonuses(data, tree, tab, bonusIndex, "mastery", GetTalentTreeMasterySpells(tab, isnotplayer))
+
+					-- Store Blizzards talent tree roles per tab. These are fixed values per spec, rather than dependant on player's talent choices
+					local role1, role2 = GetTalentTreeRoles(tab, isnotplayer)
+					if (role1) then
+						if (role2) then
+							tree.roles = role1..","..role2
+						else
+							tree.roles = role1
 						end
 					end
 				end
@@ -699,16 +794,7 @@ function GetClassTalentData(unit)
 				if (next(data)) then
 					lib.classTalentData[class] = data
 
-					--for guid,r in pairs(lib.roster) do
-					--	if (r.class == class and r.talents) then
-					--		-- We picked up class talent data for a class after receiving talents for them via comms
-					--		-- So, we fire an Update event for any members of the class we already have so that
-					--		-- talents can now be interpreted correctly.
-					--		local spec, n1, n2, n3 = TalentWeight(r.talents[r.active], class)
-					--		lib.events:Fire("LibGroupTalents_Update", guid, unit, spec, n1, n2, n3)
-					--	end
-					--end
-
+					-- Now process any stored strings we received without class data for that class
 					local classStorageStrings = lib.pendingStorageStrings[class]
 					if (classStorageStrings) then
 						local unitGUID = UnitGUID(unit)
@@ -720,7 +806,7 @@ function GetClassTalentData(unit)
 						lib.pendingStorageStrings[class] = del(lib.pendingStorageStrings[class])
 					end
 				else
-					deepDel(data)
+         			deepDel(data)
 				end
 			end
 		end
@@ -731,7 +817,7 @@ end
 function lib:GetTreeNames(class)
 	local info = self.classTalentData[class]
 	if (info) then
-		return info[1].name, info[2].name, info[3].name
+		return info[1].name, info[2].name, info[3].name, info[1].nlname, info[2].nlname, info[3].nlname
 	end
 end
 
@@ -755,7 +841,7 @@ assert(ctd[1].list and ctd[2].list and ctd[3].list)
 
 		local n = new()
 		for tab = 1, numTabs do
-			local branchLength = GetNumTalents(tab, isnotplayer, nil, group)
+			local branchLength = GetNumTalents(tab, isnotplayer)
 			if (branchLength ~= #ctd[tab].list) then
 				-- Tab tree size is not what we expected for this class
 				del(n)
@@ -798,7 +884,7 @@ function lib:TalentQuery_Ready(e, name, realm, unit)
 		if (GetTalentTabInfo(1, isnotplayer)) then
 			local active = GetActiveTalentGroup(isnotplayer)
 			local numActive = GetNumTalentGroups(isnotplayer)
-			local listUnspent, invalid
+			local listUnspent, invalid, primary
 			local talents = new()
 
 			for group = 1,numActive do
@@ -817,6 +903,14 @@ function lib:TalentQuery_Ready(e, name, realm, unit)
 					end
 					listUnspent[group] = unspent
 				end
+				
+				local p = GetPrimaryTalentTree(isnotplayer, nil, group)
+				if (p) then
+					if (not primary) then
+						primary = new()
+					end
+					primary[group] = p
+				end
 			end
 
 			if (isnotplayer and (invalid or (listUnspent and listUnspent[active] or 0) > 0)) then
@@ -830,7 +924,7 @@ function lib:TalentQuery_Ready(e, name, realm, unit)
 					-- May be better to discard instead? We'll see
 					active = 1
 				end
-				self:OnReceiveTalents(guid, unit, talents, active, numActive, listUnspent)
+				self:OnReceiveTalents(guid, unit, talents, primary, active, numActive, listUnspent)
 			end
 		end
 	end
@@ -867,7 +961,7 @@ local function CompareTalents(tree1, tree2)
 end
 
 -- OnReceiveTalents
-function lib:OnReceiveTalents(guid, unit, talents, active, numActive, listUnspent)
+function lib:OnReceiveTalents(guid, unit, talents, primary, active, numActive, listUnspent)
 	local r = self.roster[guid]
 	if (r) then
 		if (active ~= r.active or numActive ~= r.numActive or not CompareTalents(talents and talents[active], r.talents and r.talents[r.active])) then
@@ -878,6 +972,7 @@ function lib:OnReceiveTalents(guid, unit, talents, active, numActive, listUnspen
 			del(r.unspent)
 
 			r.talents = talents
+			r.primary = primary
 			r.active = active
 			r.numActive = numActive
 			r.unspent = listUnspent
@@ -950,9 +1045,9 @@ function lib:GetGUIDGlyphs(guid, group)
 			for i,str in ipairs(temp) do
 				temp[i] = tonumber(str)
 			end
-			local a, b, c, d, e, f = unpack(temp)
+			local a, b, c, d, e, f, g, h, i = unpack(temp)
 			del(temp)
-			return a, b, c, d, e, f
+			return a, b, c, d, e, f, g, h, i
 		end
 	end
 end
@@ -1018,7 +1113,7 @@ function lib:RefreshPlayerGlyphs()
 	for talentGroup = 1,GetNumTalentGroups() do
 		local list = new()
 		for i = 1,GetNumGlyphSockets() do
-			local enabled, glyphType, glyphSpell, icon = GetGlyphSocketInfo(i, talentGroup)
+			local enabled, glyphType, glyphTooltipIndex, glyphSpell, icon = GetGlyphSocketInfo(i, talentGroup)
 			if (enabled and glyphType and glyphSpell) then
 				tinsert(list, glyphSpell)
 				any = true
@@ -1167,11 +1262,9 @@ function lib:CheckForMissingTalents()
 end
 
 do
-	local survivalOfTheFittest = GetSpellInfo(33853)		-- Survival of the Fittest
-	local protectorOfThePack = GetSpellInfo(57873)			-- Protector of the Pack
-	local dkBladeBarrier = GetSpellInfo(49182)				-- Blade Barrier
-	local dkToughness = GetSpellInfo(49042)					-- Toughness
-	local dkAnticipation = GetSpellInfo(55129)				-- Anticipation
+	local naturalReaction = GetSpellInfo(57878)        -- Natural Reaction
+	local survivalInstincts = GetSpellInfo(61336)      -- Survival Instincts
+	local thickHide = GetSpellInfo(16929)              -- Thick Hide
 
 	-- GetUnitRole
 	function lib:GetUnitRole(unit, reset)
@@ -1203,27 +1296,22 @@ do
 		elseif (class == "MAGE" or class == "WARLOCK") then
 			role = "caster"
 		elseif (r.talents and r.talents[r.active]) then
-			if (class == "DEATHKNIGHT") then
-				local score = self:GUIDHasTalent(guid, dkBladeBarrier) and 1 or 0
-				score = score + (self:GUIDHasTalent(guid, dkToughness) and 1 or 0)
-				score = score + (self:GUIDHasTalent(guid, dkAnticipation) and 1 or 0)
-				role = score >= 2 and "tank" or "melee"		-- Has 2 of the 3 tanking talents at least
+			local _, t1, t2, t3 = TalentWeight(r.talents[r.active], class)
 
-			else
-				local specName, t1, t2, t3 = TalentWeight(r.talents[r.active], class)
-
+			if ((t1 + t2 + t3) > 0) then
 				if (class == "PRIEST") then
 					role = ((t1 + t2) > t3) and "healer" or "caster"
 				elseif (class == "WARRIOR") then
-					role = ((t1 + t2) > t3) and "melee" or "tank" 
+					role = ((t1 + t2) > t3) and "melee" or "tank"
+				elseif (class == "DEATHKNIGHT") then
+					role = ((t2 + t3) > t1) and "melee" or "tank"
 				else
 					local heavy = (t1 > t2 and t1 > t3 and 1) or (t2 > t1 and t2 > t3 and 2) or (t3 > t1 and t3 > t2 and 3) or 0
 					if (class == "PALADIN") then
 						role = heavy == 1 and "healer" or heavy == 2 and "tank" or heavy == 3 and "melee"
-
 					elseif (class == "DRUID") then
 						if (heavy == 2) then
-							if (self:GUIDHasTalent(guid, survivalOfTheFittest) and self:GUIDHasTalent(guid, protectorOfThePack)) then
+							if (self:GUIDHasTalent(guid, naturalReaction) and self:GUIDHasTalent(guid, survivalInstincts) and self:GUIDHasTalent(guid, thickHide)) then
 								role = "tank"
 							else
 								role = "melee"
@@ -1231,7 +1319,6 @@ do
 						else
 							role = heavy == 1 and "caster" or "healer"
 						end
-
 					elseif (class == "SHAMAN") then
 						role = heavy == 1 and "caster" or heavy == 2 and "melee" or heavy == 3 and "healer"
 					end
@@ -1242,7 +1329,7 @@ do
 		local oldrole = r.role
 		r.role = role
 
-		if (role and role ~= oldrole) then
+		if (role ~= oldrole) then
 			self.events:Fire("LibGroupTalents_RoleChange", guid, unit, role, oldrole)
 		end
 		return role
@@ -1338,9 +1425,9 @@ end
 function lib:SendCommMessage(msg, target, channel)
 	if (msg) then
 		if (ChatThrottleLib) then
-			ChatThrottleLib:SendAddonMessage("NORMAL", MAJOR, msg, channel or "WHISPER", target)
+			ChatThrottleLib:SendAddonMessage("NORMAL", ADDON_PREFIX, msg, channel or "WHISPER", target)
 		else
-			SendAddonMessage(MAJOR, msg, channel or "WHISPER", target)
+			SendAddonMessage(ADDON_PREFIX, msg, channel or "WHISPER", target)
 		end
 	end
 end
@@ -1368,7 +1455,7 @@ end
 
 -- CHAT_MSG_ADDON
 function lib:CHAT_MSG_ADDON(prefix, msg, channel, sender)
-	if (prefix == MAJOR) then
+	if (prefix == ADDON_PREFIX) then
 		if (sender == UnitName("player")) then
 			return
 		elseif (not UnitInRaid(sender) and not UnitInParty(sender)) then
@@ -1530,10 +1617,19 @@ function lib:GUIDHasTalent(guid, talentName, group)
 		if (data) then
 			local info = data.list and data.list[talentName]
 			if (info) then
-				local str = talents[info.treeIndex]
-				if (str) then
-					local amount = (str:byte(info.index) or 48) - 48
-					return (amount or 0) > 0 and amount or nil
+				if (info.bonus) then
+					local primary = r.primary and r.primary[r.active or group or 1]
+					if (primary) then
+						if (r.level >= 80 or info.bonus ~= "master") then
+							return primary == info.treeIndex and 1 or nil
+						end						
+					end
+				else
+					local str = talents[info.treeIndex]
+					if (str) then
+						local amount = (str:byte(info.index) or 48) - 48
+						return (amount or 0) > 0 and amount or nil
+					end
 				end
 			end
 		end
@@ -1547,7 +1643,11 @@ function lib:GetClassTalentInfo(class, talentName)
 	if (data) then
 		local info = data.list and data.list[talentName]
 		if (info) then
-			return info.maxRank, info.icon, info.treeIndex, info.column, info.tier, info.index
+			if (info.bonus) then
+				return 1, info.icon, info.treeIndex
+			else
+				return info.maxRank, info.icon, info.treeIndex, info.column, info.tier, info.index
+			end
 		end
 	end
 end
@@ -1585,7 +1685,7 @@ function lib:GetTalentTabInfo(unit, tab, group)
 			local ctd = self.classTalentData[r.class]
 			if (ctd and tab >= 1 and tab <= #ctd) then
 				local spec, c1, c2, c3 = self:GetGUIDTalentSpec(guid, group)
-				return ctd[tab].name, ctd[tab].icon, tab == 1 and c1 or tab == 2 and c2 or c3, ctd[tab].background, 0
+				return ctd[tab].tabid, ctd[tab].name, ctd[tab].desc, ctd[tab].icon, tab == 1 and c1 or tab == 2 and c2 or c3, ctd[tab].nlname, 0, ctd[tab].name == spec
 			end
 		end
 	end
@@ -1639,6 +1739,99 @@ function lib:GetUnspentTalentPoints(unit, group)
 		local r = guid and self.roster[guid]
 		if (r) then
 			return r.unspent and r.unspent[group or r.active or 1]
+		end
+	end
+end
+
+-- GetPrimaryTalentTree
+function lib:GetPrimaryTalentTree(unit, group)
+	if (UnitIsUnit(unit, "player")) then
+		return GetPrimaryTalentTree(nil, nil, group)
+	else
+		local guid = unit and UnitGUID(unit)
+		local r = guid and self.roster[guid]
+		if (r) then
+			return r.primary and r.primary[group or r.active or 1]
+		end
+	end
+end
+
+-- getTalentTreeBonuses
+local function getTalentTreeBonuses(bonusKey, unit, tab)
+	local _, class = UnitClass(unit)
+	local ctd = self.classTalentData[class]
+	if (ctd and tab >= 1 and tab <= #ctd) then
+		local bonus = ctd[tab] and ctd[tab].bonus
+		if (bonus) then
+			local ret
+			for i,entry in ipairs(bonus) do
+				if (entry.bonus == bonusKey) then
+					if (not ret) then
+						ret = {}
+					end
+					tinsert(ret, entry.spellId)
+				end
+			end
+			if (ret) then
+				return unpack(ret)
+			end
+		end
+	end
+end
+
+-- GetMajorTalentTreeBonuses
+function lib:GetMajorTalentTreeBonuses(unit, tab)
+	if (UnitIsUnit(unit, "player")) then
+		return GetMajorTalentTreeBonuses(tab)
+	elseif tab then
+		return getTalentTreeBonuses("major", unit, tab)
+	end
+end
+
+-- GetMinorTalentTreeBonuses
+function lib:GetMinorTalentTreeBonuses(unit, tab)
+	if (UnitIsUnit(unit, "player")) then
+		return GetMinorTalentTreeBonuses(tab)
+	elseif tab then
+		return getTalentTreeBonuses("minor", unit, tab)
+	end
+end
+
+-- GetTalentTreeEarlySpells
+function lib:GetTalentTreeEarlySpells(unit, tab)
+	if (UnitIsUnit(unit, "player")) then
+		return GetTalentTreeEarlySpells(tab)
+	elseif tab then
+		return getTalentTreeBonuses("early", unit, tab)
+	end
+end
+
+-- GetTalentTreeMasterySpells
+function lib:GetTalentTreeMasterySpells(unit, tab)
+	if (UnitIsUnit(unit, "player")) then
+		return GetTalentTreeMasterySpells(tab)
+	elseif tab then
+		return getTalentTreeBonuses("master", unit, tab)
+	end
+end
+
+-- GetTalentTreeRoles
+function lib:GetTalentTreeRoles(unit, tab)
+	-- self.talentTree, self.inspect, self.pet
+	if (UnitIsUnit(unit, "player")) then
+		return GetTalentTreeRoles(tab)
+	elseif tab then
+		local _, class = UnitClass(unit)
+		local ctd = self.classTalentData[class]
+		if (ctd and tab >= 1 and tab <= #ctd) then
+			local roles = ctd[tab] and ctd[tab].roles
+			if (roles) then
+				if (strfind(roles, ",")) then
+					local role1, role2 = strsplit(",", roles)
+					return role1, role2
+				end
+				return roles
+			end
 		end
 	end
 end
