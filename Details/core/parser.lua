@@ -470,7 +470,7 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 	if _bit_band(alvo_flags, OBJECT_CONTROL_NPC) ~= 0 then
 		local npcId = npcid_cache[alvo_serial]
 		if not npcId then
-			npcId = _tonumber(_str_sub(alvo_serial, 8, 12), 16) or 0
+			npcId = _tonumber(_str_sub(alvo_serial, 6, 10), 16) or 0
 			npcid_cache[alvo_serial] = npcId
 		end
 

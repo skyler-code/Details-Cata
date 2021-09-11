@@ -672,7 +672,7 @@ function DF:Msg (msg)
 end
 
 function DF:GetNpcIdFromGuid (guid)
-	local NpcId = _tonumber(_sub(guid, 8, 12), 16)
+	local NpcId = _tonumber(_sub(guid, 6, 10), 16)
 	if NpcId then
 		return NpcId
 	end
