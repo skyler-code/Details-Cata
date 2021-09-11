@@ -88,7 +88,7 @@ do
 
 		-- Retribution Paladin:
 		[53385] = 70, -- Divine Storm
-		[35395] = 70, -- Crusader Strike
+		[85256] = 70, -- Templar's Verdict
 		
 		-- Discipline Priest:
 		[10060] = 256, -- Power Infusion
