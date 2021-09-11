@@ -81,6 +81,8 @@ do
 				[532] = true, -- The Obsidian Sanctum
 				[528] = true, -- The Eye of Eternity
 				[530] = true, -- Ulduar
+
+				[824] = true, -- Dragon Soul
 			}
 
 			--must fail in map and encounter id to not store data
@@ -187,6 +189,16 @@ do
 				[33271] = 12, -- General Vezax
 				[33288] = 13, -- Yogg-Saron
 				[32871] = 14, -- Algalon the Observer
+
+			-- Dragon Soul
+				[55265]	= 1,	-- Morchok
+				[55308]	= 2,	-- Warlord Zonozz
+				[55312]	= 3,	-- Yor'sahj the Unsleeping
+				[55689]	= 4,	-- Hagara the Binder
+				[55294]	= 5,	-- Ultraxion
+				[56427]	= 6,	-- Warmaster Blackhorn
+				[53879]	= 7,	-- Spine Deathwing
+				[56173]	= 8,	-- Madness Deathwing
 			}
 
 		--> armazena os escudos - Shields information for absorbs
