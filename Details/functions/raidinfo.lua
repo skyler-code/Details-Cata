@@ -1191,3 +1191,80 @@ do --> data for Dragon Soul
 		},
 	})
 end
+
+do --> data for Firelands
+	local INSTANCE_MAPID = 800
+	local HDIMAGESPATH = "Details\\images\\raid"
+	local HDFILEPREFIX = "Firelands"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenFirelandsRaid", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "ui-ej-dungeonbutton-firelands1"
+	local EJ_LOREBG = "ui-ej-lorebg-firelands1"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-Bethtilac The Red Widow",
+		"UI-EJ-BOSS-Lord Rhyolith",
+		"UI-EJ-BOSS-Alysrazor",
+		"UI-EJ-BOSS-Shannox",
+		"UI-EJ-BOSS-Baleroc",
+		"UI-EJ-BOSS-Fandral Staghelm",
+		"UI-EJ-BOSS-Ragnaros",
+	}
+
+	local ENCOUNTER_ID_CL = {
+		52498, 52558, 52530, 53691, 53494, 52571, 52409,
+		[52498]	= 1,	-- Bethtilac
+		[52558]	= 2,	-- Rhyolith
+		[52530]	= 3,	-- Alysrazor
+		[53691]	= 4,	-- Shannox
+		[53494]	= 5,	-- Baleroc
+		[52571]	= 6,	-- FandralStaghelm
+		[52409]	= 7,	-- Ragnaros
+	}
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Beth'tilac"],
+		LBB["Lord Rhyolith"],
+		LBB["Alysrazor"],
+		LBB["Shannox"],
+		LBB["Baleroc"],
+		LBB["Majordomo Staghelm"],
+		LBB["Ragnaros"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Firelands"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = true,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = {
+			[52498]	= 1,	-- Bethtilac
+			[52558]	= 2,	-- Rhyolith
+			[52530]	= 3,	-- Alysrazor
+			[53691]	= 4,	-- Shannox
+			[53494]	= 5,	-- Baleroc
+			[52571]	= 6,	-- FandralStaghelm
+			[52409]	= 7,	-- Ragnaros
+		},
+
+		
+	})
+end
