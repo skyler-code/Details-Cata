@@ -484,7 +484,7 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 	if _bit_band(who_flags, OBJECT_CONTROL_NPC) ~= 0 then
 		local npcId = npcid_cache[who_serial]
 		if not npcId then
-			npcId = _tonumber(_str_sub(who_serial, 8, 12), 16) or 0
+			npcId = _tonumber(_str_sub(who_serial, 6, 10), 16) or 0
 			npcid_cache[who_serial] = npcId
 		end
 
@@ -1187,7 +1187,7 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 
 		--> pet summoned another pet, but the pet was summoned first
 		if _bit_band(who_flags, OBJECT_TYPE_PETS) ~= 0 then
-			local mobid = tonumber(alvo_serial:sub(3+6,3+9),16)
+			local mobid = tonumber(alvo_serial:sub(6,10),16)
 			if sub_pet_ids[mobid] then
 				C_Timer.After(0.1, function()
 					parser:summon(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellName)
