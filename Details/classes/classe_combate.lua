@@ -291,7 +291,7 @@ function combate:NovaTabela(iniciada, _tabela_overall, combatId, ...)
 	esta_tabela.combat_counter = _detalhes.combat_counter
 
 	--> try discover if is a pvp combat
-	local who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags = ...
+	local who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2 = ...
 	if who_serial then --> aqui ir� identificar o boss ou o oponente
 		if alvo_name and _bit_band(alvo_flags, REACTION_HOSTILE) ~= 0 then --> tentando pegar o inimigo pelo alvo
 			esta_tabela.contra = alvo_name

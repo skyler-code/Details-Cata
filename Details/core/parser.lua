@@ -503,7 +503,7 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 --> check if need start an combat
 	if not _in_combat then
 		if not (_bit_band(who_flags, REACTION_FRIENDLY) ~= 0 and _bit_band(alvo_flags, REACTION_FRIENDLY) ~= 0) and (_bit_band(who_flags, AFFILIATION_GROUP) ~= 0 or _bit_band(who_flags, AFFILIATION_GROUP) ~= 0) then
-			_detalhes:EntrarEmCombate(who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags)
+			_detalhes:EntrarEmCombate(who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2)
 			if _detalhes.encounter_table.id and _detalhes.encounter_table["start"] and _detalhes.announce_firsthit.enabled then
 				local link = spellid <= 10 and _GetSpellInfo(spellid) or GetSpellLink(spellid)
 				if _detalhes.WhoAggroTimer then
@@ -2667,7 +2667,7 @@ local energy_types = {
 			end
 		end
 
-		return spell_misc_func(spell, alvo_serial, alvo_name, alvo_flags, alvo_flags2, who_name, token, "BUFF_OR_DEBUFF", "COOLDOWN")
+		return spell_misc_func(spell, alvo_serial, alvo_name, alvo_flags, who_name, token, "BUFF_OR_DEBUFF", "COOLDOWN")
 	end
 
 
@@ -3266,7 +3266,7 @@ local energy_types = {
 
 					for _, func in _ipairs(_hook_deaths_container) do
 						local new_death_table = table_deepcopy(esta_morte)
-						local successful, errortext = pcall(func, nil, token, time, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, new_death_table, este_jogador.last_cooldown, death_at, max_health)
+						local successful, errortext = pcall(func, nil, token, time, false, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, new_death_table, este_jogador.last_cooldown, death_at, max_health)
 						if(not successful) then
 							_detalhes:Msg("error occurred on a death hook function:", errortext)
 						end

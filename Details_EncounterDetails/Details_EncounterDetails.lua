@@ -57,7 +57,7 @@ local sort_by_name = function (t1, t2) return t1.nome < t2.nome end
 local CLASS_ICON_TCOORDS = _G.CLASS_ICON_TCOORDS
 
 EncounterDetails.name = "Encounter Breakdown"
-EncounterDetails.debugmode = true
+EncounterDetails.debugmode = false
 
 function EncounterDetails:FormatCooltipSettings()
 	GameCooltip:SetType ("tooltip")
@@ -2123,7 +2123,7 @@ local events_to_track = {
 local enemy_spell_pool
 local CLEvents = function (self, event, ...)
 
-	local time, token, who_serial, who_name, who_flags, alvo_serial, alvo_name, alvo_flags, spellid, spellname, school, aura_type = ...
+	local time, token, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, school, aura_type = ...
 
 	if (events_to_track [token] and _bit_band (who_flags or 0x0, 0x00000060) ~= 0) then
 		local t = enemy_spell_pool [spellid]

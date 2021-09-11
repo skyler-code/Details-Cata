@@ -657,9 +657,9 @@ end
 
 local floor = floor
 
-combat_log_event_listener:SetScript ("OnEvent", function (self, event, time, token, ...)
+combat_log_event_listener:SetScript ("OnEvent", function (self, event, time, token, hide_caster, ...)
 	if (token == "SPELL_CAST_SUCCESS") then --> if an actor successful casted a spell
-		local who_serial, who_name, who_flags, target_serial, target_name, target_flags, spellid, spellname, spelltype = ...
+		local who_serial, who_name, who_flags, who_flags2, target_serial, target_name, target_flags, target_flags2, spellid, spellname, spelltype = ...
 		if (bit.band (who_flags, 0x00000040) ~= 0) then --> check if the actor is a enemy        DeathGraphs.BossEncounterStartAt
 			local t = floor (GetTime() - DeathGraphs.BossEncounterStartAt) --> get the combat time
 			if (DeathGraphs.EnemySkillTableDelay [spellid] ~= t) then --> avoid a spell be recorded more than once per second
