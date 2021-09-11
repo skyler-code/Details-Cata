@@ -1304,7 +1304,7 @@ function _detalhes:CatchRaidDebuffUptime (in_or_out) -- "DEBUFF_UPTIME_IN"
 									playerName = playerName .. "-" .. realmName
 								end
 
-								_detalhes.parser:add_debuff_uptime (nil, cacheGetTime, playerGUID, playerName, 0x00000417, his_target, _UnitName (target), 0x842, spellid, name, in_or_out)
+								_detalhes.parser:add_debuff_uptime (nil, cacheGetTime, nil, playerGUID, playerName, 0x00000417, 0, his_target, _UnitName (target), 0x842, 0, spellid, name, in_or_out)
 							end
 						end
 					end
