@@ -170,6 +170,7 @@ DF.CooldownsBySpec = {
 		--retribution
 		[70] = {
 			[31884] = 1, --Avenging Wrath
+			[85696] = 1, --Zealotry
 
 			[642] = 2, --Divine Shield
 
@@ -178,8 +179,8 @@ DF.CooldownsBySpec = {
 			[6940] = 3, -- Hand of Sacrifice
 			[642] = 2, -- Divine Shield
 			[498] = 2, -- Divine Protection
-			[1044] = 5, --Blessing of Freedom
-			[10308] = 5, --Hammer of Justice
+			[1044] = 5, --Hand of Freedom
+			[853] = 5, --Hammer of Justice
 		},
 
 	--DEATH KNIGHT

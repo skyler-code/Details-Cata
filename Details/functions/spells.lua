@@ -879,6 +879,7 @@ do
 		[51052] = 10, -- Anti-Magic Zone (DK)( Rank 1 (Correct spellID?)
 				-- Does DK Spell Deflection show absorbs in the CL?
 		[51271] = 20, -- Unbreakable Armor (DK)
+		[77535] = true,
 		-- Druid
 		[62606] = 10, -- Savage Defense proc. (Druid) Tooltip of the original spell doesn't clearly state that this is an absorb, but the buff does.
 		-- Mage
@@ -916,25 +917,8 @@ do
 		-- Paladin
 		[58597] = 6, -- Sacred Shield (Paladin) proc (Fixed, thanks to Julith)
 		-- Priest
-		[17] = 30, -- Power Word: Shield (Priest) Rank 1
-		[592] = 30,
-		[600] = 30,
-		[3747] = 30,
-		[6065] = 30,
-		[6066] = 30,
-		[10898] = 30,
-		[10899] = 30,
-		[10900] = 30,
-		[10901] = 30,
-		[25217] = 30,
-		[25218] = 30,
-		[48065] = 30,
-		[48066] = 30, -- Rank 14
-		[47509] = 12, -- Divine Aegis (Priest) Rank 1
-		[47511] = 12,
-		[47515] = 12, -- Divine Aegis (Priest) Rank 3 (Some of these are not actual buff spellIDs)
+		[17] = 30, -- Power Word: Shield (Priest)
 		[47753] = 12, -- Divine Aegis (Priest) Rank 1
-		[54704] = 12, -- Divine Aegis (Priest) Rank 1
 		[47788] = 10, -- Guardian Spirit  (Priest) (50 nominal absorb, this may not show in the CL)
 		-- Warlock
 		[7812] = 30, -- Sacrifice (warlock) Rank 1
@@ -1040,7 +1024,7 @@ do
 		[48707]	= {45, 5, 1}, -- Anti-Magic Shell
 		[48743]	= {120, 0, 1}, -- Death Pact
 		[51052]	= {120, 3, 0}, -- Anti-Magic Zone
-		[48982]	= {30, 0, 1}, -- "Blood T�p"
+		[48982]	= {30, 0, 1}, -- "Blood Tap"
 
 --		["DRUID"] = {},
 		[740]	= {480, 8, 0}, -- Tranquility
@@ -1080,7 +1064,10 @@ do
 		[48792] = {180, 12}, -- Icebound Fortitude
 		[48743] = {120, 0}, -- Death Pact
 		[49039] = {12, 10}, -- Lichborne
-		["DEATHKNIGHT"] = {55233, 49222, 48707, 48792, 48743, 49039, 48743, 51052},
+		[48707] = {45, 7}, -- Anti-Magic Shell
+		[49028] = {12, 10}, -- Dancing Rune Weapon
+		[51052] = {120, 10}, -- Anti-Magic Zone
+		["DEATHKNIGHT"] = {55233, 49222, 48792, 48743, 49039, 48707, 51052},
 
 		-- Druid
 		[62606] = {1.5, 6}, -- Savage Defense
