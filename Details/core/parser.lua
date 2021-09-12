@@ -3850,9 +3850,9 @@ function _detalhes.parser_functions:ENCOUNTER_START(encounterID, encounterName, 
 --		_detalhes:SairDoCombate()
 --	end
 
-	if not _detalhes.WhoAggroTimer and _detalhes.announce_firsthit.enabled then
-		_detalhes.WhoAggroTimer = C_Timer.NewTicker(0.5, who_aggro, 1)
-	end
+	-- if not _detalhes.WhoAggroTimer and _detalhes.announce_firsthit.enabled then
+	-- 	_detalhes.WhoAggroTimer = C_Timer.NewTicker(0.5, who_aggro, 1)
+	-- end
 
 	if IsInGuild() and IsInRaid() and _detalhes.announce_damagerecord.enabled and _detalhes.StorageLoaded then
 		_detalhes.TellDamageRecord = C_Timer.NewTicker(0.6, _detalhes.PrintEncounterRecord, 1)
