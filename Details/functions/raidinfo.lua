@@ -3,76 +3,76 @@ local LBZ = LibStub("LibBabble-Zone-3.0"):GetLookupTable()
 
 -- BK
 
-do --> data for Zul'Aman
-	local INSTANCE_MAPID = 867
-	local HDIMAGESPATH = "Details\\images\\raid"
-	local HDFILEPREFIX = "ZulAman"
-	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LOADSCREENZULAMAN", {0, 1, 285/1024, 875/1024}
-	local EJ_DUNGEONBG = "ui-ej-dungeonbutton-zulaman"
-	local EJ_LOREBG = "ui-ej-lorebg-zulaman"
+-- do --> data for Zul'Aman
+-- 	local INSTANCE_MAPID = 867
+-- 	local HDIMAGESPATH = "Details\\images\\raid"
+-- 	local HDFILEPREFIX = "ZulAman"
+-- 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LOADSCREENZULAMAN", {0, 1, 285/1024, 875/1024}
+-- 	local EJ_DUNGEONBG = "ui-ej-dungeonbutton-zulaman"
+-- 	local EJ_LOREBG = "ui-ej-lorebg-zulaman"
 
-	local PORTRAIT_LIST = {
-		"ui-ej-boss-akilzon",
-		"ui-ej-boss-nalorakk",
-		"ui-ej-boss-janalai",
-		"ui-ej-boss-halazzi",
-		"ui-ej-boss-hex lord malacrass",
-		"ui-ej-boss-zuljin",
-	}
+-- 	local PORTRAIT_LIST = {
+-- 		"ui-ej-boss-akilzon",
+-- 		"ui-ej-boss-nalorakk",
+-- 		"ui-ej-boss-janalai",
+-- 		"ui-ej-boss-halazzi",
+-- 		"ui-ej-boss-hex lord malacrass",
+-- 		"ui-ej-boss-zuljin",
+-- 	}
 
-	local ENCOUNTER_ID_CL = {
-		23574, 23576, 23578, 23577, 24239, 23863,
-		[23574] = 1, --Akil'zon
-		[23576] = 2, --Nalorakk
-		[23578] = 3, --Jan'alai
-		[23577] = 4, --Halazzi
-		[24239] = 5, --Malacrass
-		[23863] = 6, --Zul'jin
-	}
+-- 	local ENCOUNTER_ID_CL = {
+-- 		23574, 23576, 23578, 23577, 24239, 23863,
+-- 		[23574] = 1, --Akil'zon
+-- 		[23576] = 2, --Nalorakk
+-- 		[23578] = 3, --Jan'alai
+-- 		[23577] = 4, --Halazzi
+-- 		[24239] = 5, --Malacrass
+-- 		[23863] = 6, --Zul'jin
+-- 	}
 
-	--> install the raid
-	local BOSSNAMES = {
-		LBB["Akil'zon"],
-		LBB["Nalorakk"],
-		LBB["Jan'alai"],
-		LBB["Halazzi"],
-		LBB["Malacrass"],
-		LBB["Zul'jin"],
-	}
+-- 	--> install the raid
+-- 	local BOSSNAMES = {
+-- 		LBB["Akil'zon"],
+-- 		LBB["Nalorakk"],
+-- 		LBB["Jan'alai"],
+-- 		LBB["Halazzi"],
+-- 		LBB["Malacrass"],
+-- 		LBB["Zul'jin"],
+-- 	}
 
-	local ENCOUNTERS = {}
+-- 	local ENCOUNTERS = {}
 
-	for i = 1, #PORTRAIT_LIST do
-		local encounterTable = {
-			boss = BOSSNAMES[i],
-			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
-		}
-		tinsert(ENCOUNTERS, encounterTable)
-	end
+-- 	for i = 1, #PORTRAIT_LIST do
+-- 		local encounterTable = {
+-- 			boss = BOSSNAMES[i],
+-- 			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+-- 		}
+-- 		tinsert(ENCOUNTERS, encounterTable)
+-- 	end
 
-	_detalhes:InstallEncounter({
-		id = INSTANCE_MAPID, --map id
-		name = LBZ["Zul'Aman"],
-		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
-		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
-		is_raid = true,
-		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
-		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+-- 	_detalhes:InstallEncounter({
+-- 		id = INSTANCE_MAPID, --map id
+-- 		name = LBZ["Zul'Aman"],
+-- 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+-- 		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+-- 		is_raid = true,
+-- 		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+-- 		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
 
-		encounter_ids2 = ENCOUNTER_ID_CL,
-		boss_names = BOSSNAMES,
-		encounters = ENCOUNTERS,
+-- 		encounter_ids2 = ENCOUNTER_ID_CL,
+-- 		boss_names = BOSSNAMES,
+-- 		encounters = ENCOUNTERS,
 
-		boss_ids = {
-			[23574] = 1, --Akil'zon
-			[23576] = 2, --Nalorakk
-			[23578] = 3, --Jan'alai
-			[23577] = 4, --Halazzi
-			[24239] = 5, --Malacrass
-			[23863] = 6, --Zul'jin
-		},
-	})
-end
+-- 		boss_ids = {
+-- 			[23574] = 1, --Akil'zon
+-- 			[23576] = 2, --Nalorakk
+-- 			[23578] = 3, --Jan'alai
+-- 			[23577] = 4, --Halazzi
+-- 			[24239] = 5, --Malacrass
+-- 			[23863] = 6, --Zul'jin
+-- 		},
+-- 	})
+-- end
 
 do --> data for Serpentshrine Cavern
 	local INSTANCE_MAPID = 863
