@@ -516,55 +516,6 @@ end
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --consumables
 
-DF.FlaskIDs = {
-	[67016] = true, -- Flask of the North (SP)
-	[67017] = true, -- Flask of the North (AP)
-	[67018] = true, -- Flask of the North (STR)
-	[53755] = true, -- Flask of the Frost Wyrm
-	[53758] = true, -- Flask of Stoneblood
-	[53760] = true, -- Flask of Endless Rage
-	[54212] = true, -- Flask of Pure Mojo
-	[53752] = true, -- Lesser Flask of Toughness (50 Resilience)
-	[17627] = true, -- Flask of Distilled Wisdom
-
-	[33721] = true, -- Spellpower Elixir
-	[53746] = true, -- Wrath Elixir
-	[28497] = true, -- Elixir of Mighty Agility
-	[53748] = true, -- Elixir of Mighty Strength
-	[60346] = true, -- Elixir of Lightning Speed
-	[60344] = true, -- Elixir of Expertise
-	[60341] = true, -- Elixir of Deadly Strikes
-	[60345] = true, -- Elixir of Armor Piercing
-	[60340] = true, -- Elixir of Accuracy
-	[53749] = true, -- Guru's Elixir
-
-	[60343] = true, -- Elixir of Mighty Defense
-	[53751] = true, -- Elixir of Mighty Fortitude
-	[53764] = true, -- Elixir of Mighty Mageblood
-	[60347] = true, -- Elixir of Mighty Thoughts
-	[53763] = true, -- Elixir of Protection
-	[53747] = true, -- Elixir of Spirit
-}
-
-DF.FoodIDs = {
-	[35272] = 20, -- Well Fed
-	[44106] = 20, -- "Well Fed" from Brewfest
-	[43722] = 20, -- Enlightened
-
-	[57356] = 40, -- Rhinolicious Wormsteak
-	[57358] = 40, -- Hearty Rhino
-	[57360] = 40, -- Snapper Extreme/Worg Tartare
-	[57367] = 40, -- Blackened Dragonfin
-	[57365] = 40, -- Cuttlesteak
-	[57371] = 40, -- Dragonfin Filet
-	[57399] = 40, -- Fish Feast
-	[57329] = 40, -- Spiced Worm Burger/Spicy Blue Nettlefish
-	[57332] = 40, -- Imperial Manta Steak/Very Burnt Worg
-	[57327] = 40, -- Firecracker Salmon/Tender Shoveltusk Steak
-	[57325] = 40, -- Mega Mammoth Meal/Poached Northern Sculpin
-	[57334] = 40, -- Mighty Rhino Dogs/Spicy Fried Herring
-}
-
 DF.PotionIDs = {
 	[28494] = true, -- Insane Strength Potion
 	[38929] = true, -- Fel mana potion
@@ -583,6 +534,13 @@ DF.PotionIDs = {
 	[53915] = true, -- Shadow Protection
 	[53762] = true, -- Indestructible
 	[67490] = true, -- runic mana
+
+	[78992] = true, -- rejuvenation potion
+	[79476] = true, -- volcanic power
+	[79633] = true, -- tol'vir agility
+	[78993] = true, -- concentration
+	[79634] = true, -- golem's strength
+	[79475] = true, -- earthen armor
 }
 
 --	/dump UnitAura ("player", 1)
