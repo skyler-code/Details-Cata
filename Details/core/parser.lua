@@ -3808,7 +3808,7 @@ function _detalhes:Check_ZONE_CHANGED_NEW_AREA(...)
 
 			--> if the current raid is current tier raid, pre-load the storage database
 			if zoneType == "raid" then
-				if _detalhes.InstancesToStoreData[zoneMapID] then
+				if _detalhes.EncounterInformation[zoneMapID] then
 					_detalhes.ScheduleLoadStorage()
 				end
 			end

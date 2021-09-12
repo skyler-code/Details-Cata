@@ -13,7 +13,6 @@ local GetNumGroupMembers = GetNumGroupMembers
 local LibGroupTalents = LibStub ("LibGroupTalents-1.0")
 
 local storageDebug = true
-local store_instances = _detalhes.InstancesToStoreData
 
 function _detalhes:UpdateGears()
 
@@ -939,8 +938,7 @@ local encounter_is_current_tier = function (encounterID)
 	if (OnlyFromCurrentRaidTier) then
 		local mapID = _detalhes:GetInstanceIdFromEncounterId (encounterID)
 		if (mapID) then
-			--> if isn'y the mapID in the table to save data
-			if (not _detalhes.InstancesToStoreData [mapID]) then
+			if (not _detalhes.EncounterInformation[mapID]) then
 				return false
 			end
 		else
@@ -1427,7 +1425,8 @@ function _detalhes:StoreEncounter (combat)
 	local mapID = GetCurrentMapAreaID()
 	local bossCLEUID = combat.boss_info and combat.boss_info.id
 
-	if (not store_instances [mapID] and not _detalhes.EncountersToStoreData[bossCLEUID]) then
+	local instance_info = _detalhes.EncounterInformation[mapID]
+	if not instance_info and not instance_info["boss_ids"][bossCLEUID] then
 		if (_detalhes.debug) then
 			print ("|cFFFFFF00Details! Storage|r: instance not allowed.")
 		end
