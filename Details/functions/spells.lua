@@ -93,8 +93,8 @@ do
 		-- Discipline Priest:
 		[10060] = 256, -- Power Infusion
 		[33206] = 256, -- Pain Suppression
-		[47540] = 256, -- Penance, Rank 4
-		[59888] = 256, -- Borrowed Time, Rank 5
+		[47750] = 256, -- Penance
+		[47753] = 256, -- Divine Aegis
 
 		-- Holy Priest:
 		[34861] = 257, -- Circle of Healing, Rank 7
