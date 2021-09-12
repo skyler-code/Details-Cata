@@ -1184,6 +1184,66 @@ do --> data for Blackwing Descent
 	})
 end
 
+
+do --> data for Throne of the Four Winds
+	local INSTANCE_MAPID = 773
+	local HDIMAGESPATH = "Details\\images\\raid"
+	local HDFILEPREFIX = "SkywallRaid"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenSkywallRaid", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-SkywallRaid"
+	local EJ_LOREBG = "UI-EJ-LOREBG-SkywallRaid"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-Anshal",
+		"UI-EJ-BOSS-AlAkir",
+	}
+
+	local BOSS_IDS = {
+		[45870]	= 1,	-- Anshal
+		[45871]	= 1,	-- Nezir
+		[45872]	= 1,	-- Rohash
+		[46753]	= 2,	-- Al'Akir
+	}
+
+	local ENCOUNTER_ID_CL = {
+		45871, 46753,
+		[45871]	= 1,	-- Nezir
+		[46753]	= 2,	-- Al'Akir
+	}
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Conclave of Wind"],
+		LBB["Al'Akir"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Throne of the Four Winds"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = true,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
+
 do --> data for Firelands
 	local INSTANCE_MAPID = 800
 	local HDIMAGESPATH = "Details\\images\\raid"
