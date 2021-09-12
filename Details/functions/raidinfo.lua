@@ -1603,6 +1603,21 @@ do --> data for Dragon Soul
 		"UI-EJ-BOSS-Corrupted Deathwing",
 	}
 
+	local BOSS_IDS = {
+		[55265]	= 1,	-- Morchok
+		[55308]	= 2,	-- Warlord Zonozz
+		[55312]	= 3,	-- Yor'sahj the Unsleeping
+		[55689]	= 4,	-- Hagara the Binder
+		[55294]	= 5,	-- Ultraxion
+		[56427]	= 6,	-- Warmaster Blackhorn
+		[53891] = 7,	-- Corruption
+		[56161] = 7,	-- Corruption
+		[56162] = 7,	-- Corruption
+		[53879]	= 7,	-- Spine Deathwing
+		[56168] = 8,	-- Wing Tentacle
+		[56173]	= 8,	-- Madness Deathwing
+	}
+
 	local ENCOUNTER_ID_CL = {
 		55265, 55308, 55312, 55689, 55294, 56427, 53879, 56173,
 		[55265]	= 1,	-- Morchok
@@ -1650,15 +1665,6 @@ do --> data for Dragon Soul
 		boss_names = BOSSNAMES,
 		encounters = ENCOUNTERS,
 
-		boss_ids = {
-			[55265]	= 1,	-- Morchok
-			[55308]	= 2,	-- Warlord Zonozz
-			[55312]	= 3,	-- Yor'sahj the Unsleeping
-			[55689]	= 4,	-- Hagara the Binder
-			[55294]	= 5,	-- Ultraxion
-			[56427]	= 6,	-- Warmaster Blackhorn
-			[53879]	= 7,	-- Spine Deathwing
-			[56173]	= 8,	-- Madness Deathwing
-		},
+		boss_ids = BOSS_IDS,
 	})
 end
