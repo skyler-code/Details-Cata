@@ -92,6 +92,7 @@ do
 		
 		-- Discipline Priest:
 		[10060] = 256, -- Power Infusion
+		[89485] = 256, -- Inner Focus
 		[33206] = 256, -- Pain Suppression
 		[47750] = 256, -- Penance
 		[47753] = 256, -- Divine Aegis
@@ -129,29 +130,14 @@ do
 		[14278] = 261, -- Ghostly Strike
 
 		-- Elemental Shaman:
-		[29000] = 262, -- Elemental Reach, Rank 2
-		[59159] = 262, -- Thunderstorm, Rank 4
-		[16164] = 262, -- Elemental Focus
-		[16246] = 262, -- Elemental Focus Effect
-		[16166] = 262, -- Elemental Mastery
-		[64701] = 262, -- Elemental Mastery Effect
-		[57722] = 262, -- Totem of Wrath, Rank 4
+		[64701] = 262, -- Elemental Mastery
+		[51490] = 262, -- Thunderstorm
+		[88767] = 262, -- Fulmination
 
 		-- Enhancement Shaman:
 		[51533] = 263, -- Feral Spirit
 		[51530] = 263, -- Maelstrom Weapon
-		[25504] = 263, -- Windfury attack
-		[17364] = 263, -- Stormstrike
-		[32175] = 263, -- Stormstrike
-		[32176] = 263, -- Stormstrike off hand
-		[16282] = 263, -- Flurry
-		[10444] = 263, -- Flametongue attack
 		[60103] = 263, -- Lava Lash
-		[30812] = 263, -- Mental Quickness, Rank 1
-		[30813] = 263, -- Mental Quickness, Rank 2
-		[30814] = 263, -- Mental Quickness, Rank 3
-		[51521] = 263, -- Improved Stormstrike, Rank 1
-		[51522] = 263, -- Improved Stormstrike, Rank 2
 
 		-- Restoration Shaman:
 		[51566] = 264, -- Tidal Waves, Rank 5
