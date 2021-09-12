@@ -1392,6 +1392,197 @@ do --> data for Firelands
 	})
 end
 
+do --> data for End Time
+	local INSTANCE_MAPID = 820
+	local HDIMAGESPATH = "Details\\images\\dungeon"
+	local HDFILEPREFIX = "EndTime"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenEndTime", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-EndTime"
+	local EJ_LOREBG = "UI-EJ-LOREBG-EndTime"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-BaineBloodhoof",
+		"UI-EJ-BOSS-JainaProudmoore",
+		"UI-EJ-BOSS-SylvanasWindrunner",
+		"UI-EJ-BOSS-TyrandeWhisperwind",
+		"UI-EJ-BOSS-Murozond",
+	}
+
+	local BOSS_IDS = {
+		[54431]	= 1,	-- Echo of Baine
+		[54445] = 2,	-- Echo of Jaina
+		[54123] = 3,	-- Echo of Sylvanas
+		[54544] = 4,	-- Echo of Tyrande
+		[54432] = 5,	-- Murozond
+	}
+
+	local ENCOUNTER_ID_CL = {
+		54431, 54445, 54123, 54544, 54432,
+		[54431]	= 1,	-- Echo of Baine
+		[54445] = 2,	-- Echo of Jaina
+		[54123] = 3,	-- Echo of Sylvanas
+		[54544] = 4,	-- Echo of Tyrande
+		[54432] = 5,	-- Murozond
+	}
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Echo of Baine"],
+		LBB["Echo of Jaina"],
+		LBB["Echo of Sylvanas"],
+		LBB["Echo of Tyrande"],
+		LBB["Murozond"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["End Time"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = false,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
+
+do --> data for Well of Eternity
+	local INSTANCE_MAPID = 816
+	local HDIMAGESPATH = "Details\\images\\dungeon"
+	local HDFILEPREFIX = "WellOfEternity"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenWellofEternity", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-WellOfEternity"
+	local EJ_LOREBG = "UI-EJ-LOREBG-WellOfEternity"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-Perotharn",
+		"UI-EJ-BOSS-QueenAzshara",
+		"UI-EJ-BOSS-Mannoroth",
+	}
+
+	local BOSS_IDS = {
+		[55085]	= 1,	-- Peroth'arn
+		[54853]	= 2,	-- Queen Azshara
+		[54969]	= 3,	-- Mannoroth
+		[55419]	= 3,	-- Varo'then
+	}
+
+	local ENCOUNTER_ID_CL = {
+		55085, 54853, 54969,
+		[55085]	= 1,	-- Peroth'arn
+		[54853]	= 2,	-- Queen Azshara
+		[54969]	= 3,	-- Mannoroth
+	}
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Peroth'arn"],
+		LBB["Queen Azshara"],
+		LBB["Mannoroth"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Well of Eternity"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = false,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
+
+do --> data for Hour of Twilight
+	local INSTANCE_MAPID = 819
+	local HDIMAGESPATH = "Details\\images\\dungeon"
+	local HDFILEPREFIX = "HourOfTwilight"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenHourofTwilight", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-HourOfTwilight"
+	local EJ_LOREBG = "UI-EJ-LOREBG-HourOfTwilight"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-Arcurion",
+		"UI-EJ-BOSS-Asira Dawnslayer",
+		"UI-EJ-BOSS-Archbishop Benedictus",
+	}
+
+	local BOSS_IDS = {
+		[54590]	= 1,	-- Arcurion
+		[54968]	= 2,	-- Asira Dawnslayer
+		[54938]	= 3,	-- Archbishop Benedictus
+	}
+
+	local ENCOUNTER_ID_CL = {
+		54590, 54968, 54938,
+		[54590]	= 1,	-- Arcurion
+		[54968]	= 2,	-- Asira Dawnslayer
+		[54938]	= 3,	-- Archbishop Benedictus
+	}
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Arcurion"],
+		LBB["Asira Dawnslayer"],
+		LBB["Archbishop Benedictus"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Hour of Twilight"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = false,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
 
 do --> data for Dragon Soul
 	local INSTANCE_MAPID = 824
