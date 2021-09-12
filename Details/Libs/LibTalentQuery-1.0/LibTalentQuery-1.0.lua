@@ -1,6 +1,6 @@
 --[[
 Name: LibTalentQuery-1.0
-Revision: $Rev: 84 $
+Revision: $Rev: 86 $
 Author: Rich Martel (richmartel@gmail.com)
 Documentation: http://wowace.com/wiki/LibTalentQuery-1.0
 SVN: svn://svn.wowace.com/wow/libtalentquery-1-0/mainline/trunk
@@ -20,25 +20,24 @@ Example Usage:
 		local isnotplayer = not UnitIsUnit(unitid, "player")
 		local spec = {}
 		for tab = 1, GetNumTalentTabs(isnotplayer) do
-			local treename, _, pointsspent = GetTalentTabInfo(tab, isnotplayer)
+			local _, _, _, _, _, pointsspent = GetTalentTabInfo(tab, isnotplayer)
 			tinsert(spec, pointsspent)
 		end
 		raidTalents[UnitGUID(unitid)] = spec
 	end
 ]]
 
-local MAJOR, MINOR = "LibTalentQuery-1.0", 90000 + tonumber(("$Rev: 84 $"):match("(%d+)"))
+local MAJOR, MINOR = "LibTalentQuery-1.0", 90000 + tonumber(("$Rev: 86 $"):match("(%d+)"))
 
 local lib = LibStub:NewLibrary(MAJOR, MINOR)
 if not lib then return end
 
-local INSPECTDELAY = 1
+local INSPECTDELAY = 2
 local INSPECTTIMEOUT = 5
 if not lib.events then
 	lib.events = LibStub("CallbackHandler-1.0"):New(lib)
 end
 
-local validateTrees
 local enteredWorld = IsLoggedIn()
 local frame = lib.frame
 if not frame then
@@ -46,10 +45,9 @@ if not frame then
 	lib.frame = frame
 end
 frame:UnregisterAllEvents()
-frame:RegisterEvent("INSPECT_TALENT_READY")
+frame:RegisterEvent("INSPECT_READY")
 frame:RegisterEvent("PLAYER_ENTERING_WORLD")
 frame:RegisterEvent("PLAYER_LEAVING_WORLD")
-frame:RegisterEvent("PLAYER_LOGIN")
 frame:SetScript("OnEvent", function(this, event, ...)
 	return lib[event](lib, ...)
 end)
@@ -147,14 +145,12 @@ function lib:Query(unit)
 
 	self.lastQueuedInspectReceived = nil
 	if UnitIsUnit(unit, "player") then
-		self.events:Fire("TalentQuery_Ready", UnitName("player"), nil, "player")
+		self.events:Fire("TalentQuery_Ready", UnitName("player"), nil, "player", UnitGUID("player"))
 	else
 		if type(unit) ~= "string" then
 			error(("Bad argument #2 to 'Query'. Expected %q, received %q (%s)"):format("string", type(unit), tostring(unit)), 2)
 		elseif not UnitExists(unit) or not UnitIsPlayer(unit) then
 			error(("Bad argument #2 to 'Query'. %q is not a valid player unit"):format(tostring(unit)), 2)
-		elseif not UnitExists(unit) or not UnitIsPlayer(unit) then
-			error(("Bad argument #2 to 'Query'. %q does not require a server query before reading talents"):format("player"), 2)
 		else
 			local name = UnitFullName(unit)
 			if (not inspectQueue[name]) then
@@ -167,7 +163,7 @@ function lib:Query(unit)
 end
 
 -- CheckInspectQueue
--- Originally, it would wait until no pending NotifyInspect() were expected, and then do it's own.
+-- Originally, it would wait until no pending NotifyInspect() were expected, and then do its own.
 -- It was also only bother looking at ready results if it had triggered the Notify for that occasion.
 -- For the changes I've done, no assumption is made about which mod is performing NotifyInspect().
 -- We note the name, unit, time of any inspects done whether from this queue or any other source,
@@ -233,79 +229,43 @@ function lib:NotifyInspect(unit)
 	if (not (UnitExists(unit) and UnitIsVisible(unit) and UnitIsConnected(unit) and CheckInteractDistance(unit, 4))) then
 		return
 	end
-	self.lastInspectUnit = unit
-	self.lastInspectGUID = UnitGUID(unit)
 	self.lastInspectTime = GetTime()
-	self.lastInspectName = UnitFullName(unit)
 	self.lastInspectPending = self.lastInspectPending + 1
-	local isnotplayer = not UnitIsUnit("player", unit)
-	self.lastInspectTree = GetTalentTabInfo(1, isnotplayer)		-- Talent tree names are available immediately
 end
 
 -- Reset
 function lib:Reset()
 	self.lastInspectPending = 0
-	self.lastInspectUnit = nil
 	self.lastInspectTime = nil
-	self.lastInspectName = nil
-	self.lastInspectGUID = nil
-	self.lastInspectTree = nil
 end
 
--- INSPECT_TALENT_READY
-function lib:INSPECT_TALENT_READY()
+-- INSPECT_READY
+function lib:INSPECT_READY(guid)
 	self.lastInspectPending = self.lastInspectPending - 1
 
-	-- Results are valid only when we have received as many events as we have posted notifies
-	if (self.lastInspectName and self.lastInspectPending == 0) then
-		-- Check unit ID is still pointing to same actual unit
-		if (UnitGUID(self.lastInspectUnit) == self.lastInspectGUID) then
-			local guid = inspectQueue[self.lastInspectName]
-			inspectQueue[self.lastInspectName] = nil
-
-			local name, realm = strsplit("-", self.lastInspectName)
-
-			self.lastQueuedInspectReceived = GetTime()
-
-			-- Notify of expected talent results
-			local isnotplayer = not UnitIsUnit("player", self.lastInspectName)
-			local group = GetActiveTalentGroup(isnotplayer)
-			local tree1, _, spent1 = GetTalentTabInfo(1, isnotplayer, nil, group)
-			if (tree1 ~= self.lastInspectTree) then
-				-- Expected talent tree name to be the same as it was when we triggered the NotifyInspect()
-				garbageQueue[self.lastInspectName] = self.lastInspectGUID
-				self:Reset()
-				self:CheckInspectQueue()
-				return
-
-			elseif (validateTrees) then
-				-- Double checking here. Check the tree name matches what we expect for this class
-				local _, class = UnitClass(self.lastInspectUnit)
-				if (tree1 ~= validateTrees[class]) then
-					garbageQueue[self.lastInspectName] = self.lastInspectGUID
-					self:Reset()
-					self:CheckInspectQueue()
-					return
-				end
-			end
-
-			local tree2, _, spent2 = GetTalentTabInfo(2, isnotplayer, nil, group)
-			local tree3, _, spent3 = GetTalentTabInfo(3, isnotplayer, nil, group)
-			if ((spent1 or 0) + (spent2 or 0) + (spent3 or 0) > 0) then
-				if (guid) then
-					-- It was in our queue
-					self.events:Fire("TalentQuery_Ready", name, realm, self.lastInspectUnit)
-				else
-					-- Also notify of non-expected ones, as it's entirely useful to refresh them if they're there
-					-- It is up to the receiving applicating to determine whether they want to receive the information
-					self.events:Fire("TalentQuery_Ready_Outsider", name, realm, self.lastInspectUnit)
-				end
+	local unit = GuidToUnitID(guid)
+	local name = unit and UnitFullName(unit) or nil
+	if unit and name then
+		local shortname, realm = UnitName(unit)
+		local isnotplayer = not UnitIsUnit("player", unit)
+		local group = GetActiveTalentGroup(isnotplayer)
+		local _, _, _, _, spent1 = GetTalentTabInfo(1, isnotplayer, nil, group)
+		local _, _, _, _, spent2 = GetTalentTabInfo(2, isnotplayer, nil, group)
+		local _, _, _, _, spent3 = GetTalentTabInfo(3, isnotplayer, nil, group)
+		if ((spent1 or 0) + (spent2 or 0) + (spent3 or 0) > 0) then
+			if inspectQueue[name] then
+				inspectQueue[name] = nil
+				self.lastQueuedInspectReceived = GetTime()
+				self.events:Fire("TalentQuery_Ready", shortname, realm, unit, guid)
 			else
-				-- Tree came back with zero points spent, probably an issue while logging in
-				garbageQueue[self.lastInspectName] = guid
+				self.events:Fire("TalentQuery_Ready_Outsider", shortname, realm, unit, guid)
 			end
-		end
+		elseif inspectQueue[name] then -- we got back a bad result, put it in the garbageQueue to try again
+			garbageQueue[name] = guid
+		end  -- if none of the above conditions were met, we got a bad result for someone not in our queue, so just ignore it
+	end
 
+	if self.lastInspectPending == 0 then
 		self:Reset()
 		self:CheckInspectQueue()
 	end
@@ -313,46 +273,12 @@ end
 
 function lib:PLAYER_ENTERING_WORLD()
 	-- We can't inspect other's talents until now
-	-- We just get 0/0/0 back even though we get an INSPECT_TALENT_READY event
+	-- We just get 0/0/0 back even though we get an INSPECT_READY event
 	enteredWorld = true
 end
 
 function lib:PLAYER_LEAVING_WORLD()
 	enteredWorld = nil
-end
-
-function lib:PLAYER_LOGIN()
-	validateTrees = {
-		DRUID = "Balance",
-		PRIEST = "Discipline",
-		ROGUE = "Assassination",
-		HUNTER = "Beast Mastery",
-		WARLOCK = "Affliction",
-		WARRIOR = "Arms",
-		DEATHKNIGHT = "Blood",
-		PALADIN = "Holy",
-		SHAMAN = "Elemental",
-		MAGE = "Arcane",
-	}
-
-	if (GetLocale() ~= "enUS" and GetLocale() ~= "enGB") then
-		-- LibBabble-TalentTree-3.0 only loaded if present and not enUS
-		local LBT = LibStub("LibBabble-TalentTree-3.0", true)
-		if (not LBT) then
-			LoadAddOn("LibBabble-TalentTree-3.0")
-			LBT = LibStub("LibBabble-TalentTree-3.0", true)
-		end
-		LBT = LBT and LBT:GetLookupTable()
-		if (LBT) then
-			for class,tree1 in pairs(validateTrees) do
-				validateTrees[class] = LBT[tree1]
-			end
-		else
-			validateTrees = nil
-		end
-	end
-	
-	self.PLAYER_LOGIN = nil
 end
 
 lib:Reset()
