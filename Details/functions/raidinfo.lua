@@ -1107,6 +1107,83 @@ do --> data for Ulduar
 	})
 end
 
+do --> data for Blackwing Descent
+	local INSTANCE_MAPID = 754
+	local HDIMAGESPATH = "Details\\images\\raid"
+	local HDFILEPREFIX = "BlackwingDescent"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenBlackwingDescentRaid", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-BlackwingDescent"
+	local EJ_LOREBG = "UI-EJ-LOREBG-BlackwingDescent"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-Magmaw",
+		"UI-EJ-BOSS-Magmatron",
+		"UI-EJ-BOSS-Maloriak",
+		"UI-EJ-BOSS-Atramedes",
+		"UI-EJ-BOSS-Chimaeron",
+		"UI-EJ-BOSS-NefarianBWD",
+	}
+
+	local BOSS_IDS = {
+		[41570]	= 1,	-- Magmaw
+		[42166]	= 2,	-- Arcanotron
+		[42178]	= 2,	-- Magmatron
+		[42179]	= 2,	-- Electron
+		[42180]	= 2,	-- Toxitron
+		[41378]	= 3,	-- Maloriak
+		[41442]	= 4,	-- Atramedes
+		[43296]	= 5,	-- Chimaeron
+		[41270] = 6,	-- Onyxia
+		[41376]	= 6,	-- Nefarian
+	}
+
+	local ENCOUNTER_ID_CL = {
+		41570, 42178, 41378, 41442, 43296, 41376,
+		[41570]	= 1,	-- Magmaw
+		[42178]	= 2,	-- Magmatron
+		[41378]	= 3,	-- Maloriak
+		[41442]	= 4,	-- Atramedes
+		[43296]	= 5,	-- Chimaeron
+		[41376]	= 6,	-- Nefarian
+	}
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Magmaw"],
+		LBB["Omnitron Defense System"],
+		LBB["Maloriak"],
+		LBB["Atramedes"],
+		LBB["Chimaeron"],
+		LBB["Nefarian"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Blackwing Descent"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = true,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
+
 do --> data for Firelands
 	local INSTANCE_MAPID = 800
 	local HDIMAGESPATH = "Details\\images\\raid"
@@ -1179,8 +1256,6 @@ do --> data for Firelands
 			[52571]	= 6,	-- FandralStaghelm
 			[52409]	= 7,	-- Ragnaros
 		},
-
-		
 	})
 end
 
