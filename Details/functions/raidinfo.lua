@@ -1107,91 +1107,6 @@ do --> data for Ulduar
 	})
 end
 
-do --> data for Dragon Soul
-	local INSTANCE_MAPID = 824
-	local HDIMAGESPATH = "Details\\images\\raid"
-	local HDFILEPREFIX = "Dragon Soul"
-	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenDeathwingRaid", {0, 1, 285/1024, 875/1024}
-	local EJ_DUNGEONBG = "ui-ej-dungeonbutton-dragonsoul"
-	local EJ_LOREBG = "ui-ej-lorebg-dragonsoul"
-
-	local PORTRAIT_LIST = {
-		"ui-ej-boss-flame leviathan",
-		"ui-ej-boss-ignis the furnace master",
-		"ui-ej-boss-razorscale",
-		"ui-ej-boss-xt 002 deconstructor",
-		"ui-ej-boss-assembly of iron",
-		"ui-ej-boss-kologarn",
-		"ui-ej-boss-auriaya",
-		"ui-ej-boss-hodir",
-		"ui-ej-boss-thorim",
-		"ui-ej-boss-freya",
-		"ui-ej-boss-mimiron",
-		"ui-ej-boss-general vezax",
-		"ui-ej-boss-yogg saron",
-		"ui-ej-boss-algalon the observer",
-	}
-
-	local ENCOUNTER_ID_CL = {
-		55265, 55308, 55312, 55689, 55294, 56427, 53879, 56173,
-		[55265]	= 1,	-- Morchok
-		[55308]	= 2,	-- Warlord Zonozz
-		[55312]	= 3,	-- Yor'sahj the Unsleeping
-		[55689]	= 4,	-- Hagara the Binder
-		[55294]	= 5,	-- Ultraxion
-		[56427]	= 6,	-- Warmaster Blackhorn
-		[53879]	= 7,	-- Spine Deathwing
-		[56173]	= 8,	-- Madness Deathwing
-	}
-
-	--> install the raid
-	local BOSSNAMES = {
-		LBB["Morchok"],
-		LBB["Warlord Zon'ozz"],
-		LBB["Yor'sahj the Unsleeping"],
-		LBB["Hagara the Stormbinder"],
-		LBB["Ultraxion"],
-		LBB["Warmaster Blackhorn"],
-		LBB["Spine of Deathwing"],
-		LBB["Madness of Deathwing"],
-	}
-
-	local ENCOUNTERS = {}
-
-	for i = 1, #PORTRAIT_LIST do
-		local encounterTable = {
-			boss = BOSSNAMES[i],
-			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
-		}
-		tinsert(ENCOUNTERS, encounterTable)
-	end
-
-	_detalhes:InstallEncounter({
-		id = INSTANCE_MAPID, --map id
-		name = LBZ["Dragon Soul"],
-		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
-		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
-		is_raid = true,
-		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
-		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
-
-		encounter_ids2 = ENCOUNTER_ID_CL,
-		boss_names = BOSSNAMES,
-		encounters = ENCOUNTERS,
-
-		boss_ids = {
-			[55265]	= 1,	-- Morchok
-			[55308]	= 2,	-- Warlord Zonozz
-			[55312]	= 3,	-- Yor'sahj the Unsleeping
-			[55689]	= 4,	-- Hagara the Binder
-			[55294]	= 5,	-- Ultraxion
-			[56427]	= 6,	-- Warmaster Blackhorn
-			[53879]	= 7,	-- Spine Deathwing
-			[56173]	= 8,	-- Madness Deathwing
-		},
-	})
-end
-
 do --> data for Firelands
 	local INSTANCE_MAPID = 800
 	local HDIMAGESPATH = "Details\\images\\raid"
@@ -1266,5 +1181,85 @@ do --> data for Firelands
 		},
 
 		
+	})
+end
+
+
+do --> data for Dragon Soul
+	local INSTANCE_MAPID = 824
+	local HDIMAGESPATH = "Details\\images\\raid"
+	local HDFILEPREFIX = "Dragon Soul"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenDeathwingRaid", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "ui-ej-dungeonbutton-dragonsoul"
+	local EJ_LOREBG = "ui-ej-lorebg-dragonsoul"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-Morchok",
+		"UI-EJ-BOSS-Warlord Zonozz",
+		"UI-EJ-BOSS-Yorsahj the Unsleeping",
+		"UI-EJ-BOSS-Hagara",
+		"UI-EJ-BOSS-Ultraxion",
+		"UI-EJ-BOSS-WarmasterBlackhorn",
+		"UI-EJ-BOSS-Deathwing",
+		"UI-EJ-BOSS-Corrupted Deathwing",
+	}
+
+	local ENCOUNTER_ID_CL = {
+		55265, 55308, 55312, 55689, 55294, 56427, 53879, 56173,
+		[55265]	= 1,	-- Morchok
+		[55308]	= 2,	-- Warlord Zonozz
+		[55312]	= 3,	-- Yor'sahj the Unsleeping
+		[55689]	= 4,	-- Hagara the Binder
+		[55294]	= 5,	-- Ultraxion
+		[56427]	= 6,	-- Warmaster Blackhorn
+		[53879]	= 7,	-- Spine Deathwing
+		[56173]	= 8,	-- Madness Deathwing
+	}
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Morchok"],
+		LBB["Warlord Zon'ozz"],
+		LBB["Yor'sahj the Unsleeping"],
+		LBB["Hagara the Stormbinder"],
+		LBB["Ultraxion"],
+		LBB["Warmaster Blackhorn"],
+		LBB["Spine of Deathwing"],
+		LBB["Madness of Deathwing"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Dragon Soul"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = true,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = {
+			[55265]	= 1,	-- Morchok
+			[55308]	= 2,	-- Warlord Zonozz
+			[55312]	= 3,	-- Yor'sahj the Unsleeping
+			[55689]	= 4,	-- Hagara the Binder
+			[55294]	= 5,	-- Ultraxion
+			[56427]	= 6,	-- Warmaster Blackhorn
+			[53879]	= 7,	-- Spine Deathwing
+			[56173]	= 8,	-- Madness Deathwing
+		},
 	})
 end
