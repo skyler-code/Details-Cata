@@ -1194,53 +1194,8 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 
 	elseif (msg == "ilvl" or msg == "itemlevel" or msg == "ilevel") then
 
-		local item_amount = 16
-		local item_level = 0
-		local failed = 0
-		local unitid = "player"
-		local two_hand = {
-			["INVTYPE_2HWEAPON"] = true,
-			["INVTYPE_RANGED"] = true,
-			["INVTYPE_RANGEDRIGHT"] = true,
-		}
-
-		local ItemUpgradeInfo = LibStub ("LibItemUpgradeInfo-1.0")
-
-		_detalhes:Msg ("======== Item Level Debug ========")
-
-		for equip_id = 1, 17 do
-			if (equip_id ~= 4) then --shirt slot
-				local item = GetInventoryItemLink (unitid, equip_id)
-				if (item) then
-					local _, _, itemRarity, iLevel, _, _, _, _, equipSlot = GetItemInfo (item)
-					if (iLevel) then
-						if (ItemUpgradeInfo) then
-							local ilvl = ItemUpgradeInfo:GetUpgradedItemLevel (item)
-							item_level = item_level + (ilvl or iLevel)
-							print (ilvl, item)
-						else
-							item_level = item_level + iLevel
-							print (iLevel, item)
-						end
-
-						--> 16 = main hand 17 = off hand
-						-->  if using a two-hand, ignore the off hand slot
-						if (equip_id == 16 and two_hand [equipSlot]) then
-							item_amount = 15
-							break
-						end
-					end
-				else
-					failed = failed + 1
-					if (failed > 2) then
-						break
-					end
-				end
-			end
-		end
-
-		local average = item_level / item_amount
-		_detalhes:Msg ("gear score: " .. item_level, "| item amount:", item_amount, "| ilvl:", average)
+		local avgItemLevel, avgItemLevelEquipped = GetAverageItemLevel()
+		_detalhes:Msg ("average ilvl: " .. avgItemLevel, "| average equipped ilvl:", avgItemLevelEquipped)
 
 		_detalhes.ilevel:CalcItemLevel ("player", UnitGUID("player"), true)
 

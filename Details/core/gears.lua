@@ -694,7 +694,7 @@ function _detalhes.storage:HaveDataForEncounter (diff, encounter_id, guild_name)
 	end
 
 	if (guild_name and type (guild_name) == "boolean") then
-		guild_name = GetGuildInfo ("player")
+		guild_name = GetGuildInfo("player")
 	end
 
 	local table = db [diff]
@@ -724,7 +724,7 @@ function _detalhes.storage:GetBestFromGuild (diff, encounter_id, role, dps, guil
 	end
 
 	if (not guild_name) then
-		guild_name = GetGuildInfo ("player")
+		guild_name = GetGuildInfo("player")
 	end
 
 	if (not guild_name) then
@@ -794,7 +794,7 @@ function _detalhes.storage:GetPlayerGuildRank (diff, encounter_id, role, playern
 	end
 
 	if (not guild_name) then
-		guild_name = GetGuildInfo ("player")
+		guild_name = GetGuildInfo("player")
 	end
 
 	if (not guild_name) then
@@ -1423,16 +1423,6 @@ function _detalhes:StoreEncounter (combat)
 
 	local name, _, _, difficultyName, maxPlayers = GetInstanceInfo()
 	local mapID = GetCurrentMapAreaID()
-	local bossCLEUID = combat.boss_info and combat.boss_info.id
-
-	local instance_info = _detalhes.EncounterInformation[mapID]
-	if not instance_info and not instance_info["boss_ids"][bossCLEUID] then
-		if (_detalhes.debug) then
-			print ("|cFFFFFF00Details! Storage|r: instance not allowed.")
-		end
-		return
-	end
-
 	local boss_info = combat:GetBossInfo()
 	local encounter_id = boss_info and boss_info.id
 
@@ -1443,17 +1433,25 @@ function _detalhes:StoreEncounter (combat)
 		return
 	end
 
+	local instance_info = _detalhes.EncounterInformation[mapID]
+	if not instance_info or not instance_info["boss_ids"][encounter_id] then
+		if (_detalhes.debug) then
+			print ("|cFFFFFF00Details! Storage|r: instance not allowed.")
+		end
+		return
+	end
+
 	local diff = combat:GetDifficulty()
 	if (storageDebug or (diff == 1 or diff == 2 or diff == 3 or diff == 4)) then
 
 		--> check the guild name
 		local match = 0
-		local guildName = select (1, GetGuildInfo ("player"))
+		local guildName = select (1, GetGuildInfo("player"))
 		local raid_size = GetNumGroupMembers() or 0
 
 		if (guildName) then
 			for i = 1, raid_size do
-				local gName = select (1, GetGuildInfo ("raid" .. i)) or ""
+				local gName = select (1,GetGuildInfo("raid" .. i)) or ""
 				if (gName == guildName) then
 					match = match + 1
 				end
@@ -1746,8 +1744,8 @@ function ilvl_core:CalcItemLevel (unitid, guid, shout)
 	if (CheckInteractDistance (unitid, 1)) then
 		local average = 0
 
-		if GearScore_GetScore then -- replace ilvl with gearscore if available
-			average = GearScore_GetScore(UnitName(unitid), unitid)
+		if strlower(unitid) == "player" then -- replace ilvl with gearscore if available
+			average = GetAverageItemLevel()
 		else
 			--> 16 = all itens including main and off hand
 			local item_amount = 16
