@@ -1184,6 +1184,79 @@ do --> data for Blackwing Descent
 	})
 end
 
+do --> data for Bastion of Twilight
+	local INSTANCE_MAPID = 758
+	local HDIMAGESPATH = "Details\\images\\raid"
+	local HDFILEPREFIX = "GrimBatolRaid"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenGrimBatolRaid", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-GrimBatolRaid"
+	local EJ_LOREBG = "UI-EJ-LOREBG-GrimBatolRaid"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-Halfus Wyrmbreaker",
+		"UI-EJ-BOSS-Valiona Raid",
+		"UI-EJ-BOSS-Feludius",
+		"UI-EJ-BOSS-Chogall",
+		"UI-EJ-BOSS-Sinestra",
+	}
+
+	local BOSS_IDS = {
+		[44600]	= 1,	-- Halfus Wyrmbreaker
+		[45992]	= 2,	-- Valiona
+		[45993]	= 2,	-- Theralion
+		[43686]	= 3,	-- Ignacious
+		[43687]	= 3,	-- Feludius
+		[43688]	= 3,	-- Arion
+		[43689]	= 3,	-- Terrastra
+		[43735]	= 3,	-- Elementium Monstrosity
+		[43324]	= 4, 	-- Cho'gall
+		[45213]	= 5,	-- Sinestra
+	}
+
+	local ENCOUNTER_ID_CL = {
+		44600, 45992, 43735, 43324, 45213,
+		[44600]	= 1,	-- Halfus
+		[45992]	= 2,	-- Valiona
+		[43735] = 3,	-- Elementium Monstrosity
+		[43324] = 4,	-- Cho'gall
+		[45213] = 5,	-- Sinestra
+	}
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Halfus Wyrmbreaker"],
+		LBB["Valiona and Theralion"],
+		LBB["Ascendant Council"],
+		LBB["Cho'gall"],
+		LBB["Sinestra"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["The Bastion of Twilight"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = true,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
 
 do --> data for Throne of the Four Winds
 	local INSTANCE_MAPID = 773
