@@ -878,42 +878,13 @@ do
 		[48707] = 5, -- Anti-Magic Shell (DK) Rank 1 -- Does not currently seem to show tracable combat log events. It shows energizes which do not reveal the amount of damage absorbed
 		[51052] = 10, -- Anti-Magic Zone (DK)( Rank 1 (Correct spellID?)
 				-- Does DK Spell Deflection show absorbs in the CL?
-		[51271] = 20, -- Unbreakable Armor (DK)
-		[77535] = true,
+		[77535] = true, -- Blood Shield
 		-- Druid
 		[62606] = 10, -- Savage Defense proc. (Druid) Tooltip of the original spell doesn't clearly state that this is an absorb, but the buff does.
 		-- Mage
-		[11426] = 60, -- Ice Barrier (Mage) Rank 1
-		[13031] = 60,
-		[13032] = 60,
-		[13033] = 60,
-		[27134] = 60,
-		[33405] = 60,
-		[43038] = 60,
-		[43039] = 60, -- Rank 8
-		[6143] = 30, -- Frost Ward (Mage) Rank 1
-		[8461] = 30,
-		[8462] = 30,
-		[10177] = 30,
-		[28609] = 30,
-		[32796] = 30,
-		[43012] = 30, -- Rank 7
-		[1463] = 60, --  Mana shield (Mage) Rank 1
-		[8494] = 60,
-		[8495] = 60,
-		[10191] = 60,
-		[10192] = 60,
-		[10193] = 60,
-		[27131] = 60,
-		[43019] = 60,
-		[43020] = 60, -- Rank 9
-		[543] = 30 , -- Fire Ward (Mage) Rank 1
-		[8457] = 30,
-		[8458] = 30,
-		[10223] = 30,
-		[10225] = 30,
-		[27128] = 30,
-		[43010] = 30, -- Rank 7
+		[11426] = 60, -- Ice Barrier (Mage)
+		[1463] = 60, --  Mana shield (Mage)
+		[543] = 30, -- Mage Ward (Mage)
 		-- Paladin
 		[58597] = 6, -- Sacred Shield (Paladin) proc (Fixed, thanks to Julith)
 		-- Priest
