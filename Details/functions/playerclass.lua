@@ -1,4 +1,5 @@
 local _detalhes	= _detalhes
+local DF = DetailsFramework
 
 local _pairs = pairs
 local _ipairs = ipairs
@@ -244,7 +245,7 @@ do
 						_detalhes.cached_specs[Actor.serial] = spec
 
 						Actor.spec = spec
-						Actor.classe = _detalhes.SpecIDToClass[spec] or Actor.classe
+						Actor.classe = DF.SpecIDToClass(spec) or Actor.classe
 						Actor.guessing_spec = nil
 
 						if container then
@@ -269,7 +270,7 @@ do
 							_detalhes.cached_specs[Actor.serial] = spec
 
 							Actor.spec = spec
-							Actor.classe = _detalhes.SpecIDToClass[spec] or Actor.classe
+							Actor.classe = DF.SpecIDToClass(spec) or Actor.classe
 
 							if container then
 								container.need_refresh = true
@@ -301,7 +302,7 @@ do
 										_detalhes.cached_specs[Actor.serial] = spec
 
 										Actor.spec = spec
-										Actor.classe = _detalhes.SpecIDToClass[spec] or Actor.classe
+										Actor.classe = DF.SpecIDToClass(spec) or Actor.classe
 
 										if container then
 											container.need_refresh = true
@@ -341,7 +342,7 @@ do
 		local spec = _detalhes.cached_specs[Actor.serial]
 		if spec then
 			Actor.spec = spec
-			Actor.classe = _detalhes.SpecIDToClass[spec] or Actor.classe
+			Actor.classe = DF.SpecIDToClass(spec) or Actor.classe
 
 			Actor.guessing_spec = nil
 
@@ -368,7 +369,7 @@ do
 						_detalhes.cached_specs[Actor.serial] = spec
 
 						Actor.spec = spec
-						Actor.classe = _detalhes.SpecIDToClass[spec] or Actor.classe
+						Actor.classe = DF.SpecIDToClass(spec) or Actor.classe
 
 						Actor.guessing_spec = nil
 
@@ -392,7 +393,7 @@ do
 							_detalhes.cached_specs[Actor.serial] = spec
 
 							Actor.spec = spec
-							Actor.classe = _detalhes.SpecIDToClass[spec] or Actor.classe
+							Actor.classe = DF.SpecIDToClass(spec) or Actor.classe
 							Actor.guessing_spec = nil
 
 							if container then
@@ -417,7 +418,7 @@ do
 						_detalhes.cached_specs[Actor.serial] = spec
 
 						Actor.spec = spec
-						Actor.classe = _detalhes.SpecIDToClass[spec] or Actor.classe
+						Actor.classe = DF.SpecIDToClass(spec) or Actor.classe
 						Actor.guessing_spec = nil
 
 						if container then
@@ -449,7 +450,7 @@ do
 							_detalhes.cached_specs[Actor.serial] = spec
 
 							Actor.spec = spec
-							Actor.classe = _detalhes.SpecIDToClass[spec] or Actor.classe
+							Actor.classe = DF.SpecIDToClass(spec) or Actor.classe
 							Actor.guessing_spec = nil
 
 							if container then
@@ -473,7 +474,7 @@ do
 			_detalhes.cached_specs[Actor.serial] = spec
 
 			Actor.spec = spec
-			Actor.classe = _detalhes.SpecIDToClass[spec] or Actor.classe
+			Actor.classe = DF.SpecIDToClass(spec) or Actor.classe
 			Actor.need_refresh = true
 			Actor.guessing_spec = nil
 

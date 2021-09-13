@@ -75,6 +75,16 @@ local specIDs = {
 	["SHAMAN"] = {262, 263, 264},
 }
 
+function DF.SpecIDToClass(specID)
+	for className, classSpecIDs in pairs(specIDs) do
+		for _, classSpecID in ipairs(classSpecIDs) do
+			if classSpecID == specID then
+				return className
+			end
+		end
+	end
+end
+
 local specInfo = {
 	--MAGE
 		--arcane

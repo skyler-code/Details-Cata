@@ -419,49 +419,6 @@ DF.CrowdControlSpells = {
 	[64695] = "SHAMAN", --Earthgrab (talent)
 }
 
-DF.SpecIds = {
-	[250] = "DEATHKNIGHT",
-	[251] = "DEATHKNIGHT",
-	[252] = "DEATHKNIGHT",
-
-	[71] = "WARRIOR",
-	[72] = "WARRIOR",
-	[73] = "WARRIOR",
-
-	[62] = "MAGE",
-	[63] = "MAGE",
-	[64] = "MAGE",
-
-	[259] = "ROGUE",
-	[260] = "ROGUE",
-	[261] = "ROGUE",
-
-	[102] = "DRUID",
-	[103] = "DRUID",
-	[104] = "DRUID",
-	[105] = "DRUID",
-
-	[253] = "HUNTER",
-	[254] = "HUNTER",
-	[255] = "HUNTER",
-
-	[262] = "SHAMAN",
-	[263] = "SHAMAN",
-	[254] = "SHAMAN",
-
-	[256] = "PRIEST",
-	[257] = "PRIEST",
-	[258] = "PRIEST",
-
-	[265] = "WARLOCK",
-	[266] = "WARLOCK",
-	[267] = "WARLOCK",
-
-	[65] = "PALADIN",
-	[66] = "PALADIN",
-	[70] = "PALADIN",
-}
-
 DF.CooldownToClass = {}
 
 DF.CooldownsAttack = {}
@@ -495,7 +452,7 @@ for specId, cooldownTable in pairs (DF.CooldownsBySpec) do
 			DF.CooldownsUtility [spellId] = true
 		end
 
-		DF.CooldownToClass [spellId] = DF.SpecIds [spellId]
+		DF.CooldownToClass [spellId] = DF.SpecIDToClass(spellId)
 
 	end
 
@@ -505,7 +462,7 @@ function DF:FindClassForCooldown (spellId)
 	for specId, cooldownTable in pairs (DF.CooldownsBySpec) do
 		local hasCooldown = cooldownTable [spellId]
 		if (hasCooldown) then
-			return DF.SpecIds [specId]
+			return DF.SpecIDToClass(specId)
 		end
 	end
 end
