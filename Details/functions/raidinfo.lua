@@ -951,23 +951,49 @@ do --> data for Ulduar
 		"ui-ej-boss-algalon the observer",
 	}
 
-	local ENCOUNTER_ID_CL = {
-		33113, 33118, 33186, 33293, 32867, 32930, 33515, 32845, 32865, 32906, 33350, 33271, 33136, 32871,
+	local BOSS_IDS = {
 		[33113] = 1, --Flame Leviathan
 		[33118] = 2, --Ignis the Furnace Master
 		[33186] = 3, --Razorscale
 		[33293] = 4, --XT-002 Deconstructor
-		[32867] = 5, --Assembly of Iron
+		[32867] = 5, --Steelbreaker
+		[32927] = 5, --Runemaster Molgeim
+		[32857] = 5, --Stormcaller Brundir
 		[32930] = 6, --Kologarn
+		[32933] = 6, --Left Arm
+		[32934] = 6, --Right Arm
 		[33515] = 7, --Auriaya
 		[32845] = 8, --Hodir
 		[32865] = 9, --Thorim
+		[32882] = 9, --Jormungar Behemoth
 		[32906] = 10, --Freya
 		[33350] = 11, --Mimiron
 		[33271] = 12, --General Vezax
-		[33136] = 13, --Yogg-Saron
+		[33136] = 13, --Guardian of Yogg-Saron
+		[33288] = 13, --Yogg-Saron
 		[32871] = 14, --Algalon the Observer
 	}
+
+	local ENCOUNTER_ID_CL = {
+		33113, --Flame Leviathan
+		33118, --Ignis the Furnace Master
+		33186, --Razorscale
+		33293, --XT-002 Deconstructor
+		32867, --Assembly of Iron
+		32930, --Kologarn
+		33515, --Auriaya
+		32845, --Hodir
+		32865, --Thorim
+		32906, --Freya
+		33350, --Mimiron
+		33271, --General Vezax
+		33136, --Yogg-Saron
+		32871, --Algalon the Observer
+	}
+
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
+	end
 
 	--> install the raid
 	local BOSSNAMES = {
@@ -1010,28 +1036,7 @@ do --> data for Ulduar
 		boss_names = BOSSNAMES,
 		encounters = ENCOUNTERS,
 
-		boss_ids = {
-			[33113] = 1, --Flame Leviathan
-			[33118] = 2, --Ignis the Furnace Master
-			[33186] = 3, --Razorscale
-			[33293] = 4, --XT-002 Deconstructor
-			[32867] = 5, --Steelbreaker
-			[32927] = 5, --Runemaster Molgeim
-			[32857] = 5, --Stormcaller Brundir
-			[32930] = 6, --Kologarn
-			[32933] = 6, --Left Arm
-			[32934] = 6, --Right Arm
-			[33515] = 7, --Auriaya
-			[32845] = 8, --Hodir
-			[32865] = 9, --Thorim
-			[32882] = 9, --Jormungar Behemoth
-			[32906] = 10, --Freya
-			[33350] = 11, --Mimiron
-			[33271] = 12, --General Vezax
-			[33136] = 13, --Guardian of Yogg-Saron
-			[33288] = 13, --Yogg-Saron
-			[32871] = 14, --Algalon the Observer
-		},
+		boss_ids = BOSS_IDS,
 	})
 end
 
@@ -1064,14 +1069,14 @@ do --> data for Throne of the Tides
 	}
 
 	local ENCOUNTER_ID_CL = {
-		[49079] = 1,	-- Lady Naz'jar
-		[49064]	= 2,	-- Commander Ulthok
-		[49082]	= 3,	-- Mindbender Ghur'sha
-		[44566] = 4,	-- Ozumat
+		49079,	-- Lady Naz'jar
+		49064,	-- Commander Ulthok
+		49082,	-- Mindbender Ghur'sha
+		44566,	-- Ozumat
 	}
 
-	for k,v in pairs(ENCOUNTER_ID_CL) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
@@ -1145,17 +1150,17 @@ do --> data for Halls of Origination
 	}
 
 	local ENCOUNTER_ID_CL = {
-		[39425]	= 1,	-- Temple Guardian Anhuur
-		[39428]	= 2,	-- Earthrager Ptah
-		[39788]	= 3,	-- Anraphet
-		[39587]	= 4,	-- Isiset
-		[39731]	= 5,	-- Ammunae
-		[39732]	= 6,	-- Setesh
-		[39378]	= 7,	-- Rajh
+		39425,	-- Temple Guardian Anhuur
+		39428,	-- Earthrager Ptah
+		39788,	-- Anraphet
+		39587,	-- Isiset
+		39731,	-- Ammunae
+		39732,	-- Setesh
+		39378,	-- Rajh
 	}
 
-	for k,v in pairs(ENCOUNTER_ID_CL) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
@@ -1226,15 +1231,15 @@ do --> data for Blackrock Caverns
 	}
 	
 	local ENCOUNTER_ID_CL = {
-		[39665]	= 1,	-- Rom'ogg Bonecrusher
-		[39679]	= 2,	-- Corla, Herald of Twilight
-		[39698]	= 3,	-- Karsh Steelbender
-		[39700]	= 4,	-- Beauty
-		[39705]	= 5,	-- Ascendant Lord Obsidius
+		39665,	-- Rom'ogg Bonecrusher
+		39679,	-- Corla, Herald of Twilight
+		39698,	-- Karsh Steelbender
+		39700,	-- Beauty
+		39705,	-- Ascendant Lord Obsidius
 	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
@@ -1297,13 +1302,13 @@ do --> data for Vortex Pinnacle
 	}
 	
 	local ENCOUNTER_ID_CL = {
-		[43878]	= 1,	-- Grand Vizier Ertan
-		[43873]	= 2,	-- Altairus
-		[43875]	= 3,	-- Asaad
+		43878,	-- Grand Vizier Ertan
+		43873,	-- Altairus
+		43875,	-- Asaad
 	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
@@ -1367,14 +1372,14 @@ do --> data for Grim Batol
 	}
 	
 	local ENCOUNTER_ID_CL = {
-		[39625]	= 1,	-- General Umbriss
-		[40177]	= 2,	-- Forgemaster Throngus
-		[40319]	= 3,	-- Drahga Shadowburner
-		[40484]	= 4,	-- Erudax
+		39625,	-- General Umbriss
+		40177,	-- Forgemaster Throngus
+		40319,	-- Drahga Shadowburner
+		40484,	-- Erudax
 	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
@@ -1439,14 +1444,14 @@ do --> data for Stonecore
 	}
 	
 	local ENCOUNTER_ID_CL = {
-		[43438]	= 1,	-- Corborus
-		[43214]	= 2,	-- Slabhide
-		[42188]	= 3,	-- Ozruk
-		[42333]	= 4,	-- High Priestess Azil
+		43438,	-- Corborus
+		43214,	-- Slabhide
+		42188,	-- Ozruk
+		42333,	-- High Priestess Azil
 	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
@@ -1513,16 +1518,17 @@ do --> data for Lost City of the Tol'Vir
 	}
 	
 	local ENCOUNTER_ID_CL = {
-		[44577]	= 1,	-- General Husam
-		[43614]	= 2,	-- Lockmaw
-		[49045]	= 3,	-- Augh
-		[43612]	= 4,	-- High Prophet Barim
-		[44819]	= 5,	-- Siamat
+		44577,	-- General Husam
+		43614,	-- Lockmaw
+		49045,	-- Augh
+		43612,	-- High Prophet Barim
+		44819,	-- Siamat
 	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
+
 
 	--> install the raid
 	local BOSSNAMES = {
@@ -1593,16 +1599,16 @@ do --> data for Zul'Aman
 	}
 
 	local ENCOUNTER_ID_CL = {
-		[23574] = 1, --Akil'zon
-		[23576] = 2, --Nalorakk
-		[23578] = 3, --Jan'alai
-		[23577] = 4, --Halazzi
-		[24239] = 5, --Malacrass
-		[23863] = 6, --Zul'jin
+		23574, --Akil'zon
+		23576, --Nalorakk
+		23578, --Jan'alai
+		23577, --Halazzi
+		24239, --Malacrass
+		23863, --Zul'jin
 	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
@@ -1674,10 +1680,20 @@ do --> data for Zul'Gurub
 		[52148]	= 9,	-- Jin'do the Godbreaker
 	}
 	
-	local ENCOUNTER_ID_CL = BOSS_IDS
+	local ENCOUNTER_ID_CL = {
+		52155,	-- High Priest Venoxis
+		52151,	-- Bloodlord Mandokir
+		52269,	-- Renataki
+		52258,	-- Gri'lek
+		52271,	-- Hazza'rah
+		52286,	-- Wushoolay
+		52059,	-- High Priestess Kilnara
+		52053,	-- Zanzil
+		52148,	-- Jin'do the Godbreaker
+	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
@@ -1781,16 +1797,16 @@ do --> data for Blackwing Descent
 	}
 
 	local ENCOUNTER_ID_CL = {
-		[41570]	= 1,	-- Magmaw
-		[42178]	= 2,	-- Magmatron
-		[41378]	= 3,	-- Maloriak
-		[41442]	= 4,	-- Atramedes
-		[43296]	= 5,	-- Chimaeron
-		[41376]	= 6,	-- Nefarian
+		41570,	-- Magmaw
+		42178,	-- Magmatron
+		41378,	-- Maloriak
+		41442,	-- Atramedes
+		43296,	-- Chimaeron
+		41376,	-- Nefarian
 	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
@@ -1888,15 +1904,15 @@ do --> data for Bastion of Twilight
 	}
 
 	local ENCOUNTER_ID_CL = {
-		[44600]	= 1,	-- Halfus
-		[45992]	= 2,	-- Valiona
-		[43735] = 3,	-- Elementium Monstrosity
-		[43324] = 4,	-- Cho'gall
-		[45213] = 5,	-- Sinestra
+		44600,	-- Halfus
+		45992,	-- Valiona
+		43735,	-- Elementium Monstrosity
+		43324,	-- Cho'gall
+		45213,	-- Sinestra
 	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
@@ -1968,12 +1984,12 @@ do --> data for Throne of the Four Winds
 	}
 
 	local ENCOUNTER_ID_CL = {
-		[45871]	= 1,	-- Nezir
-		[46753]	= 2,	-- Al'Akir
+		45871,	-- Nezir
+		46753,	-- Al'Akir
 	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
@@ -2058,10 +2074,18 @@ do --> data for Firelands
 		[53799]	= 7,	-- Ragnaros
 	}
 
-	local ENCOUNTER_ID_CL = BOSS_IDS
+	local ENCOUNTER_ID_CL = {
+		52498,	-- Bethtilac
+		52558,	-- Rhyolith
+		52530,	-- Alysrazor
+		53691,	-- Shannox
+		53494,	-- Baleroc
+		52571,	-- FandralStaghelm
+		52409,	-- Ragnaros
+	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
@@ -2126,10 +2150,16 @@ do --> data for End Time
 		[54432] = 5,	-- Murozond
 	}
 
-	local ENCOUNTER_ID_CL = BOSS_IDS
+	local ENCOUNTER_ID_CL = {
+		54431,	-- Echo of Baine
+		54445,	-- Echo of Jaina
+		54123,	-- Echo of Sylvanas
+		54544,	-- Echo of Tyrande
+		54432,	-- Murozond
+	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
@@ -2190,14 +2220,15 @@ do --> data for Well of Eternity
 	}
 
 	local ENCOUNTER_ID_CL = {
-		[55085]	= 1,	-- Peroth'arn
-		[54853]	= 2,	-- Queen Azshara
-		[54969]	= 3,	-- Mannoroth
+		55085,	-- Peroth'arn
+		54853,	-- Queen Azshara
+		54969,	-- Mannoroth
 	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
+
 
 	--> install the raid
 	local BOSSNAMES = {
@@ -2253,10 +2284,14 @@ do --> data for Hour of Twilight
 		[54938]	= 3,	-- Archbishop Benedictus
 	}
 
-	local ENCOUNTER_ID_CL = BOSS_IDS
+	local ENCOUNTER_ID_CL = {
+		54590,	-- Arcurion
+		54968,	-- Asira Dawnslayer
+		54938,	-- Archbishop Benedictus
+	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
@@ -2377,18 +2412,18 @@ do --> data for Dragon Soul
 	}
 
 	local ENCOUNTER_ID_CL = {
-		[55265]	= 1,	-- Morchok
-		[55308]	= 2,	-- Warlord Zonozz
-		[55312]	= 3,	-- Yor'sahj the Unsleeping
-		[55689]	= 4,	-- Hagara the Binder
-		[55294]	= 5,	-- Ultraxion
-		[56427]	= 6,	-- Warmaster Blackhorn
-		[53879]	= 7,	-- Spine Deathwing
-		[56173]	= 8,	-- Madness Deathwing
+		55265,	-- Morchok
+		55308,	-- Warlord Zonozz
+		55312,	-- Yor'sahj the Unsleeping
+		55689,	-- Hagara the Binder
+		55294,	-- Ultraxion
+		56427,	-- Warmaster Blackhorn
+		53879,	-- Spine Deathwing
+		56173,	-- Madness Deathwing
 	}
 
-	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[v] = k
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
 	--> install the raid
