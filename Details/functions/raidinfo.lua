@@ -1244,6 +1244,66 @@ do --> data for Blackrock Caverns
 	})
 end
 
+do --> data for Vortex Pinnacle
+	local INSTANCE_MAPID = 769
+	local HDIMAGESPATH = "Details\\images\\dungeon"
+	local HDFILEPREFIX = "TheVortexPinnacle"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenSkywall", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-TheVortexPinnacle"
+	local EJ_LOREBG = "UI-EJ-LOREBG-TheVortexPinnacle"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-Grand Vizier Ertant",
+		"UI-EJ-BOSS-Altairus",
+		"UI-EJ-BOSS-Asaad",
+	}
+
+	local BOSS_IDS = {
+		[43878]	= 1,	-- Grand Vizier Ertan
+		[43873]	= 2,	-- Altairus
+		[43875]	= 3,	-- Asaad
+	}
+	
+	local ENCOUNTER_ID_CL = BOSS_IDS
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Grand Vizier Ertan"],
+		LBB["Altairus"],
+		LBB["Asaad"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["The Vortex Pinnacle"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = false,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
+
 do --> data for Zul'Aman
 	local INSTANCE_MAPID = 781
 	local HDIMAGESPATH = "Details\\images\\dungeon"
