@@ -276,6 +276,7 @@ do
 			if haveIcon then
 				return haveIcon
 			end
+			return "Interface\\EncounterJournal\\UI-EJ-BOSS-Default"
 		end
 	end
 
