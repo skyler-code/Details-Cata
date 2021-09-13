@@ -294,6 +294,11 @@ _detalhes.EncounterDetailsTempWindow = function (EncounterDetails)
 		g:ResetData()
 
 		local combat = EncounterDetails:GetCombat (segment)
+
+		if (not combat) then
+			EncounterDetails:Msg ("This segment doesn't have combat data.")
+			return
+		end
 		local graphicData = combat:GetTimeData ("Raid Damage Done")
 
 		if (not graphicData or not combat.start_time or not combat.end_time) then
