@@ -7,6 +7,7 @@ local _
 --> local pointers
 
 local _table_insert = table.insert --lua local
+local _table_sort = table.sort --lua local
 local _upper = string.upper --lua local
 local _ipairs = ipairs --lua local
 local _pairs = pairs --lua local
@@ -1352,4 +1353,39 @@ function _detalhes:name_space_generic(barra, separador)
 		barra.texto_esquerdo:SetSize(tamanho - 10, 15)
 		barra.texto_direita:SetSize(texto_direita_tamanho + 5, 15)
 	end
+end
+
+
+
+local function compare(a,b)
+	return a < b
+end
+
+local function getKeysSortedByValue(tbl, sortFunction)
+	local keys = {}
+	for key in pairs(tbl) do
+		_table_insert(keys, key)
+	end
+  
+	_table_sort(keys, function(a, b) return sortFunction(tbl[a], tbl[b]) end)
+  
+	return keys
+end
+
+local function dump_table(val)
+	if type(val) == 'table' then
+		local sortedKeys = getKeysSortedByValue(val, compare)
+		local s = '{ '
+		for _,k in ipairs(sortedKeys) do
+			local v = val[k]
+			if type(k) ~= 'number' then k = '"'..k..'"' end
+			s = s .. '['..k..'] = ' .. dump_table(v) .. ',\n'
+		end
+		return s .. '} '
+	end
+	return format('"%s"', val)
+end
+
+function _detalhes.dump_table_sorted_by_value(val)
+	return dump_table(val)
 end
