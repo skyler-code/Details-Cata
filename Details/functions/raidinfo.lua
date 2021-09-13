@@ -1133,17 +1133,12 @@ do --> data for Halls of Origination
 		[39732]	= 6,	-- Setesh
 		[39378]	= 7,	-- Rajh
 	}
+	
+	local ENCOUNTER_ID_CL = BOSS_IDS
 
-	local ENCOUNTER_ID_CL = {
-		39425, 39428, 39788, 39587, 39731, 39732, 39378,
-		[39425]	= 1,	-- Temple Guardian Anhuur
-		[39428]	= 2,	-- Earthrager Ptah
-		[39788]	= 3,	-- Anraphet
-		[39587]	= 4,	-- Isiset
-		[39731]	= 5,	-- Ammunae
-		[39732]	= 6,	-- Setesh
-		[39378]	= 7,	-- Rajh
-	}
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
 
 	--> install the raid
 	local BOSSNAMES = {
@@ -1294,10 +1289,9 @@ do --> data for Zul'Gurub
 		[52148]	= 9,	-- Jin'do the Godbreaker
 	}
 	
-	local ENCOUNTER_ID_CL = {}
+	local ENCOUNTER_ID_CL = BOSS_IDS
 
 	for k,v in pairs(BOSS_IDS) do
-		ENCOUNTER_ID_CL[k] = v
 		ENCOUNTER_ID_CL[v] = k
 	end
 
