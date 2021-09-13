@@ -1064,12 +1064,15 @@ do --> data for Throne of the Tides
 	}
 
 	local ENCOUNTER_ID_CL = {
-		49079, 49064, 49082, 44566,
 		[49079] = 1,	-- Lady Naz'jar
 		[49064]	= 2,	-- Commander Ulthok
 		[49082]	= 3,	-- Mindbender Ghur'sha
 		[44566] = 4,	-- Ozumat
 	}
+
+	for k,v in pairs(ENCOUNTER_ID_CL) do
+		ENCOUNTER_ID_CL[v] = k
+	end
 
 	--> install the raid
 	local BOSSNAMES = {
@@ -1133,10 +1136,18 @@ do --> data for Halls of Origination
 		[39732]	= 6,	-- Setesh
 		[39378]	= 7,	-- Rajh
 	}
-	
-	local ENCOUNTER_ID_CL = BOSS_IDS
 
-	for k,v in pairs(BOSS_IDS) do
+	local ENCOUNTER_ID_CL = {
+		[39425]	= 1,	-- Temple Guardian Anhuur
+		[39428]	= 2,	-- Earthrager Ptah
+		[39788]	= 3,	-- Anraphet
+		[39587]	= 4,	-- Isiset
+		[39731]	= 5,	-- Ammunae
+		[39732]	= 6,	-- Setesh
+		[39378]	= 7,	-- Rajh
+	}
+
+	for k,v in pairs(ENCOUNTER_ID_CL) do
 		ENCOUNTER_ID_CL[v] = k
 	end
 
@@ -1202,7 +1213,13 @@ do --> data for Blackrock Caverns
 		[39705]	= 5,	-- Ascendant Lord Obsidius
 	}
 	
-	local ENCOUNTER_ID_CL = BOSS_IDS
+	local ENCOUNTER_ID_CL = {
+		[39665]	= 1,	-- Rom'ogg Bonecrusher
+		[39679]	= 2,	-- Corla, Herald of Twilight
+		[39698]	= 3,	-- Karsh Steelbender
+		[39700]	= 4,	-- Beauty
+		[39705]	= 5,	-- Ascendant Lord Obsidius
+	}
 
 	for k,v in pairs(BOSS_IDS) do
 		ENCOUNTER_ID_CL[v] = k
@@ -1264,7 +1281,11 @@ do --> data for Vortex Pinnacle
 		[43875]	= 3,	-- Asaad
 	}
 	
-	local ENCOUNTER_ID_CL = BOSS_IDS
+	local ENCOUNTER_ID_CL = {
+		[43878]	= 1,	-- Grand Vizier Ertan
+		[43873]	= 2,	-- Altairus
+		[43875]	= 3,	-- Asaad
+	}
 
 	for k,v in pairs(BOSS_IDS) do
 		ENCOUNTER_ID_CL[v] = k
@@ -1290,6 +1311,74 @@ do --> data for Vortex Pinnacle
 	_detalhes:InstallEncounter({
 		id = INSTANCE_MAPID, --map id
 		name = LBZ["The Vortex Pinnacle"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = false,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
+
+do --> data for Grim Batol
+	local INSTANCE_MAPID = 757
+	local HDIMAGESPATH = "Details\\images\\dungeon"
+	local HDFILEPREFIX = "GrimBatol"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LOADSCREENGRIMBATOL", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-GrimBatol"
+	local EJ_LOREBG = "UI-EJ-LOREBG-GrimBatol"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-General Umbriss",
+		"UI-EJ-BOSS-Forgemaster Throngus",
+		"UI-EJ-BOSS-Drahga Shadowburner",
+		"UI-EJ-BOSS-Erudax",
+	}
+
+	local BOSS_IDS = {
+		[39625]	= 1,	-- General Umbriss
+		[40177]	= 2,	-- Forgemaster Throngus
+		[40319]	= 3,	-- Drahga Shadowburner
+		[40484]	= 4,	-- Erudax
+	}
+	
+	local ENCOUNTER_ID_CL = {
+		[39625]	= 1,	-- General Umbriss
+		[40177]	= 2,	-- Forgemaster Throngus
+		[40319]	= 3,	-- Drahga Shadowburner
+		[40484]	= 4,	-- Erudax
+	}
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["General Umbriss"],
+		LBB["Forgemaster Throngus"],
+		LBB["Drahga Shadowburner"],
+		LBB["Erudax"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Grim Batol"],
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
 		is_raid = false,
