@@ -1732,16 +1732,18 @@ function _detalhes:IlvlFromNetwork (player, realm, core, serialNumber, itemLevel
 end
 
 --> test
---/run _detalhes.ilevel:CalcItemLevel ("player", UnitGUID("player"), true)
+--/run _detalhes.ilevel:CalcItemLevel (nil, nil, true)
+-- /run _detalhes.ilevel:CalcItemLevel({"target"})
 --/run wipe (_detalhes.item_level_pool)
 
 function ilvl_core:CalcItemLevel (unitid, guid, shout)
 
-	if (type (unitid) == "table") then
-		shout = unitid [3]
-		guid = unitid [2]
-		unitid = unitid [1]
+	if type (unitid) == "table" then
+		unitid, guid, shout = unpack(unitid)
 	end
+
+	unitid = unitid or "player"
+	guid = guid or UnitGUID(unitid)
 
 	if (CheckInteractDistance (unitid, 1)) then
 		local average = 0
@@ -1801,7 +1803,7 @@ _detalhes.ilevel.CalcItemLevel = ilvl_core.CalcItemLevel
 inspect_frame:SetScript ("OnEvent", function (self, event, ...)
 
 	if event == "PLAYER_AVG_ITEM_LEVEL_READY" or event == "PLAYER_EQUIPMENT_CHANGED" then
-		ilvl_core:ScheduleTimer("CalcItemLevel", 2, "player", UnitGUID("player"))
+		ilvl_core:ScheduleTimer("CalcItemLevel", 2)
 		return
 	end
 
@@ -1884,7 +1886,7 @@ function ilvl_core:GetItemLevel (unitid, guid, is_forced, try_number)
 		return
 	end
 	if unitid == "player" then -- bypass inspecting for updating the player
-		ilvl_core:ScheduleTimer ("CalcItemLevel", 0.5, {unitid, UnitGUID("player")})
+		ilvl_core:ScheduleTimer ("CalcItemLevel", 0.5)
 	else
 		inspecting [guid] = {unitid, ilvl_core:ScheduleTimer ("InspectTimeOut", 12, guid)}
 		ilvl_core.amt_inspecting = ilvl_core.amt_inspecting + 1

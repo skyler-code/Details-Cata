@@ -1197,7 +1197,7 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 		local avgItemLevel, avgItemLevelEquipped = GetAverageItemLevel()
 		_detalhes:Msg ("average ilvl: " .. avgItemLevel, "| average equipped ilvl:", avgItemLevelEquipped)
 
-		_detalhes.ilevel:CalcItemLevel ("player", UnitGUID("player"), true)
+		_detalhes.ilevel:CalcItemLevel (nil, nil, true)
 
 	elseif (msg == "score") then
 
