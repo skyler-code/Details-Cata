@@ -1129,12 +1129,19 @@ do --> data for Halls of Origination
 
 	local BOSS_IDS = {
 		[39425]	= 1,	-- Temple Guardian Anhuur
+		[49262] = 1,	-- Temple Guardian Anhuur
 		[39428]	= 2,	-- Earthrager Ptah
+		[48714]	= 2,	-- Earthrager Ptah
 		[39788]	= 3,	-- Anraphet
+		[48902]	= 3,	-- Anraphet
 		[39587]	= 4,	-- Isiset
+		[48710]	= 4,	-- Isiset
 		[39731]	= 5,	-- Ammunae
+		[48715]	= 5,	-- Ammunae
 		[39732]	= 6,	-- Setesh
+		[48776]	= 6,	-- Setesh
 		[39378]	= 7,	-- Rajh
+		[48815]	= 7,	-- Rajh
 	}
 
 	local ENCOUNTER_ID_CL = {
@@ -1207,10 +1214,15 @@ do --> data for Blackrock Caverns
 
 	local BOSS_IDS = {
 		[39665]	= 1,	-- Rom'ogg Bonecrusher
+		[39666]	= 1,	-- Rom'ogg Bonecrusher
 		[39679]	= 2,	-- Corla, Herald of Twilight
+		[39680]	= 2,	-- Corla, Herald of Twilight
 		[39698]	= 3,	-- Karsh Steelbender
+		[39699]	= 3,	-- Karsh Steelbender
 		[39700]	= 4,	-- Beauty
+		[39701]	= 4,	-- Beauty
 		[39705]	= 5,	-- Ascendant Lord Obsidius
+		[39706]	= 5,	-- Ascendant Lord Obsidius
 	}
 	
 	local ENCOUNTER_ID_CL = {
@@ -1277,8 +1289,11 @@ do --> data for Vortex Pinnacle
 
 	local BOSS_IDS = {
 		[43878]	= 1,	-- Grand Vizier Ertan
+		[43879]	= 1,	-- Grand Vizier Ertan
 		[43873]	= 2,	-- Altairus
+		[43874]	= 2,	-- Altairus
 		[43875]	= 3,	-- Asaad
+		[43876]	= 3,	-- Asaad
 	}
 	
 	local ENCOUNTER_ID_CL = {
@@ -1342,9 +1357,13 @@ do --> data for Grim Batol
 
 	local BOSS_IDS = {
 		[39625]	= 1,	-- General Umbriss
+		[48337]	= 1,	-- General Umbriss
 		[40177]	= 2,	-- Forgemaster Throngus
+		[48702]	= 2,	-- Forgemaster Throngus
 		[40319]	= 3,	-- Drahga Shadowburner
+		[48784]	= 3,	-- Drahga Shadowburner
 		[40484]	= 4,	-- Erudax
+		[48822]	= 4,	-- Erudax
 	}
 	
 	local ENCOUNTER_ID_CL = {
@@ -1410,9 +1429,13 @@ do --> data for Stonecore
 
 	local BOSS_IDS = {
 		[43438]	= 1,	-- Corborus
+		[49642]	= 1,	-- Corborus
 		[43214]	= 2,	-- Slabhide
+		[49538]	= 2,	-- Slabhide
 		[42188]	= 3,	-- Ozruk
+		[49654]	= 3,	-- Ozruk
 		[42333]	= 4,	-- High Priestess Azil
+		[49624]	= 4,	-- High Priestess Azil
 	}
 	
 	local ENCOUNTER_ID_CL = {
@@ -1479,10 +1502,14 @@ do --> data for Lost City of the Tol'Vir
 
 	local BOSS_IDS = {
 		[44577]	= 1,	-- General Husam
+		[48932]	= 1,	-- General Husam
 		[43614]	= 2,	-- Lockmaw
+		[49043]	= 2,	-- Lockmaw
 		[49045]	= 3,	-- Augh
 		[43612]	= 4,	-- High Prophet Barim
+		[48951]	= 4,	-- High Prophet Barim
 		[44819]	= 5,	-- Siamat
+		[51088]	= 5,	-- Siamat
 	}
 	
 	local ENCOUNTER_ID_CL = {
@@ -1712,15 +1739,45 @@ do --> data for Blackwing Descent
 
 	local BOSS_IDS = {
 		[41570]	= 1,	-- Magmaw
+		[51101]	= 1,	-- Magmaw
+		[51102]	= 1,	-- Magmaw
+		[51103]	= 1,	-- Magmaw
 		[42166]	= 2,	-- Arcanotron
+		[49056]	= 2,	-- Arcanotron
+		[49057]	= 2,	-- Arcanotron
+		[49058]	= 2,	-- Arcanotron
 		[42178]	= 2,	-- Magmatron
+		[49053]	= 2,	-- Magmatron
+		[49054]	= 2,	-- Magmatron
+		[49055]	= 2,	-- Magmatron
 		[42179]	= 2,	-- Electron
+		[49047]	= 2,	-- Electron
+		[49048]	= 2,	-- Electron
+		[49049]	= 2,	-- Electron
 		[42180]	= 2,	-- Toxitron
+		[49050]	= 2,	-- Toxitron
+		[49051]	= 2,	-- Toxitron
+		[49052]	= 2,	-- Toxitron
 		[41378]	= 3,	-- Maloriak
+		[49974]	= 3,	-- Maloriak
+		[49980]	= 3,	-- Maloriak
+		[49986]	= 3,	-- Maloriak
 		[41442]	= 4,	-- Atramedes
+		[49583]	= 4,	-- Atramedes
+		[49584]	= 4,	-- Atramedes
+		[49585]	= 4,	-- Atramedes
 		[43296]	= 5,	-- Chimaeron
+		[47774]	= 5,	-- Chimaeron
+		[47775]	= 5,	-- Chimaeron
+		[47776]	= 5,	-- Chimaeron
 		[41270] = 6,	-- Onyxia
+		[51116] = 6,	-- Onyxia
+		[51117] = 6,	-- Onyxia
+		[51118] = 6,	-- Onyxia
 		[41376]	= 6,	-- Nefarian
+		[51104]	= 6,	-- Nefarian
+		[51105]	= 6,	-- Nefarian
+		[51106]	= 6,	-- Nefarian
 	}
 
 	local ENCOUNTER_ID_CL = {
@@ -1791,15 +1848,43 @@ do --> data for Bastion of Twilight
 
 	local BOSS_IDS = {
 		[44600]	= 1,	-- Halfus Wyrmbreaker
+		[46209]	= 1,	-- Halfus Wyrmbreaker
+		[46210]	= 1,	-- Halfus Wyrmbreaker
+		[46211]	= 1,	-- Halfus Wyrmbreaker
 		[45992]	= 2,	-- Valiona
+		[49897]	= 2,	-- Valiona
+		[49898]	= 2,	-- Valiona
+		[49899]	= 2,	-- Valiona
 		[45993]	= 2,	-- Theralion
+		[49903]	= 2,	-- Theralion
+		[49904]	= 2,	-- Theralion
+		[49905]	= 2,	-- Theralion
 		[43686]	= 3,	-- Ignacious
+		[49615]	= 3,	-- Ignacious
+		[49616]	= 3,	-- Ignacious
+		[49617]	= 3,	-- Ignacious
 		[43687]	= 3,	-- Feludius
+		[49612]	= 3,	-- Feludius
+		[49613]	= 3,	-- Feludius
+		[49614]	= 3,	-- Feludius
+		[43688]	= 3,	-- Arion
+		[43688]	= 3,	-- Arion
+		[43688]	= 3,	-- Arion
 		[43688]	= 3,	-- Arion
 		[43689]	= 3,	-- Terrastra
+		[49606]	= 3,	-- Terrastra
+		[49607]	= 3,	-- Terrastra
+		[49608]	= 3,	-- Terrastra
 		[43735]	= 3,	-- Elementium Monstrosity
+		[49619]	= 3,	-- Elementium Monstrosity
+		[49620]	= 3,	-- Elementium Monstrosity
+		[49621]	= 3,	-- Elementium Monstrosity
 		[43324]	= 4, 	-- Cho'gall
+		[50131]	= 4, 	-- Cho'gall
+		[50132]	= 4, 	-- Cho'gall
+		[50133]	= 4, 	-- Cho'gall
 		[45213]	= 5,	-- Sinestra
+		[49744]	= 5,	-- Sinestra
 	}
 
 	local ENCOUNTER_ID_CL = {
@@ -1865,9 +1950,21 @@ do --> data for Throne of the Four Winds
 
 	local BOSS_IDS = {
 		[45870]	= 1,	-- Anshal
+		[50103]	= 1,	-- Anshal
+		[50113]	= 1,	-- Anshal
+		[50123]	= 1,	-- Anshal
 		[45871]	= 1,	-- Nezir
+		[50098]	= 1,	-- Nezir
+		[50108]	= 1,	-- Nezir
+		[50118]	= 1,	-- Nezir
 		[45872]	= 1,	-- Rohash
+		[50095]	= 1,	-- Rohash
+		[50105]	= 1,	-- Rohash
+		[50115]	= 1,	-- Rohash
 		[46753]	= 2,	-- Al'Akir
+		[50203]	= 2,	-- Al'Akir
+		[50217]	= 2,	-- Al'Akir
+		[50231]	= 2,	-- Al'Akir
 	}
 
 	local ENCOUNTER_ID_CL = {
@@ -1932,12 +2029,33 @@ do --> data for Firelands
 
 	local BOSS_IDS = {
 		[52498]	= 1,	-- Bethtilac
+		[53576]	= 1,	-- Bethtilac
+		[53577]	= 1,	-- Bethtilac
+		[53578]	= 1,	-- Bethtilac
 		[52558]	= 2,	-- Rhyolith
+		[52559]	= 2,	-- Rhyolith
+		[52560]	= 2,	-- Rhyolith
+		[52561]	= 2,	-- Rhyolith
 		[52530]	= 3,	-- Alysrazor
+		[54044]	= 3,	-- Alysrazor
+		[54045]	= 3,	-- Alysrazor
+		[54046]	= 3,	-- Alysrazor
 		[53691]	= 4,	-- Shannox
+		[53979]	= 4,	-- Shannox
+		[54079]	= 4,	-- Shannox
+		[54080]	= 4,	-- Shannox
 		[53494]	= 5,	-- Baleroc
+		[53587]	= 5,	-- Baleroc
+		[53588]	= 5,	-- Baleroc
+		[53589]	= 5,	-- Baleroc
 		[52571]	= 6,	-- FandralStaghelm
+		[53856]	= 6,	-- FandralStaghelm
+		[53857]	= 6,	-- FandralStaghelm
+		[53858]	= 6,	-- FandralStaghelm
 		[52409]	= 7,	-- Ragnaros
+		[53797]	= 7,	-- Ragnaros
+		[53798]	= 7,	-- Ragnaros
+		[53799]	= 7,	-- Ragnaros
 	}
 
 	local ENCOUNTER_ID_CL = BOSS_IDS
@@ -2196,17 +2314,66 @@ do --> data for Dragon Soul
 
 	local BOSS_IDS = {
 		[55265]	= 1,	-- Morchok
+		[57409]	= 1,	-- Morchok
+		[57771]	= 1,	-- Morchok
+		[57772]	= 1,	-- Morchok
 		[55308]	= 2,	-- Warlord Zonozz
+		[55309]	= 2,	-- Warlord Zonozz
+		[55310]	= 2,	-- Warlord Zonozz
+		[55311]	= 2,	-- Warlord Zonozz
 		[55312]	= 3,	-- Yor'sahj the Unsleeping
+		[55313]	= 3,	-- Yor'sahj the Unsleeping
+		[55314]	= 3,	-- Yor'sahj the Unsleeping
+		[55315]	= 3,	-- Yor'sahj the Unsleeping
 		[55689]	= 4,	-- Hagara the Binder
+		[57462]	= 4,	-- Hagara the Binder
+		[57955]	= 4,	-- Hagara the Binder
+		[57956]	= 4,	-- Hagara the Binder
 		[55294]	= 5,	-- Ultraxion
+		[56576]	= 5,	-- Ultraxion
+		[56577]	= 5,	-- Ultraxion
+		[56578]	= 5,	-- Ultraxion
 		[56427]	= 6,	-- Warmaster Blackhorn
+		[57699]	= 6,	-- Warmaster Blackhorn
+		[57847]	= 6,	-- Warmaster Blackhorn
+		[57848]	= 6,	-- Warmaster Blackhorn
 		[53891] = 7,	-- Corruption
+		[57879] = 7,	-- Corruption
+		[57880] = 7,	-- Corruption
+		[57881] = 7,	-- Corruption
 		[56161] = 7,	-- Corruption
+		[57901] = 7,	-- Corruption
+		[57902] = 7,	-- Corruption
+		[57903] = 7,	-- Corruption
 		[56162] = 7,	-- Corruption
+		[57904] = 7,	-- Corruption
+		[57905] = 7,	-- Corruption
+		[57906] = 7,	-- Corruption
+		[56575] = 7,	-- Burning Tendons
+		[57887] = 7,	-- Burning Tendons
+		[57888] = 7,	-- Burning Tendons
+		[57889] = 7,	-- Burning Tendons
+		[56341] = 7,	-- Burning Tendons
+		[57884] = 7,	-- Burning Tendons
+		[57885] = 7,	-- Burning Tendons
+		[57886] = 7,	-- Burning Tendons
 		[53879]	= 7,	-- Spine Deathwing
 		[56168] = 8,	-- Wing Tentacle
+		[57972] = 8,	-- Wing Tentacle
+		[58129] = 8,	-- Wing Tentacle
+		[58130] = 8,	-- Wing Tentacle
+		[58131] = 8,	-- Arm Tentacle
+		[58133] = 8,	-- Arm Tentacle
+		[58132] = 8,	-- Arm Tentacle
+		[58134] = 8,	-- Arm Tentacle
+		[56167] = 8,	-- Arm Tentacle
+		[56846] = 8,	-- Arm Tentacle
+		[57973] = 8,	-- Arm Tentacle
+		[57974] = 8,	-- Arm Tentacle
 		[56173]	= 8,	-- Madness Deathwing
+		[57969]	= 8,	-- Madness Deathwing
+		[58000]	= 8,	-- Madness Deathwing
+		[58001]	= 8,	-- Madness Deathwing
 	}
 
 	local ENCOUNTER_ID_CL = {
