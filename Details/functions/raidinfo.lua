@@ -1178,6 +1178,72 @@ do --> data for Halls of Origination
 	})
 end
 
+do --> data for Blackrock Caverns
+	local INSTANCE_MAPID = 753
+	local HDIMAGESPATH = "Details\\images\\dungeon"
+	local HDFILEPREFIX = "BlackrockCaverns"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenBlackrockCaverns", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-BlackrockCaverns"
+	local EJ_LOREBG = "UI-EJ-LOREBG-BlackrockCaverns"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-Romogg Bonecrusher",
+		"UI-EJ-BOSS-Corla, Herald of Twilight",
+		"UI-EJ-BOSS-Karsh Steelbender",
+		"UI-EJ-BOSS-Beauty",
+		"UI-EJ-BOSS-Ascendant Lord Obsidius",
+	}
+
+	local BOSS_IDS = {
+		[39665]	= 1,	-- Rom'ogg Bonecrusher
+		[39679]	= 2,	-- Corla, Herald of Twilight
+		[39698]	= 3,	-- Karsh Steelbender
+		[39700]	= 4,	-- Beauty
+		[39705]	= 5,	-- Ascendant Lord Obsidius
+	}
+	
+	local ENCOUNTER_ID_CL = BOSS_IDS
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Rom'ogg Bonecrusher"],
+		LBB["Corla, Herald of Twilight"],
+		LBB["Karsh Steelbender"],
+		LBB["Beauty"],
+		LBB["Ascendant Lord Obsidius"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Blackrock Caverns"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = false,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
+
 do --> data for Zul'Aman
 	local INSTANCE_MAPID = 781
 	local HDIMAGESPATH = "Details\\images\\dungeon"
