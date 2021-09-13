@@ -1800,7 +1800,7 @@ function ilvl_core:CalcItemLevel (unitid, guid, shout)
 end
 _detalhes.ilevel.CalcItemLevel = ilvl_core.CalcItemLevel
 
-inspect_frame:SetScript ("OnEvent", function (self, event, ...)
+inspect_frame:SetScript ("OnEvent", function (self, event, arg1, ...)
 
 	if event == "PLAYER_AVG_ITEM_LEVEL_READY" or event == "PLAYER_EQUIPMENT_CHANGED" then
 		ilvl_core:ScheduleTimer("CalcItemLevel", 2)
@@ -1815,7 +1815,7 @@ inspect_frame:SetScript ("OnEvent", function (self, event, ...)
 	end
 
 	if guid == "" then
-		guid = UnitGUID("mouseover")
+		guid = arg1 or UnitGUID("mouseover")
 	end
 
 	if (inspecting [guid]) then
