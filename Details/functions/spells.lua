@@ -821,92 +821,50 @@ do
 		[7922]	= true, -- Warbringer
 	}
 
-	_detalhes.MageFireWardSpells = {
-		[543] = 30 , -- Fire Ward (Mage) Rank 1
-		[8457] = 30,
-		[8458] = 30,
-		[10223] = 30,
-		[10225] = 30,
-		[27128] = 30,
-		[43010] = 30, -- Rank 7
-	}
-
-	_detalhes.MageFrostWardSpells = {
-		[6143] = 30, -- Frost Ward (Mage) Rank 1
-		[8461] = 30,
-		[8462] = 30,
-		[10177] = 30,
-		[28609] = 30,
-		[32796] = 30,
-		[43012] = 30, -- Rank 7
+	_detalhes.MageWardSpells = {
+		[543] = 30 , -- Mage Ward (Mage)
 	}
 
 	_detalhes.WarlockShadowWardSpells = {
 		[6229] = 30, -- Shadow Ward (warlock) Rank 1
-		[11739] = 30,
-		[11740] = 30,
-		[28610] = 30,
-		[47890] = 30,
-		[47891] = 30, -- Rank 6
 	}
 
 	_detalhes.MageIceBarrierSpells = {
-		[11426] = 60, -- Ice Barrier (Mage) Rank 1
-		[13031] = 60,
-		[13032] = 60,
-		[13033] = 60,
-		[27134] = 60,
-		[33405] = 60,
-		[43038] = 60,
-		[43039] = 60, -- Rank 8
+		[11426] = 60, -- Ice Barrier (Mage)
 	}
 
 	_detalhes.WarlockSacrificeSpells = {
-		[7812] = 30, -- Sacrifice (warlock) Rank 1
-		[19438] = 30,
-		[19440] = 30,
-		[19441] = 30,
-		[19442] = 30,
-		[19443] = 30,
-		[27273] = 30,
-		[47985] = 30,
-		[47986] = 30, -- rank 9
+		[7812] = 30, -- Sacrifice (warlock)
 	}
 
 	_detalhes.AbsorbSpells = {
 		-- Death Knight
 		[48707] = 5, -- Anti-Magic Shell (DK) Rank 1 -- Does not currently seem to show tracable combat log events. It shows energizes which do not reveal the amount of damage absorbed
 		[51052] = 10, -- Anti-Magic Zone (DK)( Rank 1 (Correct spellID?)
-				-- Does DK Spell Deflection show absorbs in the CL?
-		[77535] = true, -- Blood Shield
+			-- Does DK Spell Deflection show absorbs in the CL?
+		[77535] = 10, -- Blood Shield (DK)
 		-- Druid
 		[62606] = 10, -- Savage Defense proc. (Druid) Tooltip of the original spell doesn't clearly state that this is an absorb, but the buff does.
 		-- Mage
-		[11426] = 60, -- Ice Barrier (Mage)
-		[1463] = 60, --  Mana shield (Mage)
-		[543] = 30, -- Mage Ward (Mage)
+		[11426] = 60, -- Ice Barrier (Mage) Rank 1
+		[1463] = 60, --  Mana shield (Mage) Rank 1
+		[543] = 30, -- Mage Ward
 		-- Paladin
-		[58597] = 6, -- Sacred Shield (Paladin) proc (Fixed, thanks to Julith)
+		[86273] = 6, -- Illuminated Healing
+		[88063] = 6, -- Guarded by the Light
 		-- Priest
-		[17] = 30, -- Power Word: Shield (Priest)
+		[17] = 30, -- Power Word: Shield (Priest) Rank 1
+		[47509] = 12, -- Divine Aegis (Priest) Rank 1
+		[47511] = 12,
+		[47515] = 12, -- Divine Aegis (Priest) Rank 3 (Some of these are not actual buff spellIDs)
 		[47753] = 12, -- Divine Aegis (Priest) Rank 1
+		[54704] = 12, -- Divine Aegis (Priest) Rank 1
 		[47788] = 10, -- Guardian Spirit  (Priest) (50 nominal absorb, this may not show in the CL)
+		[62618] = 25, -- Power Word: Barrier
+		[81781] = 25, -- Power Word: Barrier
 		-- Warlock
-		[7812] = 30, -- Sacrifice (warlock) Rank 1
-		[19438] = 30,
-		[19440] = 30,
-		[19441] = 30,
-		[19442] = 30,
-		[19443] = 30,
-		[27273] = 30,
-		[47985] = 30,
-		[47986] = 30, -- rank 9
-		[6229] = 30, -- Shadow Ward (warlock) Rank 1
-		[11739] = 30,
-		[11740] = 30,
-		[28610] = 30,
-		[47890] = 30,
-		[47891] = 30, -- Rank 6
+		[7812] = 30, -- Sacrifice (warlock)
+		[6229] = 30, -- Shadow Ward (warlock)
 		-- Consumables
 		[29674] = 86400, -- Lesser Ward of Shielding
 		[29719] = 86400, -- Greater Ward of Shielding (these have infinite duration, set for a day here :P)
@@ -921,7 +879,7 @@ do
 		[7239] = 120, -- Frost
 		[7242] = 120, -- Shadow Protection Potion
 		[7245] = 120, -- Holy
-		[7254] = 120, -- Nature Protection Potion
+		[6052] = 120, -- Nature Protection Potion
 		[53915] = 120, -- Mighty Shadow Protection Potion
 		[53914] = 120, -- Mighty Nature Protection Potion
 		[53913] = 120, -- Mighty Frost Protection Potion
@@ -948,7 +906,7 @@ do
 		[31002] = 300, -- Pendant of the Null Rune
 		[30999] = 300, -- Pendant of Withering
 		[30994] = 300, -- Pendant of Thawing
-		[31000] = 300, --
+		[31000] = 300, -- Shadow Absorption
 		[23506]= 20, -- Arena Grand Master Usage (Aura of Protection)
 		[12561] = 60, -- Goblin Construction Helmet usage
 		[31771] = 20, -- Runed Fungalcap usage
@@ -964,12 +922,14 @@ do
 		[37515] = 15, -- Warbringer Armor Proc
 		[42137] = 86400, -- Greater Rune of Warding Proc
 		[26467] = 30, -- Scarab Brooch proc
-		[26470] = 8, -- Scarab Brooch proc (actual)
 		[27539] = 6, -- Thick Obsidian Breatplate proc
 		[28810] = 30, -- Faith Set Proc Armor of Faith
-		[54808] = 12, -- Noise Machine proc Sonic Shield
+		[54808] = 12, -- Noise Machine proc Sonic Shield 
 		[55019] = 12, -- Sonic Shield (one of these too ought to be wrong)
+		[64411] = 15, -- Blessing of the Ancient (Val'anyr Hammer of Ancient Kings equip effect)
 		[64413] = 8, -- Val'anyr, Hammer of Ancient Kings proc Protection of Ancient Kings
+		[105909] = 6, -- Shield of Fury (Warrior T13 Protection 2P Bonus)
+		[105801] = 6, -- Delayed Judgement (Paladin T13 Protection 2P Bonus)
 		-- Misc
 		[40322] = 30, -- Teron's Vengeful Spirit Ghost - Spirit Shield
 		-- Boss abilities

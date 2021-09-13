@@ -44,8 +44,7 @@ local _GetSpellInfo = _detalhes.getspellinfo --details api
 local escudo = _detalhes.escudos --details local
 local parser = _detalhes.parser --details local
 local absorb_spell_list = _detalhes.AbsorbSpells --details local
-local fire_ward_absorb_list = _detalhes.MageFireWardSpells
-local frost_ward_absorb_list = _detalhes.MageFrostWardSpells
+local mage_ward_absorb_list = _detalhes.MageWardSpells
 local shadow_ward_absorb_list = _detalhes.WarlockShadowWardSpells
 local ice_barrier_absorb_list = _detalhes.MageIceBarrierSpells
 local sacrifice_absorb_list = _detalhes.WarlockSacrificeSpells
@@ -1236,19 +1235,11 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 			return false
 		end
 
-		--frost ward
-		if frost_ward_absorb_list[spellA] then
+		-- mage ward
+		if mage_ward_absorb_list[spellA] then
 			return true
 		end
-		if frost_ward_absorb_list[spellB] then
-			return false
-		end
-
-		-- fire ward
-		if fire_ward_absorb_list[spellA] then
-			return true
-		end
-		if fire_ward_absorb_list[spellB] then
+		if mage_ward_absorb_list[spellB] then
 			return false
 		end
 
@@ -1325,17 +1316,10 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 					--break
 					return
 				end
-			-- check if its a frost ward
-			elseif frost_ward_absorb_list[absorb.spellid] then
-				-- only pick if its frost damage
-				if (_bit_band(spelltype, 0x10) == spelltype) then
-					found_absorb = absorb
-					break -- exit since wards are priority
-				end
-			-- check if its a fire ward
-			elseif fire_ward_absorb_list[absorb.spellid] then
-				-- only pick if its fire damage
-				if (_bit_band(spelltype, 0x4) == spelltype) then
+			-- check if its mage ward
+			elseif mage_ward_absorb_list[absorb.spellid] then
+				-- only pick if its frost, fire, or arcane damage
+				if _bit_band(spelltype, 0x10) == spelltype or _bit_band(spelltype, 0x4) == spelltype or _bit_band(spelltype, 0x40) == spelltype then
 					found_absorb = absorb
 					break -- exit since wards are priority
 				end
