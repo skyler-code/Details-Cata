@@ -1669,7 +1669,7 @@ function ilvl_core:HasQueuedInspec (unitName)
 end
 
 local inspect_frame = CreateFrame ("Frame")
-inspect_frame:RegisterEvent ("INSPECT_TALENT_READY")
+inspect_frame:RegisterEvent ("INSPECT_READY")
 inspect_frame:RegisterEvent ("UPDATE_MOUSEOVER_UNIT")
 inspect_frame:RegisterEvent ("PLAYER_AVG_ITEM_LEVEL_READY")
 inspect_frame:RegisterEvent ("PLAYER_EQUIPMENT_CHANGED")
