@@ -1393,6 +1393,74 @@ do --> data for Grim Batol
 	})
 end
 
+do --> data for Stonecore
+	local INSTANCE_MAPID = 768
+	local HDIMAGESPATH = "Details\\images\\dungeon"
+	local HDFILEPREFIX = "TheStonecore"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LOADSCREENDEEPHOLMDUNGEON", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-TheStonecore"
+	local EJ_LOREBG = "UI-EJ-LOREBG-TheStonecore"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-Corborus",
+		"UI-EJ-BOSS-Slabhide",
+		"UI-EJ-BOSS-Ozruk",
+		"UI-EJ-BOSS-High Priestess Azil",
+	}
+
+	local BOSS_IDS = {
+		[43438]	= 1,	-- Corborus
+		[43214]	= 2,	-- Slabhide
+		[42188]	= 3,	-- Ozruk
+		[42333]	= 4,	-- High Priestess Azil
+	}
+	
+	local ENCOUNTER_ID_CL = {
+		[43438]	= 1,	-- Corborus
+		[43214]	= 2,	-- Slabhide
+		[42188]	= 3,	-- Ozruk
+		[42333]	= 4,	-- High Priestess Azil
+	}
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Corborus"],
+		LBB["Slabhide"],
+		LBB["Ozruk"],
+		LBB["High Priestess Azil"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["The Stonecore"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = false,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
+
 do --> data for Zul'Aman
 	local INSTANCE_MAPID = 781
 	local HDIMAGESPATH = "Details\\images\\dungeon"
