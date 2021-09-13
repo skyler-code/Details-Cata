@@ -1035,9 +1035,80 @@ do --> data for Ulduar
 	})
 end
 
+do --> data for Throne of the Tides
+	local INSTANCE_MAPID = 767
+	local HDIMAGESPATH = "Details\\images\\dungeon"
+	local HDFILEPREFIX = "ThroneoftheTides"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenThroneoftheTides", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-ThroneoftheTides"
+	local EJ_LOREBG = "UI-EJ-LOREBG-ThroneoftheTides"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-Lady NazJar",
+		"UI-EJ-BOSS-Commander Ulthok",
+		"UI-EJ-BOSS-Mindbender Ghursha",
+		"UI-EJ-BOSS-Ozumat",
+	}
+
+	local BOSS_IDS = {
+		[40586]	= 1,	-- Lady Naz'jar
+		[49079] = 1,	-- Lady Naz'jar
+		[40765]	= 2,	-- Commander Ulthok
+		[49064]	= 2,	-- Commander Ulthok
+		[40825]	= 3,	-- Erunak Stonespeaker
+		[49072]	= 3,	-- Erunak Stonespeaker
+		[40788]	= 3,	-- Mindbender Ghur'sha
+		[49082]	= 3,	-- Mindbender Ghur'sha
+		[49097]	= 4,	-- Ozumat
+		[44566] = 4,	-- Ozumat
+	}
+
+	local ENCOUNTER_ID_CL = {
+		49079, 49064, 49082, 44566,
+		[49079] = 1,	-- Lady Naz'jar
+		[49064]	= 2,	-- Commander Ulthok
+		[49082]	= 3,	-- Mindbender Ghur'sha
+		[44566] = 4,	-- Ozumat
+	}
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Lady Naz'jar"],
+		LBB["Commander Ulthok"],
+		LBB["Mindbender Ghur'sha"],
+		LBB["Ozumat"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Throne of the Tides"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = false,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
+
 do --> data for Zul'Aman
 	local INSTANCE_MAPID = 781
-	local HDIMAGESPATH = "Details\\images\\raid"
+	local HDIMAGESPATH = "Details\\images\\dungeon"
 	local HDFILEPREFIX = "ZulAman"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenZulAman2", {0, 1, 285/1024, 875/1024}
 	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-ZulAman"
@@ -1116,7 +1187,7 @@ end
 
 do --> data for Zul'Gurub
 	local INSTANCE_MAPID = 793
-	local HDIMAGESPATH = "Details\\images\\raid"
+	local HDIMAGESPATH = "Details\\images\\dungeon"
 	local HDFILEPREFIX = "ZulGurub"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenZulGurub", {0, 1, 285/1024, 875/1024}
 	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-ZulGurub"
