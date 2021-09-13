@@ -1745,7 +1745,8 @@ function ilvl_core:CalcItemLevel (unitid, guid, shout)
 		local average = 0
 
 		if strlower(unitid) == "player" then -- replace ilvl with gearscore if available
-			average = GetAverageItemLevel()
+			local totalIlvl, equippedIlvl = GetAverageItemLevel()
+			average = equippedIlvl
 		else
 			--> 16 = all itens including main and off hand
 			local item_amount = 16
