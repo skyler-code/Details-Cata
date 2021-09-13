@@ -1528,9 +1528,9 @@ do --> data for Lost City of the Tol'Vir
 	local BOSSNAMES = {
 		LBB["General Husam"],
 		LBB["Lockmaw"],
-		LBB["Augh"],
+		"Augh",
 		LBB["High Prophet Barim"],
-		LBB["Siamat"],
+		LBB["Siamat, Lord of South Wind"],
 	}
 
 	local ENCOUNTERS = {}
