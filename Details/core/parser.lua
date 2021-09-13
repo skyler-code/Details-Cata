@@ -1252,10 +1252,10 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 		end
 
 		-- sacred shield
-		if spellA == 58597 then
+		if spellA == 96263 then
 			return true
 		end
-		if spellB == 58597 then
+		if spellB == 96263 then
 			return false
 		end
 
@@ -1300,24 +1300,8 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 
 		escudo[alvo_name] = escudo[alvo_name] or {}
 		for _, absorb in ipairs(escudo[alvo_name]) do
-			-- check if we have twin val'kyr light essence and we took fire damage
-			if absorb.spellid == 65686 then
-				if _bit_band(spelltype, 0x4) == spelltype then
-					-- honestly I don't think this should be tracked as healing by details, the healing meters would be flooded with useless info.
-					--found_absorb = absorb
-					--break
-					return
-				end
-			-- check if we have twin val'kyr dark essence and we took shadow damage
-			elseif absorb.spellid == 65684 then
-				if _bit_band(spelltype, 0x20) == spelltype then
-					-- see above
-					--found_absorb = absorb
-					--break
-					return
-				end
 			-- check if its mage ward
-			elseif mage_ward_absorb_list[absorb.spellid] then
+			if mage_ward_absorb_list[absorb.spellid] then
 				-- only pick if its frost, fire, or arcane damage
 				if _bit_band(spelltype, 0x10) == spelltype or _bit_band(spelltype, 0x4) == spelltype or _bit_band(spelltype, 0x40) == spelltype then
 					found_absorb = absorb

@@ -852,6 +852,7 @@ do
 		-- Paladin
 		[86273] = 6, -- Illuminated Healing
 		[88063] = 6, -- Guarded by the Light
+		[96263] = 15, -- Sacred Shield
 		-- Priest
 		[17] = 30, -- Power Word: Shield (Priest) Rank 1
 		[47509] = 12, -- Divine Aegis (Priest) Rank 1
