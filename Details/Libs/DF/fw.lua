@@ -36,14 +36,6 @@ DF.AuthorInfo = {
 	Discord = "https://discord.gg/UXSc7nt",
 }
 
-function DF.IsClassicWow()
-	local gameVersion = GetBuildInfo()
-	if (gameVersion:match ("%d") == "1") then
-		return false
-	end
-	return false
-end
-
 function DF.UnitGroupRolesAssigned (unitId)
 	-- this always seems to return [false, false, false] regardless of content. 
 	--if (UnitGroupRolesAssigned) then
@@ -125,6 +117,8 @@ end
 function DF.GetSpecializationID(class, index)
 	return specIDs[class] and specIDs[class][index]
 end
+
+
 
 function DF.GetSpecializationInfoByID (...)
 	if (GetSpecializationInfoByID) then

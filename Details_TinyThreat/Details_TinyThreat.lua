@@ -635,11 +635,6 @@ function ThreatMeter:OnEvent (_, event, ...)
 		if (AddonName == "Details_TinyThreat") then
 
 			if (_G._detalhes) then
-
-				if (DetailsFramework.IsClassicWow()) then
-					return
-				end
-
 				--> create widgets
 				CreatePluginFrames ()
 

@@ -1744,9 +1744,8 @@ function ilvl_core:CalcItemLevel (unitid, guid, shout)
 	if (CheckInteractDistance (unitid, 1)) then
 		local average = 0
 
-		if strlower(unitid) == "player" then -- replace ilvl with gearscore if available
-			local totalIlvl, equippedIlvl = GetAverageItemLevel()
-			average = equippedIlvl
+		if strlower(unitid) == "player" then -- use GetAverageItemLevel for player instead
+			average = select(2, GetAverageItemLevel())
 		else
 			--> 16 = all itens including main and off hand
 			local item_amount = 16
@@ -1793,49 +1792,6 @@ function ilvl_core:CalcItemLevel (unitid, guid, shout)
 		end
 		local talents = GetGUIDTalentString(guid)
 		_detalhes.cached_talents [guid] = talents
---[[
-		local spec
-		local talents = {}
-
-		if (not DetailsFramework.IsClassicWow()) then
-			spec = GetInspectSpecialization (unitid)
-			if (spec and spec ~= 0) then
-				_detalhes.cached_specs [guid] = spec
-			end
-
---------------------------------------------------------------------------------------------------------
-
-			for i = 1, 7 do
-				for o = 1, 3 do
-					--need to review this in classic
-					local talentID, name, texture, selected, available = GetTalentInfo (i, o, 1, true, unitid)
-					if (selected) then
-						tinsert (talents, talentID)
-						break
-					end
-				end
-			end
-
-			if (talents [1]) then
-				_detalhes.cached_talents [guid] = talents
-				--print (UnitName (unitid), "talents:", unpack (talents))
-			end
-		end
---------------------------------------------------------------------------------------------------------
-
-		if (ilvl_core.forced_inspects [guid]) then
-			if (type (ilvl_core.forced_inspects [guid].callback) == "function") then
-				local okey, errortext = pcall (ilvl_core.forced_inspects[guid].callback, guid, unitid, ilvl_core.forced_inspects[guid].param1, ilvl_core.forced_inspects[guid].param2)
-				if (not okey) then
-					_detalhes:Msg ("Error on QueryInspect callback: " .. errortext)
-				end
-			end
-			ilvl_core.forced_inspects [guid] = nil
-		end
-
---------------------------------------------------------------------------------------------------------
-]]
-
 	end
 end
 _detalhes.ilevel.CalcItemLevel = ilvl_core.CalcItemLevel
