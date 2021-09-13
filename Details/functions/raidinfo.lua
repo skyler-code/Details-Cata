@@ -1106,6 +1106,83 @@ do --> data for Throne of the Tides
 	})
 end
 
+do --> data for Halls of Origination
+	local INSTANCE_MAPID = 759
+	local HDIMAGESPATH = "Details\\images\\dungeon"
+	local HDFILEPREFIX = "HallsofOrigination"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenHallsofOrigination", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-HallsofOrigination"
+	local EJ_LOREBG = "UI-EJ-LOREBG-HallsofOrigination"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-Temple Guardian Anhuur",
+		"UI-EJ-BOSS-Earthrager Ptah",
+		"UI-EJ-BOSS-Anraphet",
+		"UI-EJ-BOSS-Isiset",
+		"UI-EJ-BOSS-Ammunae",
+		"UI-EJ-BOSS-Setesh",
+		"UI-EJ-BOSS-Rajh",
+	}
+
+	local BOSS_IDS = {
+		[39425]	= 1,	-- Temple Guardian Anhuur
+		[39428]	= 2,	-- Earthrager Ptah
+		[39788]	= 3,	-- Anraphet
+		[39587]	= 4,	-- Isiset
+		[39731]	= 5,	-- Ammunae
+		[39732]	= 6,	-- Setesh
+		[39378]	= 7,	-- Rajh
+	}
+
+	local ENCOUNTER_ID_CL = {
+		39425, 39428, 39788, 39587, 39731, 39732, 39378,
+		[39425]	= 1,	-- Temple Guardian Anhuur
+		[39428]	= 2,	-- Earthrager Ptah
+		[39788]	= 3,	-- Anraphet
+		[39587]	= 4,	-- Isiset
+		[39731]	= 5,	-- Ammunae
+		[39732]	= 6,	-- Setesh
+		[39378]	= 7,	-- Rajh
+	}
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Temple Guardian Anhuur"],
+		LBB["Earthrager Ptah"],
+		LBB["Anraphet"],
+		LBB["Isiset"],
+		LBB["Ammunae"],
+		LBB["Setesh"],
+		LBB["Rajh"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Halls of Origination"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = false,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
+
 do --> data for Zul'Aman
 	local INSTANCE_MAPID = 781
 	local HDIMAGESPATH = "Details\\images\\dungeon"
