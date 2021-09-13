@@ -2,78 +2,6 @@ local LBB = LibStub("LibBabble-Boss-3.0"):GetLookupTable()
 local LBZ = LibStub("LibBabble-Zone-3.0"):GetLookupTable()
 
 -- BK
-
--- do --> data for Zul'Aman
--- 	local INSTANCE_MAPID = 867
--- 	local HDIMAGESPATH = "Details\\images\\raid"
--- 	local HDFILEPREFIX = "ZulAman"
--- 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LOADSCREENZULAMAN", {0, 1, 285/1024, 875/1024}
--- 	local EJ_DUNGEONBG = "ui-ej-dungeonbutton-zulaman"
--- 	local EJ_LOREBG = "ui-ej-lorebg-zulaman"
-
--- 	local PORTRAIT_LIST = {
--- 		"ui-ej-boss-akilzon",
--- 		"ui-ej-boss-nalorakk",
--- 		"ui-ej-boss-janalai",
--- 		"ui-ej-boss-halazzi",
--- 		"ui-ej-boss-hex lord malacrass",
--- 		"ui-ej-boss-zuljin",
--- 	}
-
--- 	local ENCOUNTER_ID_CL = {
--- 		23574, 23576, 23578, 23577, 24239, 23863,
--- 		[23574] = 1, --Akil'zon
--- 		[23576] = 2, --Nalorakk
--- 		[23578] = 3, --Jan'alai
--- 		[23577] = 4, --Halazzi
--- 		[24239] = 5, --Malacrass
--- 		[23863] = 6, --Zul'jin
--- 	}
-
--- 	--> install the raid
--- 	local BOSSNAMES = {
--- 		LBB["Akil'zon"],
--- 		LBB["Nalorakk"],
--- 		LBB["Jan'alai"],
--- 		LBB["Halazzi"],
--- 		LBB["Malacrass"],
--- 		LBB["Zul'jin"],
--- 	}
-
--- 	local ENCOUNTERS = {}
-
--- 	for i = 1, #PORTRAIT_LIST do
--- 		local encounterTable = {
--- 			boss = BOSSNAMES[i],
--- 			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
--- 		}
--- 		tinsert(ENCOUNTERS, encounterTable)
--- 	end
-
--- 	_detalhes:InstallEncounter({
--- 		id = INSTANCE_MAPID, --map id
--- 		name = LBZ["Zul'Aman"],
--- 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
--- 		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
--- 		is_raid = true,
--- 		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
--- 		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
-
--- 		encounter_ids2 = ENCOUNTER_ID_CL,
--- 		boss_names = BOSSNAMES,
--- 		encounters = ENCOUNTERS,
-
--- 		boss_ids = {
--- 			[23574] = 1, --Akil'zon
--- 			[23576] = 2, --Nalorakk
--- 			[23578] = 3, --Jan'alai
--- 			[23577] = 4, --Halazzi
--- 			[24239] = 5, --Malacrass
--- 			[23863] = 6, --Zul'jin
--- 		},
--- 	})
--- end
-
 do --> data for Serpentshrine Cavern
 	local INSTANCE_MAPID = 863
 	local HDIMAGESPATH = "Details\\images\\raid"
@@ -1104,6 +1032,164 @@ do --> data for Ulduar
 			[33288] = 13, --Yogg-Saron
 			[32871] = 14, --Algalon the Observer
 		},
+	})
+end
+
+do --> data for Zul'Aman
+	local INSTANCE_MAPID = 781
+	local HDIMAGESPATH = "Details\\images\\raid"
+	local HDFILEPREFIX = "ZulAman"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenZulAman2", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-ZulAman"
+	local EJ_LOREBG = "UI-EJ-LOREBG-ZulAman"
+
+	local PORTRAIT_LIST = {
+		"ui-ej-boss-akilzon",
+		"ui-ej-boss-nalorakk",
+		"ui-ej-boss-janalai",
+		"ui-ej-boss-halazzi",
+		"ui-ej-boss-hex lord malacrass",
+		"UI-EJ-BOSS-Daakara",
+	}
+
+	local BOSS_IDS = {
+		[23574]	= 1,	-- Akil'zon
+		[29024]	= 2,	-- Nalorakk
+		[28514]	= 2,	-- Nalorakk
+		[23576]	= 2,	-- Nalorakk
+		[23578]	= 3,	-- Jan'alai
+		[28515]	= 3,	-- Jan'alai
+		[29023]	= 3,	-- Jan'alai
+		[23577]	= 4,	-- Halazzi
+		[28517]	= 4,	-- Halazzi
+		[29022]	= 4,	-- Halazzi
+		[24239]	= 5,	-- Malacrass
+		[23863]	= 6,	-- Daakara
+	}
+
+	local ENCOUNTER_ID_CL = {
+		23574, 23576, 23578, 23577, 24239, 23863,
+		[23574] = 1, --Akil'zon
+		[23576] = 2, --Nalorakk
+		[23578] = 3, --Jan'alai
+		[23577] = 4, --Halazzi
+		[24239] = 5, --Malacrass
+		[23863] = 6, --Zul'jin
+	}
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Akil'zon"],
+		LBB["Nalorakk"],
+		LBB["Jan'alai"],
+		LBB["Halazzi"],
+		LBB["Hex Lord Malacrass"],
+		LBB["Daakara"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Zul'Aman"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = false,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
+
+do --> data for Zul'Gurub
+	local INSTANCE_MAPID = 793
+	local HDIMAGESPATH = "Details\\images\\raid"
+	local HDFILEPREFIX = "ZulGurub"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenZulGurub", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-ZulGurub"
+	local EJ_LOREBG = "UI-EJ-LOREBG-ZulGurub"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-High Priest Venoxis",
+		"UI-EJ-BOSS-Bloodlord Mandokir",
+		"UI-EJ-BOSS-Renataki",
+		"UI-EJ-BOSS-Grilek",
+		"UI-EJ-BOSS-Hazzarah",
+		"UI-EJ-BOSS-Wushoolay",
+		"UI-EJ-BOSS-High Priestess Kilnara",
+		"UI-EJ-BOSS-Zanzil the Outcast",
+		"UI-EJ-BOSS-Jindo the Godbreaker",
+	}
+
+	local BOSS_IDS = {
+		[52155]	= 1,	-- High Priest Venoxis
+		[52151]	= 2,	-- Bloodlord Mandokir
+		[52269]	= 3,	-- Renataki
+		[52258]	= 4,	-- Gri'lek
+		[52271]	= 5,	-- Hazza'rah
+		[52286]	= 6,	-- Wushoolay
+		[52059]	= 7,	-- High Priestess Kilnara
+		[52053]	= 8,	-- Zanzil
+		[52148]	= 9,	-- Jin'do the Godbreaker
+	}
+	
+	local ENCOUNTER_ID_CL = {}
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[k] = v
+		ENCOUNTER_ID_CL[v] = k
+	end
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["High Priest Venoxis"],
+		LBB["Bloodlord Mandokir"],
+		LBB["Renataki"],
+		LBB["Gri'lek"],
+		LBB["Hazza'rah"],
+		LBB["Wushoolay"],
+		LBB["High Priestess Kilnara"],
+		LBB["Zanzil"],
+		LBB["Jin'do the Godbreaker"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Zul'Gurub"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = false,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
 	})
 end
 
