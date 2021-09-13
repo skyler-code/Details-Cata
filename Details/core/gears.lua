@@ -1671,6 +1671,8 @@ end
 local inspect_frame = CreateFrame ("Frame")
 inspect_frame:RegisterEvent ("INSPECT_TALENT_READY")
 inspect_frame:RegisterEvent ("UPDATE_MOUSEOVER_UNIT")
+inspect_frame:RegisterEvent ("PLAYER_AVG_ITEM_LEVEL_READY")
+inspect_frame:RegisterEvent ("PLAYER_EQUIPMENT_CHANGED")
 
 local two_hand = {
 	["INVTYPE_2HWEAPON"] = true,
@@ -1797,6 +1799,12 @@ end
 _detalhes.ilevel.CalcItemLevel = ilvl_core.CalcItemLevel
 
 inspect_frame:SetScript ("OnEvent", function (self, event, ...)
+
+	if event == "PLAYER_AVG_ITEM_LEVEL_READY" or event == "PLAYER_EQUIPMENT_CHANGED" then
+		ilvl_core:ScheduleTimer("CalcItemLevel", 2, "player", UnitGUID("player"))
+		return
+	end
+
 	local guid = ""
 
 	for queue_guid in pairs(inspecting) do -- get first guid
