@@ -1461,6 +1461,78 @@ do --> data for Stonecore
 	})
 end
 
+do --> data for Lost City of the Tol'Vir
+	local INSTANCE_MAPID = 747
+	local HDIMAGESPATH = "Details\\images\\dungeon"
+	local HDFILEPREFIX = "LostCityofTolvir"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenLostCityofTolvir", {0, 1, 285/1024, 875/1024}
+	local EJ_DUNGEONBG = "UI-EJ-DUNGEONBUTTON-LostCityofTolvir"
+	local EJ_LOREBG = "UI-EJ-LOREBG-LostCityofTolvir"
+
+	local PORTRAIT_LIST = {
+		"UI-EJ-BOSS-General Husam",
+		"UI-EJ-BOSS-Lockmaw",
+		"UI-EJ-BOSS-Augh",
+		"UI-EJ-BOSS-High Prophet Barim",
+		"UI-EJ-BOSS-Siamat",
+	}
+
+	local BOSS_IDS = {
+		[44577]	= 1,	-- General Husam
+		[43614]	= 2,	-- Lockmaw
+		[49045]	= 3,	-- Augh
+		[43612]	= 4,	-- High Prophet Barim
+		[44819]	= 5,	-- Siamat
+	}
+	
+	local ENCOUNTER_ID_CL = {
+		[44577]	= 1,	-- General Husam
+		[43614]	= 2,	-- Lockmaw
+		[49045]	= 3,	-- Augh
+		[43612]	= 4,	-- High Prophet Barim
+		[44819]	= 5,	-- Siamat
+	}
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["General Husam"],
+		LBB["Lockmaw"],
+		LBB["Augh"],
+		LBB["High Prophet Barim"],
+		LBB["Siamat"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #PORTRAIT_LIST do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Lost City of the Tol'vir"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		is_raid = false,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
+
 do --> data for Zul'Aman
 	local INSTANCE_MAPID = 781
 	local HDIMAGESPATH = "Details\\images\\dungeon"
@@ -1494,7 +1566,6 @@ do --> data for Zul'Aman
 	}
 
 	local ENCOUNTER_ID_CL = {
-		23574, 23576, 23578, 23577, 24239, 23863,
 		[23574] = 1, --Akil'zon
 		[23576] = 2, --Nalorakk
 		[23578] = 3, --Jan'alai
@@ -1502,6 +1573,10 @@ do --> data for Zul'Aman
 		[24239] = 5, --Malacrass
 		[23863] = 6, --Zul'jin
 	}
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
 
 	--> install the raid
 	local BOSSNAMES = {
@@ -1649,7 +1724,6 @@ do --> data for Blackwing Descent
 	}
 
 	local ENCOUNTER_ID_CL = {
-		41570, 42178, 41378, 41442, 43296, 41376,
 		[41570]	= 1,	-- Magmaw
 		[42178]	= 2,	-- Magmatron
 		[41378]	= 3,	-- Maloriak
@@ -1657,6 +1731,10 @@ do --> data for Blackwing Descent
 		[43296]	= 5,	-- Chimaeron
 		[41376]	= 6,	-- Nefarian
 	}
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
 
 	--> install the raid
 	local BOSSNAMES = {
@@ -1725,13 +1803,16 @@ do --> data for Bastion of Twilight
 	}
 
 	local ENCOUNTER_ID_CL = {
-		44600, 45992, 43735, 43324, 45213,
 		[44600]	= 1,	-- Halfus
 		[45992]	= 2,	-- Valiona
 		[43735] = 3,	-- Elementium Monstrosity
 		[43324] = 4,	-- Cho'gall
 		[45213] = 5,	-- Sinestra
 	}
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
 
 	--> install the raid
 	local BOSSNAMES = {
@@ -1790,10 +1871,13 @@ do --> data for Throne of the Four Winds
 	}
 
 	local ENCOUNTER_ID_CL = {
-		45871, 46753,
 		[45871]	= 1,	-- Nezir
 		[46753]	= 2,	-- Al'Akir
 	}
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
 
 	--> install the raid
 	local BOSSNAMES = {
@@ -1846,8 +1930,7 @@ do --> data for Firelands
 		"UI-EJ-BOSS-Ragnaros",
 	}
 
-	local ENCOUNTER_ID_CL = {
-		52498, 52558, 52530, 53691, 53494, 52571, 52409,
+	local BOSS_IDS = {
 		[52498]	= 1,	-- Bethtilac
 		[52558]	= 2,	-- Rhyolith
 		[52530]	= 3,	-- Alysrazor
@@ -1856,6 +1939,12 @@ do --> data for Firelands
 		[52571]	= 6,	-- FandralStaghelm
 		[52409]	= 7,	-- Ragnaros
 	}
+
+	local ENCOUNTER_ID_CL = BOSS_IDS
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
 
 	--> install the raid
 	local BOSSNAMES = {
@@ -1891,15 +1980,7 @@ do --> data for Firelands
 		boss_names = BOSSNAMES,
 		encounters = ENCOUNTERS,
 
-		boss_ids = {
-			[52498]	= 1,	-- Bethtilac
-			[52558]	= 2,	-- Rhyolith
-			[52530]	= 3,	-- Alysrazor
-			[53691]	= 4,	-- Shannox
-			[53494]	= 5,	-- Baleroc
-			[52571]	= 6,	-- FandralStaghelm
-			[52409]	= 7,	-- Ragnaros
-		},
+		boss_ids = BOSS_IDS,
 	})
 end
 
@@ -1927,14 +2008,11 @@ do --> data for End Time
 		[54432] = 5,	-- Murozond
 	}
 
-	local ENCOUNTER_ID_CL = {
-		54431, 54445, 54123, 54544, 54432,
-		[54431]	= 1,	-- Echo of Baine
-		[54445] = 2,	-- Echo of Jaina
-		[54123] = 3,	-- Echo of Sylvanas
-		[54544] = 4,	-- Echo of Tyrande
-		[54432] = 5,	-- Murozond
-	}
+	local ENCOUNTER_ID_CL = BOSS_IDS
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
 
 	--> install the raid
 	local BOSSNAMES = {
@@ -1994,11 +2072,14 @@ do --> data for Well of Eternity
 	}
 
 	local ENCOUNTER_ID_CL = {
-		55085, 54853, 54969,
 		[55085]	= 1,	-- Peroth'arn
 		[54853]	= 2,	-- Queen Azshara
 		[54969]	= 3,	-- Mannoroth
 	}
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
 
 	--> install the raid
 	local BOSSNAMES = {
@@ -2054,12 +2135,11 @@ do --> data for Hour of Twilight
 		[54938]	= 3,	-- Archbishop Benedictus
 	}
 
-	local ENCOUNTER_ID_CL = {
-		54590, 54968, 54938,
-		[54590]	= 1,	-- Arcurion
-		[54968]	= 2,	-- Asira Dawnslayer
-		[54938]	= 3,	-- Archbishop Benedictus
-	}
+	local ENCOUNTER_ID_CL = BOSS_IDS
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
 
 	--> install the raid
 	local BOSSNAMES = {
@@ -2130,7 +2210,6 @@ do --> data for Dragon Soul
 	}
 
 	local ENCOUNTER_ID_CL = {
-		55265, 55308, 55312, 55689, 55294, 56427, 53879, 56173,
 		[55265]	= 1,	-- Morchok
 		[55308]	= 2,	-- Warlord Zonozz
 		[55312]	= 3,	-- Yor'sahj the Unsleeping
@@ -2140,6 +2219,10 @@ do --> data for Dragon Soul
 		[53879]	= 7,	-- Spine Deathwing
 		[56173]	= 8,	-- Madness Deathwing
 	}
+
+	for k,v in pairs(BOSS_IDS) do
+		ENCOUNTER_ID_CL[v] = k
+	end
 
 	--> install the raid
 	local BOSSNAMES = {
