@@ -101,8 +101,7 @@ function _detalhes:SendCharacterData()
 	end
 
 	--> get player item level
-	--local overall, equipped = GetAverageItemLevel()
-	local overall, equipped = 1, 1
+	local overall, equipped = GetAverageItemLevel()
 
 	--> get player talents
 	local talents = {}
