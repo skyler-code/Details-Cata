@@ -58,6 +58,8 @@ do
 		[3674] = 255, -- Black Arrow Rank 6
 		[53301] = 255, -- Explosive Shot Rank 4
 		[53290] = 255, -- Hunting Party
+		[56453] = 255, -- Lock and Load
+		[64420] = 255, -- Sniper Training
 
 		-- Arcane Mage:
 		[12042] = 62, -- Arcane Power
@@ -183,49 +185,6 @@ do
 		[47488] = 73, -- Shield Slam
 		[46953] = 73, -- Sword and Board
 		[50227] = 73, -- Sword and Board Trigger
-	}
-
-	_detalhes.SpecIDToClass = {
-		[252] = "DEATHKNIGHT", -- Unholy Death Knight
-		[251] = "DEATHKNIGHT", -- Frost Death Knight
-		[250] = "DEATHKNIGHT", -- Blood Death Knight
-
-		[102] = "DRUID", -- Balance Druid
-		[103] = "DRUID", -- Feral Druid
-		[104] = "DRUID", -- Guardian Druid
-		[105] = "DRUID", -- Restoration Druid
-
-		[253] = "HUNTER", -- Beast Mastery Hunter
-		[254] = "HUNTER", -- Marksmanship Hunter
-		[255] = "HUNTER", -- Survival Hunter
-
-		[62] = "MAGE", -- Arcane Mage
-		[63] = "MAGE", -- Fire Mage
-		[64] = "MAGE", -- Frost Mage
-
-		[65] = "PALADIN", -- Holy Paladin
-		[66] = "PALADIN", -- Protection Paladin
-		[70] = "PALADIN", -- Retribution Paladin
-
-		[256] = "PRIEST", -- Discipline Priest
-		[257] = "PRIEST", -- Holy Priest
-		[258] = "PRIEST", -- Shadow Priest
-
-		[259] = "ROGUE", -- Assassination Rogue
-		[260] = "ROGUE", -- Outlaw Rogue
-		[261] = "ROGUE", -- Subtlety Rogue
-
-		[262] = "SHAMAN", -- Elemental Shaman
-		[263] = "SHAMAN", -- Enhancement Shaman
-		[264] = "SHAMAN", -- Restoration Shaman
-
-		[265] = "WARLOCK", -- Affliction Warlock
-		[266] = "WARLOCK", -- Demonology Warlock
-		[267] = "WARLOCK", -- Destruction Warlock
-
-		[71] = "WARRIOR", -- Arms Warrior
-		[72] = "WARRIOR", -- Fury Warrior
-		[73] = "WARRIOR", -- Protection Warrior
 	}
 
 	_detalhes.ClassSpellList = {
