@@ -133,6 +133,7 @@ do
 
 		-- Elemental Shaman:
 		[64701] = 262, -- Elemental Mastery
+		[16166] = 262, -- Elemental Mastery
 		[51490] = 262, -- Thunderstorm
 		[88767] = 262, -- Fulmination
 
