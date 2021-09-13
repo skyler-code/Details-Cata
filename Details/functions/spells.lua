@@ -140,24 +140,25 @@ do
 		[60103] = 263, -- Lava Lash
 
 		-- Restoration Shaman:
-		[51566] = 264, -- Tidal Waves, Rank 5
-		[55459] = 264, -- Chain Heal, Rank 7
-		[49284] = 264, -- Earth Shield, Rank 5
-		[61301] = 264, -- Riptide, Rank 4
+		[53390] = 264, -- Tidal Waves
+		[1064]  = 264, -- Chain Heal
+		[974]   = 264, -- Earth Shield
+		[61295] = 264, -- Riptide
 
 		-- Affliction :
-		[59164] = 265, -- Haunt, Rank 4
-		[47843] = 265, -- Unstable Affliction, Rank 5
+		[48181] = 265, -- Haunt
+		[30108] = 265, -- Unstable Affliction
 
 		-- Demonology Warlock:
 		[30146] = 266, -- Summon Felguard
 		[47241] = 266, -- Metamorphosis
-		[47240] = 266, -- Demonic Pact, Rank 5
-		[47825] = 266, -- Soul Fire, Rank 6
+		[47193] = 266, -- Demonic Empowerment
+		[71521] = 266, -- Hand of Gul'dan
 
 		-- Destruction Warlock:
-		[59172] = 267, -- Chaos Bolt, Rank 4
+		[50796] = 267, -- Chaos Bolt, Rank 4
 		[17962] = 267, -- Conflagrate
+		[80240] = 267, -- Bane of Havoc
 
 		-- Arms Warrior:
 		[12328] = 71, -- Sweeping Strikes
