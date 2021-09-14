@@ -1,6 +1,30 @@
 local LBB = LibStub("LibBabble-Boss-3.0"):GetLookupTable()
 local LBZ = LibStub("LibBabble-Zone-3.0"):GetLookupTable()
 
+local function BuildInstanceInfo(INSTANCE_MAPID)
+	EJ_SelectInstance(INSTANCE_MAPID)
+	local mapName, _, _, dungeonBG, backgroundEJ, mapID = EJ_GetInstanceInfo(INSTANCE_MAPID)
+
+	local ENCOUNTERS = {}
+	local BOSSNAMES = {}
+
+	local bossIndex = 1
+	local name, _, bossID = EJ_GetEncounterInfoByIndex(bossIndex)
+	while bossID do
+		local portrait = select(5, EJ_GetCreatureInfo(1, bossID))
+		local encounterTable = {
+			boss = name,
+			portrait = portrait,
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+		tinsert(BOSSNAMES, name)
+
+		bossIndex = bossIndex + 1
+		name, _, bossID = EJ_GetEncounterInfoByIndex(bossIndex)
+	end
+	return mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES
+end
+
 -- BK
 do --> data for Serpentshrine Cavern
 	local INSTANCE_MAPID = 863
@@ -2026,22 +2050,10 @@ do --> data for Throne of the Four Winds
 end
 
 do --> data for Firelands
-	local INSTANCE_MAPID = 800
+	local INSTANCE_MAPID = 78
 	local HDIMAGESPATH = "Details\\images\\raid"
 	local HDFILEPREFIX = "Firelands"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenFirelandsRaid", {0, 1, 285/1024, 875/1024}
-	local EJ_DUNGEONBG = "ui-ej-dungeonbutton-firelands1"
-	local EJ_LOREBG = "ui-ej-lorebg-firelands1"
-
-	local PORTRAIT_LIST = {
-		"UI-EJ-BOSS-Bethtilac The Red Widow",
-		"UI-EJ-BOSS-Lord Rhyolith",
-		"UI-EJ-BOSS-Alysrazor",
-		"UI-EJ-BOSS-Shannox",
-		"UI-EJ-BOSS-Baleroc",
-		"UI-EJ-BOSS-Fandral Staghelm",
-		"UI-EJ-BOSS-Ragnaros",
-	}
 
 	local BOSS_IDS = {
 		[52498]	= 1,	-- Bethtilac
@@ -2088,35 +2100,17 @@ do --> data for Firelands
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	--> install the raid
-	local BOSSNAMES = {
-		LBB["Beth'tilac"],
-		LBB["Lord Rhyolith"],
-		LBB["Alysrazor"],
-		LBB["Shannox"],
-		LBB["Baleroc"],
-		LBB["Majordomo Staghelm"],
-		LBB["Ragnaros"],
-	}
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
 
-	local ENCOUNTERS = {}
-
-	for i = 1, #PORTRAIT_LIST do
-		local encounterTable = {
-			boss = BOSSNAMES[i],
-			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
-		}
-		tinsert(ENCOUNTERS, encounterTable)
-	end
 
 	_detalhes:InstallEncounter({
-		id = INSTANCE_MAPID, --map id
-		name = LBZ["Firelands"],
+		id = mapID,
+		name = name,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
-		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		icon = dungeonBG,
 		is_raid = true,
 		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
-		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+		backgroundEJ = backgroundEJ,
 
 		encounter_ids2 = ENCOUNTER_ID_CL,
 		boss_names = BOSSNAMES,
@@ -2329,23 +2323,10 @@ do --> data for Hour of Twilight
 end
 
 do --> data for Dragon Soul
-	local INSTANCE_MAPID = 824
+	local INSTANCE_MAPID = 187
 	local HDIMAGESPATH = "Details\\images\\raid"
 	local HDFILEPREFIX = "Dragon Soul"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenDeathwingRaid", {0, 1, 285/1024, 875/1024}
-	local EJ_DUNGEONBG = "ui-ej-dungeonbutton-dragonsoul"
-	local EJ_LOREBG = "ui-ej-lorebg-dragonsoul"
-
-	local PORTRAIT_LIST = {
-		"UI-EJ-BOSS-Morchok",
-		"UI-EJ-BOSS-Warlord Zonozz",
-		"UI-EJ-BOSS-Yorsahj the Unsleeping",
-		"UI-EJ-BOSS-Hagara",
-		"UI-EJ-BOSS-Ultraxion",
-		"UI-EJ-BOSS-WarmasterBlackhorn",
-		"UI-EJ-BOSS-Deathwing",
-		"UI-EJ-BOSS-Corrupted Deathwing",
-	}
 
 	local BOSS_IDS = {
 		[55265]	= 1,	-- Morchok
@@ -2426,36 +2407,16 @@ do --> data for Dragon Soul
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	--> install the raid
-	local BOSSNAMES = {
-		LBB["Morchok"],
-		LBB["Warlord Zon'ozz"],
-		LBB["Yor'sahj the Unsleeping"],
-		LBB["Hagara the Stormbinder"],
-		LBB["Ultraxion"],
-		LBB["Warmaster Blackhorn"],
-		LBB["Spine of Deathwing"],
-		LBB["Madness of Deathwing"],
-	}
-
-	local ENCOUNTERS = {}
-
-	for i = 1, #PORTRAIT_LIST do
-		local encounterTable = {
-			boss = BOSSNAMES[i],
-			portrait = "Interface\\EncounterJournal\\"..PORTRAIT_LIST[i],
-		}
-		tinsert(ENCOUNTERS, encounterTable)
-	end
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
 
 	_detalhes:InstallEncounter({
-		id = INSTANCE_MAPID, --map id
-		name = LBZ["Dragon Soul"],
+		id = mapID,
+		name = name,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
-		icon = "Interface\\EncounterJournal\\"..EJ_DUNGEONBG,
+		icon = dungeonBG,
 		is_raid = true,
 		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
-		backgroundEJ = "Interface\\EncounterJournal\\"..EJ_LOREBG,
+		backgroundEJ = backgroundEJ,
 
 		encounter_ids2 = ENCOUNTER_ID_CL,
 		boss_names = BOSSNAMES,
