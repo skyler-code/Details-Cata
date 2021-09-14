@@ -1512,6 +1512,47 @@ do --> data for Zul'Gurub
 	})
 end
 
+do --> data for Baradin Hold
+	local INSTANCE_MAPID = 75
+	local HDIMAGESPATH = "Details\\images\\raid"
+	local HDFILEPREFIX = "BaradinHold"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenBaradinHold", {0, 1, 285/1024, 875/1024}
+
+	local BOSS_IDS = {
+		[47120]	= 1,	-- Argaloth
+		[52363]	= 2,	-- Occu'thar
+		[55869]	= 3,	-- Alizabal
+	}
+
+	local ENCOUNTER_ID_CL = {
+		47120,	-- Argaloth
+		52363,	-- Occu'thar
+		55869,	-- Alizabal
+	}
+
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
+	end
+
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+
+	_detalhes:InstallEncounter({
+		id = mapID,
+		name = name,
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		icon = dungeonBG,
+		is_raid = true,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+		backgroundEJ = backgroundEJ,
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
+
 do --> data for Blackwing Descent
 	local INSTANCE_MAPID = 73
 	local HDIMAGESPATH = "Details\\images\\raid"
