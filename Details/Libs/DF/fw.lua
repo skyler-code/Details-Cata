@@ -578,10 +578,6 @@ DF.EncounterJournal = {
 	EJ_GetLootInfoByIndex = EJ_GetLootInfoByIndex or function() return nil end,
 }
 
-if (not EJ_GetCurrentInstance) then
-
-end
-
 --> will always give a very random name for our widgets
 local init_counter = math.random (1, 1000000)
 
