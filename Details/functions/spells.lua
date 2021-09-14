@@ -165,10 +165,9 @@ do
 
 		-- Arms Warrior:
 		[12328] = 71, -- Sweeping Strikes
-		[56636] = 71, -- Taste for Blood, Rank 1
-		[56637] = 71, -- Taste for Blood, Rank 2
-		[56638] = 71, -- Taste for Blood, Rank 3
+		[60503] = 71, -- Taste for Blood
 		[12294] = 71, -- Mortal Strike
+		[76858] = 71, -- Opportunity Strike (mastery)
 
 		-- Fury Warrior:
 		[23881] = 72, -- Bloodthirst
