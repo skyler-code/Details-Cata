@@ -469,9 +469,9 @@ do
 		_detalhes.icones = {
 			--> report window
 			report = {
-					up = "Interface\\AddOns\\Details\\textures\\FriendsFrame\\UI-Toast-FriendOnlineIcon",
-					down = "Interface\\ItemAnimations\\MINIMAP\\TRACKING\\Profession",
-					disabled = "Interface\\ItemAnimations\\MINIMAP\\TRACKING\\Profession",
+					up = [[Interface\FriendsFrame\UI-Toast-ToastIcons]],
+					down = [[Interface\ItemAnimations\MINIMAP\TRACKING\Profession]],
+					disabled = [[Interface\ItemAnimations\MINIMAP\TRACKING\Profession]],
 					highlight = nil
 				}
 		}

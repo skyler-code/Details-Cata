@@ -1497,7 +1497,7 @@ local _utf8sub = string.utf8sub
 			--f.portrait:SetTexCoord (192/512, 258/512, 322/512, 388/512)
 
 			local dropdown_size = 160
-			local icon = [[Interface\AddOns\Details\textures\FriendsFrame\BattleBet-Status-Offline]]
+			local icon = [[Interface\FriendsFrame\StatusIcon-Offline]]
 
 			local diff_list = {}
 			local raid_list = {}
@@ -3376,11 +3376,11 @@ local _utf8sub = string.utf8sub
 
 		local fill_dropdown = function()
 			local t = {
-				{value = current_profile, label = Loc ["STRING_OPTIONS_PROFILE_USENEW"], onclick = on_select_profile, icon = [[Interface\AddOns\Details\textures\FriendsFrame\UI-Toast-FriendRequestIcon]], texcoord = {4/32, 30/32, 4/32, 28/32}, iconcolor = "orange"}
+				{value = current_profile, label = Loc ["STRING_OPTIONS_PROFILE_USENEW"], onclick = on_select_profile, icon = [[Interface\FriendsFrame\UI-Toast-FriendRequestIcon]], texcoord = {4/32, 30/32, 4/32, 28/32}, iconcolor = "orange"}
 			}
 			for _, profilename in ipairs (_detalhes:GetProfileList()) do
 				if (profilename ~= current_profile) then
-					t[#t+1] = {value = profilename, label = profilename, onclick = on_select_profile, icon = [[Interface\AddOns\Details\textures\FriendsFrame\UI-Toast-FriendOnlineIcon]], texcoord = texcoord, iconcolor = "yellow"}
+					t[#t+1] = {value = profilename, label = profilename, onclick = on_select_profile, icon = [[Interface\FriendsFrame\UI-Toast-FriendOnlineIcon]], texcoord = texcoord, iconcolor = "yellow"}
 				end
 			end
 			return t

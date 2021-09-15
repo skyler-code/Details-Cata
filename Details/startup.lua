@@ -16,7 +16,7 @@ if (
 	bg:SetTexture ([[Interface\AddOns\Details\images\welcome]])
 
 	local image = f:CreateTexture (nil, "overlay")
-	image:SetTexture ([[Interface\AddOns\Details\textures\DialogFrame\UI-Dialog-Icon-AlertNew]])
+	image:SetTexture ([[Interface\DialogFrame\UI-Dialog-Icon-AlertNew]])
 	image:SetSize (32, 32)
 
 	local label = f:CreateFontString (nil, "overlay", "GameFontNormal")

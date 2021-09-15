@@ -32,7 +32,7 @@ local CONST_INDEX_REVISION = 7
 
 local CONST_COMM_FULLPERSONA = 1
 
-NICKTAG_DEFAULT_AVATAR =[[Interface\AddOns\Details\textures\EncounterJournal\UI-EJ-BOSS-Default]]
+NICKTAG_DEFAULT_AVATAR =[[Interface\EncounterJournal\UI-EJ-BOSS-Default]]
 NICKTAG_DEFAULT_BACKGROUND =[[Interface\AddOns\Details\textures\PetBattles\Weather-ArcaneStorm]]
 NICKTAG_DEFAULT_BACKGROUND_CORDS = {0.129609375, 1, 1, 0}
 
