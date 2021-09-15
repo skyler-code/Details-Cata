@@ -1618,9 +1618,7 @@ function DF:IconPick (callback, close_when_select, param1, param2)
 		local SPELLNAMES_CACHE = {}
 
 		DF.IconPickFrame:SetScript ("OnShow", function()
-			GetMacroIcons(MACRO_ICON_FILENAMES)
-			GetMacroItemIcons(MACRO_ICON_FILENAMES)
-			table.insert(MACRO_ICON_FILENAMES, 1, "INV_MISC_QUESTIONMARK")
+			MACRO_ICON_FILENAMES[1] = "INV_MISC_QUESTIONMARK"
 
 			local usedIcons = {}
 			for i = 1, GetNumSpellTabs() do
@@ -1633,12 +1631,15 @@ function DF:IconPick (callback, close_when_select, param1, param2)
 					if not usedIcons[fullTexture] then
 						local _,_,texture = strsplit("\\", fullTexture)
 						if texture then
-							tinsert(MACRO_ICON_FILENAMES, 2, texture)
+							MACRO_ICON_FILENAMES[#MACRO_ICON_FILENAMES+1] = texture
 						end
 						usedIcons[fullTexture] = true
 					end
 				end
 			end
+
+			GetMacroIcons(MACRO_ICON_FILENAMES)
+			GetMacroItemIcons(MACRO_ICON_FILENAMES)
 
 			--reset the custom icon text entry
 			DF.IconPickFrame.customIconEntry:SetText ("")
