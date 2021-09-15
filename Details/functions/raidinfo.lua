@@ -1,9 +1,9 @@
 local LBB = LibStub("LibBabble-Boss-3.0"):GetLookupTable()
 local LBZ = LibStub("LibBabble-Zone-3.0"):GetLookupTable()
 
-local function BuildInstanceInfo(INSTANCE_MAPID)
-	EJ_SelectInstance(INSTANCE_MAPID)
-	local mapName, _, _, dungeonBG, backgroundEJ, mapID = EJ_GetInstanceInfo(INSTANCE_MAPID)
+local function BuildInstanceInfo(EJ_INSTANCEID)
+	EJ_SelectInstance(EJ_INSTANCEID)
+	local mapName, _, _, dungeonBG, backgroundEJ, mapID = EJ_GetInstanceInfo(EJ_INSTANCEID)
 
 	local ENCOUNTERS = {}
 	local BOSSNAMES = {}
@@ -324,7 +324,6 @@ do --> data for The Black Temple
 		[22917]	= 9,	-- Illidan Stormrage
 	}
 
-	-- TODO: Opera
 	local ENCOUNTER_ID_CL = {
 		22887,	-- High Warlord Naj'entus
 		22898,	-- Supremus
@@ -958,7 +957,7 @@ do --> data for Ulduar
 end
 
 do --> data for Throne of the Tides
-	local INSTANCE_MAPID = 65
+	local EJ_INSTANCEID = 65
 	local HDIMAGESPATH = "Details\\images\\dungeon"
 	local HDFILEPREFIX = "ThroneoftheTides"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenThroneoftheTides", {0, 1, 285/1024, 875/1024}
@@ -987,7 +986,7 @@ do --> data for Throne of the Tides
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1007,7 +1006,7 @@ do --> data for Throne of the Tides
 end
 
 do --> data for Halls of Origination
-	local INSTANCE_MAPID = 70
+	local EJ_INSTANCEID = 70
 	local HDIMAGESPATH = "Details\\images\\dungeon"
 	local HDFILEPREFIX = "HallsofOrigination"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenHallsofOrigination", {0, 1, 285/1024, 875/1024}
@@ -1043,7 +1042,7 @@ do --> data for Halls of Origination
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1063,7 +1062,7 @@ do --> data for Halls of Origination
 end
 
 do --> data for Blackrock Caverns
-	local INSTANCE_MAPID = 66
+	local EJ_INSTANCEID = 66
 	local HDIMAGESPATH = "Details\\images\\dungeon"
 	local HDFILEPREFIX = "BlackrockCaverns"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenBlackrockCaverns", {0, 1, 285/1024, 875/1024}
@@ -1093,7 +1092,7 @@ do --> data for Blackrock Caverns
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1113,7 +1112,7 @@ do --> data for Blackrock Caverns
 end
 
 do --> data for Vortex Pinnacle
-	local INSTANCE_MAPID = 68
+	local EJ_INSTANCEID = 68
 	local HDIMAGESPATH = "Details\\images\\dungeon"
 	local HDFILEPREFIX = "TheVortexPinnacle"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenSkywall", {0, 1, 285/1024, 875/1024}
@@ -1137,7 +1136,7 @@ do --> data for Vortex Pinnacle
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1157,7 +1156,7 @@ do --> data for Vortex Pinnacle
 end
 
 do --> data for Grim Batol
-	local INSTANCE_MAPID = 71
+	local EJ_INSTANCEID = 71
 	local HDIMAGESPATH = "Details\\images\\dungeon"
 	local HDFILEPREFIX = "GrimBatol"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LOADSCREENGRIMBATOL", {0, 1, 285/1024, 875/1024}
@@ -1184,7 +1183,7 @@ do --> data for Grim Batol
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1204,7 +1203,7 @@ do --> data for Grim Batol
 end
 
 do --> data for Stonecore
-	local INSTANCE_MAPID = 67
+	local EJ_INSTANCEID = 67
 	local HDIMAGESPATH = "Details\\images\\dungeon"
 	local HDFILEPREFIX = "TheStonecore"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LOADSCREENDEEPHOLMDUNGEON", {0, 1, 285/1024, 875/1024}
@@ -1231,7 +1230,7 @@ do --> data for Stonecore
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1251,7 +1250,7 @@ do --> data for Stonecore
 end
 
 do --> data for Lost City of the Tol'Vir
-	local INSTANCE_MAPID = 69
+	local EJ_INSTANCEID = 69
 	local HDIMAGESPATH = "Details\\images\\dungeon"
 	local HDFILEPREFIX = "LostCityofTolvir"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenLostCityofTolvir", {0, 1, 285/1024, 875/1024}
@@ -1280,7 +1279,7 @@ do --> data for Lost City of the Tol'Vir
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1300,7 +1299,7 @@ do --> data for Lost City of the Tol'Vir
 end
 
 do --> data for Zul'Aman
-	local INSTANCE_MAPID = 77
+	local EJ_INSTANCEID = 77
 	local HDIMAGESPATH = "Details\\images\\dungeon"
 	local HDFILEPREFIX = "ZulAman"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenZulAman2", {0, 1, 285/1024, 875/1024}
@@ -1333,7 +1332,7 @@ do --> data for Zul'Aman
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1353,7 +1352,7 @@ do --> data for Zul'Aman
 end
 
 do --> data for Zul'Gurub
-	local INSTANCE_MAPID = 76
+	local EJ_INSTANCEID = 76
 	local HDIMAGESPATH = "Details\\images\\dungeon"
 	local HDFILEPREFIX = "ZulGurub"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenZulGurub", {0, 1, 285/1024, 875/1024}
@@ -1386,7 +1385,7 @@ do --> data for Zul'Gurub
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1406,7 +1405,7 @@ do --> data for Zul'Gurub
 end
 
 do --> data for Baradin Hold
-	local INSTANCE_MAPID = 75
+	local EJ_INSTANCEID = 75
 	local HDIMAGESPATH = "Details\\images\\raid"
 	local HDFILEPREFIX = "BaradinHold"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenBaradinHold", {0, 1, 285/1024, 875/1024}
@@ -1427,7 +1426,7 @@ do --> data for Baradin Hold
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1447,7 +1446,7 @@ do --> data for Baradin Hold
 end
 
 do --> data for Blackwing Descent
-	local INSTANCE_MAPID = 73
+	local EJ_INSTANCEID = 73
 	local HDIMAGESPATH = "Details\\images\\raid"
 	local HDFILEPREFIX = "BlackwingDescent"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenBlackwingDescentRaid", {0, 1, 285/1024, 875/1024}
@@ -1508,7 +1507,7 @@ do --> data for Blackwing Descent
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1528,7 +1527,7 @@ do --> data for Blackwing Descent
 end
 
 do --> data for Bastion of Twilight
-	local INSTANCE_MAPID = 72
+	local EJ_INSTANCEID = 72
 	local HDIMAGESPATH = "Details\\images\\raid"
 	local HDFILEPREFIX = "GrimBatolRaid"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenGrimBatolRaid", {0, 1, 285/1024, 875/1024}
@@ -1586,7 +1585,7 @@ do --> data for Bastion of Twilight
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1606,7 +1605,7 @@ do --> data for Bastion of Twilight
 end
 
 do --> data for Throne of the Four Winds
-	local INSTANCE_MAPID = 74
+	local EJ_INSTANCEID = 74
 	local HDIMAGESPATH = "Details\\images\\raid"
 	local HDFILEPREFIX = "SkywallRaid"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenSkywallRaid", {0, 1, 285/1024, 875/1024}
@@ -1639,7 +1638,7 @@ do --> data for Throne of the Four Winds
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1659,7 +1658,7 @@ do --> data for Throne of the Four Winds
 end
 
 do --> data for Firelands
-	local INSTANCE_MAPID = 78
+	local EJ_INSTANCEID = 78
 	local HDIMAGESPATH = "Details\\images\\raid"
 	local HDFILEPREFIX = "Firelands"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenFirelandsRaid", {0, 1, 285/1024, 875/1024}
@@ -1709,7 +1708,7 @@ do --> data for Firelands
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1729,7 +1728,7 @@ do --> data for Firelands
 end
 
 do --> data for End Time
-	local INSTANCE_MAPID = 184
+	local EJ_INSTANCEID = 184
 	local HDIMAGESPATH = "Details\\images\\dungeon"
 	local HDFILEPREFIX = "EndTime"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenEndTime", {0, 1, 285/1024, 875/1024}
@@ -1754,7 +1753,7 @@ do --> data for End Time
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1774,7 +1773,7 @@ do --> data for End Time
 end
 
 do --> data for Well of Eternity
-	local INSTANCE_MAPID = 185
+	local EJ_INSTANCEID = 185
 	local HDIMAGESPATH = "Details\\images\\dungeon"
 	local HDFILEPREFIX = "WellOfEternity"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenWellofEternity", {0, 1, 285/1024, 875/1024}
@@ -1796,7 +1795,7 @@ do --> data for Well of Eternity
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1816,7 +1815,7 @@ do --> data for Well of Eternity
 end
 
 do --> data for Hour of Twilight
-	local INSTANCE_MAPID = 186
+	local EJ_INSTANCEID = 186
 	local HDIMAGESPATH = "Details\\images\\dungeon"
 	local HDFILEPREFIX = "HourOfTwilight"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenHourofTwilight", {0, 1, 285/1024, 875/1024}
@@ -1837,7 +1836,7 @@ do --> data for Hour of Twilight
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
@@ -1857,7 +1856,7 @@ do --> data for Hour of Twilight
 end
 
 do --> data for Dragon Soul
-	local INSTANCE_MAPID = 187
+	local EJ_INSTANCEID = 187
 	local HDIMAGESPATH = "Details\\images\\raid"
 	local HDFILEPREFIX = "Dragon Soul"
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenDeathwingRaid", {0, 1, 285/1024, 875/1024}
@@ -1941,7 +1940,7 @@ do --> data for Dragon Soul
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(INSTANCE_MAPID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
