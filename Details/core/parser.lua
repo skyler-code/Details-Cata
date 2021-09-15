@@ -3886,14 +3886,6 @@ function _detalhes.parser_functions:ENCOUNTER_END(...)
 
 	_current_encounter_id = nil
 
-	local _, instanceType = GetInstanceInfo() --> let's make sure it isn't a dungeon
-	if _detalhes.zone_type == "party" or instanceType == "party" then
-		if _detalhes.debug then
-			_detalhes:Msg("(debug) the zone type is 'party', ignoring ENCOUNTER_END.")
-		end
-		--return --rnu encounter end for dungeons as well
-	end
-
 	local encounterID, encounterName, difficultyID, raidSize, endStatus = ...
 
 	--_detalhes:Msg("encounter against|cFFFFC000", encounterName, "|rended.")
