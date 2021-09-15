@@ -541,14 +541,17 @@ do
 	_detalhes.CrowdControlSpells = {
 		--Racials
 		[28730]	= true, -- Arcane Torrent(be)
-		[47779]	= true, -- Arcane Torrent(be)
+		[25046]	= true, -- Arcane Torrent(be)
 		[50613]	= true, -- Arcane Torrent(be)
+		[69179]	= true, -- Arcane Torrent(be)
+		[80483]	= true, -- Arcane Torrent(be)
 		[20549]	= true, -- War Stomp(tauren)
 
 		--death knight
 		[47481]	= true, -- Gnaw
 		[47528]	= true, -- Mind Freeze
 		[47476]	= true, -- Strangulate
+		[49203]	= true, -- Hungering Cold
 
 		--druid
 		[33786]	= true, -- Cyclone
@@ -558,6 +561,7 @@ do
 		[22570]	= true, -- Maim
 		[5211]	= true, -- Mighty Bash(talent)
 		[16979]	= true, -- Wild Charge(talent)
+		[78675]	= true, -- Solar Beam
 
 		--hunter
 		[64803]	= true, -- Entrapment
