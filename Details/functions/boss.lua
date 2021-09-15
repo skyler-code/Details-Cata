@@ -242,6 +242,7 @@ do
 		if raidIcon then
 			return raidIcon
 		end
+		return "Interface\\EncounterJournal\\UI-EJ-DUNGEONBUTTON-Default"
 	end
 
 	function _detalhes:GetBossIndex(mapid, encounterCLID, encounterName)
