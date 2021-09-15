@@ -12,6 +12,7 @@ local function BuildInstanceInfo(EJ_INSTANCEID)
 	local name, _, bossID = EJ_GetEncounterInfoByIndex(bossIndex)
 	while bossID do
 		local portrait = select(5, EJ_GetCreatureInfo(1, bossID))
+		tinsert(NickTag.avatar_pool, { portrait, name })
 		local encounterTable = {
 			boss = name,
 			portrait = portrait,
