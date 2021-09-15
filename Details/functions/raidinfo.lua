@@ -300,6 +300,80 @@ do --> data for The Eye
 	})
 end
 
+do --> data for The Black Temple
+	local INSTANCE_MAPID = 796
+	local HDIMAGESPATH = "Details\\images\\raid"
+	local HDFILEPREFIX = "BlackTemple"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenBlackTemple", {0, 1, 285/1024, 875/1024}
+
+	local BOSS_IDS = {
+		[22887]	= 1,	-- High Warlord Naj'entus
+		[22898]	= 2,	-- Supremus
+		[22841]	= 3,	-- Shade of Akama
+		[22871]	= 4,	-- Teron Gorefiend
+		[22948]	= 5,	-- Gurtogg Bloodboil
+		[23420]	= 6,	-- Essence of Anger
+		[23419]	= 6,	-- Essence of Desire
+		[23418]	= 6,	-- Essence of Suffering
+		[22947]	= 7,	-- Mother Shahraz
+		[23426]	= 8,	-- Illidari Council
+		[22949]	= 8,	-- Gathios the Shatterer
+		[22950]	= 8,	-- High Nethermancer Zerevor
+		[22951]	= 8,	-- Lady Malande
+		[22952]	= 8,	-- Veras Darkshadow
+		[22917]	= 9,	-- Illidan Stormrage
+	}
+
+	-- TODO: Opera
+	local ENCOUNTER_ID_CL = {
+		22887,	-- High Warlord Naj'entus
+		22898,	-- Supremus
+		22841,	-- Shade of Akama
+		22871,	-- Teron Gorefiend
+		22948,	-- Gurtogg Bloodboil
+		23418,	-- Essence of Suffering
+		22947,	-- Mother Shahraz
+		22952,	-- Veras Darkshadow
+		22917,	-- Illidan Stormrage
+	}
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["High Warlord Naj'entus"],
+		LBB["Supremus"],
+		LBB["Shade of Akama"],
+		LBB["Teron Gorefiend"],
+		LBB["Gurtogg Bloodboil"],
+		LBB["Reliquary of Souls"],
+		LBB["Mother Shahraz"],
+		LBB["The Illidari Council"],
+		LBB["Illidan Stormrage"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #BOSSNAMES do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Black Temple"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		is_raid = true,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = BOSS_IDS,
+	})
+end
+
 -- WotLK
 
 do --> data for Onyxia's Lair
@@ -508,7 +582,7 @@ do --> data for Trial of the Crusader
 
 	for i = 1, #BOSSNAMES do
 		local encounterTable = {
-			boss = BOSSNAMES[i],
+			boss = BOSSNAMES[i]
 		}
 		tinsert(ENCOUNTERS, encounterTable)
 	end
@@ -616,7 +690,7 @@ do --> data for Naxxramas
 
 	for i = 1, #BOSSNAMES do
 		local encounterTable = {
-			boss = BOSSNAMES[i]
+			boss = BOSSNAMES[i],
 		}
 		tinsert(ENCOUNTERS, encounterTable)
 	end
