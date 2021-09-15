@@ -1618,31 +1618,27 @@ function DF:IconPick (callback, close_when_select, param1, param2)
 		local SPELLNAMES_CACHE = {}
 
 		DF.IconPickFrame:SetScript ("OnShow", function()
+			GetMacroIcons(MACRO_ICON_FILENAMES)
+			GetMacroItemIcons(MACRO_ICON_FILENAMES)
+			table.insert(MACRO_ICON_FILENAMES, 1, "INV_MISC_QUESTIONMARK")
 
-			MACRO_ICON_FILENAMES [1] = "INTERFACE\\ICONS\\INV_MISC_QUESTIONMARK"
-			local index = 2
-
+			local usedIcons = {}
 			for i = 1, GetNumSpellTabs() do
 				local tab, tabTex, offset, numSpells, _ = GetSpellTabInfo (i)
 				offset = offset + 1
 				local tabEnd = offset + numSpells
-
+				
 				for j = offset, tabEnd - 1 do
-					MACRO_ICON_FILENAMES[index] = GetSpellTexture(j, "spell")
-					index = index + 1
+					local fullTexture = GetSpellTexture(j, "spell")
+					if not usedIcons[fullTexture] then
+						local _,_,texture = strsplit("\\", fullTexture)
+						if texture then
+							tinsert(MACRO_ICON_FILENAMES, 2, texture)
+						end
+						usedIcons[fullTexture] = true
+					end
 				end
 			end
-
-			for i = 1, GetNumMacroIcons() do
-				MACRO_ICON_FILENAMES[index] = GetMacroIconInfo(i)
-				index = index + 1
-			end
-
-
-		--	GetLooseMacroItemIcons (MACRO_ICON_FILENAMES)
-		--	GetLooseMacroIcons (MACRO_ICON_FILENAMES)
-		--	GetMacroIcons (MACRO_ICON_FILENAMES)
-		--	GetMacroItemIcons (MACRO_ICON_FILENAMES)
 
 			--reset the custom icon text entry
 			DF.IconPickFrame.customIconEntry:SetText ("")
@@ -1840,7 +1836,7 @@ function DF:IconPick (callback, close_when_select, param1, param2)
 				texture = pool [index]
 				if ( index <= numMacroIcons and texture ) then
 
-					macroPopupIcon:SetTexture (texture)
+					macroPopupIcon:SetTexture ("Interface\\Icons\\"..texture)
 
 					macroPopupIcon:SetTexCoord (4/64, 60/64, 4/64, 60/64)
 					macroPopupButton.IconID = index
