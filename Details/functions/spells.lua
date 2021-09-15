@@ -82,15 +82,20 @@ do
 		[25914] = 65, -- Holy Shock
 		[54149] = 65, -- Infusion of Light
 		[20053] = 65, -- Conviction
+		[86273] = 65, -- Illuminated Healing (mastery)
+		[85222] = 65, -- Light of Dawn
 
 		-- Protection Paladin:
 		[88263] = 66, -- Hammer of the Righteous
-		[31935] = 66, -- Avenger's Shield, Rank 5
-		[20925] = 66, -- Holy Shield, Rank 6
+		[53600] = 66, -- Shield of the Righteous
+		[31935] = 66, -- Avenger's Shield
+		[20925] = 66, -- Holy Shield
+		[31850] = 66, -- Ardent Defender
 
 		-- Retribution Paladin:
 		[53385] = 70, -- Divine Storm
 		[85256] = 70, -- Templar's Verdict
+		[89906] = 70, -- Judgements of the Bold
 		
 		-- Discipline Priest:
 		[10060] = 256, -- Power Infusion
@@ -98,6 +103,8 @@ do
 		[33206] = 256, -- Pain Suppression
 		[47750] = 256, -- Penance
 		[47753] = 256, -- Divine Aegis
+		[59888] = 256, -- Borrowed Time
+		[47755] = 256, -- Rapture
 
 		-- Holy Priest:
 		[34861] = 257, -- Circle of Healing, Rank 7
