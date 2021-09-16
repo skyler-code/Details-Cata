@@ -171,6 +171,60 @@ do --> data for Gruul's Lair
 	})
 end
 
+do --> data for Magisters' Terrace
+	local INSTANCE_MAPID = 798
+	local HDIMAGESPATH = "Details\\images\\raid"
+	local HDFILEPREFIX = "MagistersTerrace"
+	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenSunwell5Man", {0, 1, 285/1024, 875/1024}
+
+	local ENCOUNTER_ID_CL = {
+		24723,	-- Selin Fireheart
+		24744,	-- Vexallus
+		24560,	-- Priestess Delrissa
+		24664,	-- Kael'thas Sunstrider
+	}
+
+	for i = 1, #ENCOUNTER_ID_CL do
+		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
+	end
+
+	--> install the raid
+	local BOSSNAMES = {
+		LBB["Selin Fireheart"],
+		LBB["Vexallus"],
+		LBB["Priestess Delrissa"],
+		LBB["Kael'thas Sunstrider"],
+	}
+
+	local ENCOUNTERS = {}
+
+	for i = 1, #BOSSNAMES do
+		local encounterTable = {
+			boss = BOSSNAMES[i],
+		}
+		tinsert(ENCOUNTERS, encounterTable)
+	end
+
+	_detalhes:InstallEncounter({
+		id = INSTANCE_MAPID, --map id
+		name = LBZ["Magisters' Terrace"],
+		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
+		is_raid = false,
+		backgroundFile = {file = "Interface\\Glues\\LOADINGSCREENS\\"..LOADINGSCREEN_FILE, coords = LOADINGSCREEN_COORDS},
+
+		encounter_ids2 = ENCOUNTER_ID_CL,
+		boss_names = BOSSNAMES,
+		encounters = ENCOUNTERS,
+
+		boss_ids = {
+			[24723]	= 1,	-- Selin Fireheart
+			[24744]	= 2,	-- Vexallus
+			[24560]	= 3,	-- Priestess Delrissa
+			[24664]	= 4,	-- Kael'thas Sunstrider
+		},
+	})
+end
+
 do --> data for Karazhan
 	local INSTANCE_MAPID = 868
 	local HDIMAGESPATH = "Details\\images\\raid"
