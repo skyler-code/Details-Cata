@@ -1924,6 +1924,7 @@ do --> data for Dragon Soul
 		[57409]	= 1,	-- Morchok
 		[57771]	= 1,	-- Morchok
 		[57772]	= 1,	-- Morchok
+		[57773]	= 1,	-- Kohcrom
 		[55308]	= 2,	-- Warlord Zonozz
 		[55309]	= 2,	-- Warlord Zonozz
 		[55310]	= 2,	-- Warlord Zonozz
