@@ -6,7 +6,7 @@ tinsert, select, EJ_SelectInstance, EJ_GetInstanceInfo, EJ_GetEncounterInfoByInd
 
 local function BuildInstanceInfo(EJ_INSTANCEID)
 	EJ_SelectInstance(EJ_INSTANCEID)
-	local mapName, _, _, dungeonBG, backgroundEJ, mapID = EJ_GetInstanceInfo(EJ_INSTANCEID)
+	local mapName, _, _, dungeonBG, backgroundEJ, mapID = EJ_GetInstanceInfo()
 
 	local ENCOUNTERS = {}
 	local BOSSNAMES = {}
