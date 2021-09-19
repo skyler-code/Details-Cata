@@ -54,12 +54,17 @@
 
 		amount = amount or 0
 		self.targets [nome] = (self.targets [nome] or 0) + amount
+		self.counter = self.counter + 1
 
-		if (absorbed == "SPELL_HEAL_ABSORBED") then
-			self.counter = self.counter + 1
-			self.totaldenied = self.totaldenied + amount
+		if (overhealing and overhealing > 0) then
+			self.overheal = self.overheal + overhealing
+			self.targets_overheal [nome] = (self.targets_overheal [nome] or 0) + overhealing
+		end
 
-			local healerName = critical
+		if (absorbed and absorbed > 0) then
+			self.totaldenied = self.totaldenied + absorbed
+
+			local healerName = extraSpellID
 
 			--create the denied table spells, on the fly
 			if (not self.heal_denied) then
@@ -67,20 +72,13 @@
 				self.heal_denied_healers = {}
 			end
 
-			self.heal_denied [extraSpellID] = (self.heal_denied [extraSpellID] or 0) + amount
-			self.heal_denied_healers [healerName] = (self.heal_denied_healers [healerName] or 0) + amount
+			self.heal_denied [self.id] = (self.heal_denied [self.id] or 0) + absorbed
+			self.heal_denied_healers [healerName] = (self.heal_denied_healers [healerName] or 0) + absorbed
 		else
-
 			self.total = self.total + amount
-			self.counter = self.counter + 1
 
 			if (absorbed and absorbed > 0) then
 				self.absorbed = self.absorbed + absorbed
-			end
-
-			if (overhealing and overhealing > 0) then
-				self.overheal = self.overheal + overhealing
-				self.targets_overheal [nome] = (self.targets_overheal [nome] or 0) + overhealing
 			end
 
 			if (is_shield) then
