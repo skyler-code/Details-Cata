@@ -1048,7 +1048,7 @@ do --> data for Throne of the Tides
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = false,
@@ -1104,7 +1104,7 @@ do --> data for Halls of Origination
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = false,
@@ -1154,7 +1154,7 @@ do --> data for Blackrock Caverns
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = false,
@@ -1198,7 +1198,7 @@ do --> data for Vortex Pinnacle
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = false,
@@ -1245,7 +1245,7 @@ do --> data for Grim Batol
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = false,
@@ -1292,7 +1292,7 @@ do --> data for Stonecore
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = false,
@@ -1341,7 +1341,7 @@ do --> data for Lost City of the Tol'Vir
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = false,
@@ -1394,7 +1394,7 @@ do --> data for Zul'Aman
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = false,
@@ -1447,7 +1447,7 @@ do --> data for Zul'Gurub
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = false,
@@ -1488,7 +1488,7 @@ do --> data for Baradin Hold
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = true,
@@ -1569,7 +1569,7 @@ do --> data for Blackwing Descent
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = true,
@@ -1647,7 +1647,7 @@ do --> data for Bastion of Twilight
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = true,
@@ -1700,7 +1700,7 @@ do --> data for Throne of the Four Winds
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = true,
@@ -1770,7 +1770,7 @@ do --> data for Firelands
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = true,
@@ -1815,7 +1815,7 @@ do --> data for End Time
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = false,
@@ -1857,7 +1857,7 @@ do --> data for Well of Eternity
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = false,
@@ -1898,7 +1898,7 @@ do --> data for Hour of Twilight
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = false,
@@ -2005,7 +2005,7 @@ do --> data for Dragon Soul
 
 	_detalhes:InstallEncounter({
 		id = mapID,
-		name = name,
+		name = mapName,
 		icons = "Interface\\AddOns\\"..HDIMAGESPATH.."\\"..HDFILEPREFIX.."_BossFaces",
 		icon = dungeonBG,
 		is_raid = true,
