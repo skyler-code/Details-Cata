@@ -4,8 +4,8 @@ _detalhes = LibStub("AceAddon-3.0"):NewAddon("_detalhes", "AceTimer-3.0", "AceCo
 
 _detalhes.build_counter = 8000
 _detalhes.alpha_build_counter = 7269 --if this is higher than the regular counter, use it instead
-_detalhes.game_version = "v4.3.4"
-_detalhes.userversion = "v4.3.4." .. _detalhes.build_counter
+_detalhes.game_version = "v"..GetBuildInfo()
+_detalhes.userversion = _detalhes.game_version .. "." .. _detalhes.build_counter
 _detalhes.realversion = 200 --core version, this is used to check API version for scripts and plugins (see alias below)
 _detalhes.APIVersion = _detalhes.realversion --core version
 _detalhes.version = _detalhes.userversion .. " (core " .. _detalhes.realversion .. ")" --simple stirng to show to players
