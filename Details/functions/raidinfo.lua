@@ -233,8 +233,8 @@ do --> data for Karazhan
 
 	-- TODO: Opera
 	local ENCOUNTER_ID_CL = {
-		16152, 15687, 16457, 17535, 34437, 15688, 16524, 15689, 17225, 15690,
-		[16152] = 1, --Attumen the Huntsman
+		15550, 15687, 16457, 17535, 34437, 15688, 16524, 15689, 17225, 15690,
+		[15550] = 1, --Attumen the Huntsman
 		[15687] = 2, --Moroes
 		[16457] = 3, --Maiden of Virtue
 		[17535] = 4, --Opera Event
@@ -281,7 +281,7 @@ do --> data for Karazhan
 		encounters = ENCOUNTERS,
 
 		boss_ids = {
-			[16152] = 1, --Attumen the Huntsman
+			[15550] = 1, --Attumen the Huntsman
 			[16151] = 1, --Midnight
 			[15687] = 2, --Moroes
 			[16457] = 3, --Maiden of Virtue
@@ -1938,9 +1938,12 @@ do --> data for Dragon Soul
 		[56577]	= 5,	-- Ultraxion
 		[56578]	= 5,	-- Ultraxion
 		[56427]	= 6,	-- Warmaster Blackhorn
-		[57699]	= 6,	-- Warmaster Blackhorn
-		[57847]	= 6,	-- Warmaster Blackhorn
-		[57848]	= 6,	-- Warmaster Blackhorn
+		[56855]	= 6,	-- Warmaster Blackhorn
+		[56587]	= 6,	-- Warmaster Blackhorn
+		[56923]	= 6,	-- Warmaster Blackhorn
+		[56854]	= 6,	-- Warmaster Blackhorn
+		[56848]	= 6,	-- Warmaster Blackhorn
+		[56848]	= 6,	-- Warmaster Blackhorn
 		[53891] = 7,	-- Corruption
 		[57879] = 7,	-- Corruption
 		[57880] = 7,	-- Corruption
