@@ -1210,79 +1210,6 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 	--> HEALING 	serach key: ~heal											|
 -----------------------------------------------------------------------------------------------------------------------------------------
 
-	function parser:heal_denied (token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellidAbsorb, spellnameAbsorb, spelltype, amount, overhealing, absorbed, critical, is_shield)
-
-		if (not _in_combat) then
-			return
-		end
-
-		--> check invalid serial against pets
-		if (who_serial == "") then
-			if (who_flags and _bit_band (who_flags, OBJECT_TYPE_PETS) ~= 0) then --> � um pet
-				return
-			end
-		end
-
-		--> no name, use spellname
-		if (not who_name) then
-			who_name = "[*] " .. (spellnameHeal or "--unknown spell--")
-		end
-		
-		--> no target, just ignore
-		if (not alvo_name) then
-			return
-		end
-		
-		--> if no spellid
-		if (not spellidAbsorb) then
-			spellidAbsorb = 1
-			spellnameAbsorb = "unknown"
-			spellschoolAbsorb = 1
-		end
-		
-		if (is_using_spellId_override) then
-			spellidAbsorb = override_spellId [spellidAbsorb] or spellidAbsorb
-			spellidHeal = override_spellId [spellidHeal] or spellidHeal
-		end
-		
-	------------------------------------------------------------------------------------------------
-	--> get actors
-
-		local este_jogador, meu_dono = healing_cache [who_serial]
-		if (not este_jogador) then --> pode ser um desconhecido ou um pet
-			este_jogador, meu_dono, who_name = _current_heal_container:PegarCombatente (who_serial, who_name, who_flags, true)
-			if (not meu_dono and who_flags and who_serial ~= "") then --> se n�o for um pet, adicionar no cache
-				healing_cache [who_serial] = este_jogador
-			end
-		end
-		
-		local jogador_alvo, alvo_dono = healing_cache [alvo_serial]
-		if (not jogador_alvo) then
-			jogador_alvo, alvo_dono, alvo_name = _current_heal_container:PegarCombatente (alvo_serial, alvo_name, alvo_flags, true)
-			if (not alvo_dono and alvo_flags and also_serial ~= "") then
-				healing_cache [alvo_serial] = jogador_alvo
-			end
-		end
-		
-		este_jogador.last_event = _tempo
-
-		------------------------------------------------
-		
-		este_jogador.totaldenied = este_jogador.totaldenied + absorbed
-		--> actor spells table
-		spell = este_jogador.spells._ActorTable [spellidAbsorb]
-		if (not spell) then
-			spell = este_jogador.spells:PegaHabilidade (spellidAbsorb, true, token)
-			if (_current_combat.is_boss and who_flags and _bit_band (who_flags, OBJECT_TYPE_ENEMY) ~= 0) then
-				_detalhes.spell_school_cache [spellnameAbsorb] = spellschoolAbsorb or 1
-			end
-		end
-		
-		--return spell:Add (alvo_serial, alvo_name, alvo_flags, cura_efetiva, who_name, absorbed, critical, overhealing)
-		return spell_heal_func(spell, alvo_serial, alvo_name, alvo_flags, amount, who_name, absorbed, critical, overhealing)
-
-	end
-
 	-- https://github.com/TrinityCore/TrinityCore/blob/d81a9e5bc3b3e13b47332b3e7817bd0a0b228cbc/src/server/game/Spells/Auras/SpellAuraEffects.h#L313-L367
 	-- absorb order from trinitycore
 	local function AbsorbAuraOrderPred(a, b)
@@ -1401,9 +1328,6 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 	end
 
 	function parser:heal(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, overhealing, absorbed, critical, is_shield)
-		if(absorbed and absorbed > 0) then
-			return parser:heal_denied(token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, overhealing, absorbed, critical, is_shield)
-		end
 	------------------------------------------------------------------------------------------------
 	--> early checks and fixes
 
@@ -1600,6 +1524,10 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 			if(meu_dono) then
 				meu_dono.totalover = meu_dono.totalover + overhealing
 			end
+		end
+
+		if absorbed and absorbed > 0 then
+			este_jogador.totaldenied = este_jogador.totaldenied + absorbed
 		end
 
 		--> actor spells table
