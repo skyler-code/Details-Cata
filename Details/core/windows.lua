@@ -1704,7 +1704,7 @@ local _utf8sub = string.utf8sub
 										boss_repeated [encounterId] = true
 									end
 
-									if (not raid_repeated [instance.name]) then
+									if instance.is_raid and (not raid_repeated [instance.name]) then
 										tinsert (raid_list, {value = instance.id, label = instance.name, icon = icon, onclick = on_raid_select})
 										raid_repeated [instance.name] = true
 									end
