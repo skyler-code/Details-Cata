@@ -1,6 +1,9 @@
 local LBB = LibStub("LibBabble-Boss-3.0"):GetLookupTable()
 local LBZ = LibStub("LibBabble-Zone-3.0"):GetLookupTable()
 
+local tinsert, select, EJ_SelectInstance, EJ_GetInstanceInfo, EJ_GetEncounterInfoByIndex, EJ_GetCreatureInfo =
+tinsert, select, EJ_SelectInstance, EJ_GetInstanceInfo, EJ_GetEncounterInfoByIndex, EJ_GetCreatureInfo
+
 local function BuildInstanceInfo(EJ_INSTANCEID)
 	EJ_SelectInstance(EJ_INSTANCEID)
 	local mapName, _, _, dungeonBG, backgroundEJ, mapID = EJ_GetInstanceInfo(EJ_INSTANCEID)
