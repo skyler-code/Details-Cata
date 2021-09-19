@@ -237,6 +237,9 @@ local spell_create_is_summon = {
 	[34600] = true, -- snake trap
 }
 
+--> restoration shaman spirit link totem
+local SPELLID_SHAMAN_SLT = 98021
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --> internal functions
 
@@ -1353,6 +1356,11 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 		--> no target, just ignore
 		if(not alvo_name) then
 			return
+		end
+
+		--> spirit link toten
+		if (spellid == SPELLID_SHAMAN_SLT) then
+			return parser:SLT_healing (token, time, hide_caster, who_serial, who_name, who_flags, who_flags2, alvo_serial, alvo_name, alvo_flags, alvo_flags2, spellid, spellname, spelltype, amount, overhealing, absorbed, critical, is_shield)
 		end
 
 		if(is_using_spellId_override) then
