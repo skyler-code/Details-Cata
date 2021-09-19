@@ -4117,9 +4117,11 @@ function _detalhes.parser_functions:PLAYER_REGEN_ENABLED(...)
 	end
 	local printedNpcs = {}
 	for _, npcID in _ipairs(_detalhes.cache_dead_npc) do
-		if not printedNpcs[npcID] then
-			print(npcID)
-			printedNpcs[npcID] = true
+		if _detalhes.debug then
+			if not printedNpcs[npcID] then
+				print(npcID)
+				printedNpcs[npcID] = true
+			end
 		end
 		if _detalhes.encounter_table and _detalhes.encounter_table.id == npcID then
 			local mapID = _detalhes.zone_id
