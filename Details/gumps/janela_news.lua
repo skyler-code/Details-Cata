@@ -177,7 +177,7 @@ function _detalhes:CreateOrOpenNewsWindow()
 		forum_button:SetText ("Forum Thread")
 		forum_button:SetScript ("OnClick", function (self)
 			--> copy and paste
-			_detalhes:CopyPaste ("http://www.mmo-champion.com/threads/1480721-New-damage-meter-%28Details!%29-need-help-with-tests-and-feedbacks")
+			_detalhes:CopyPaste ("https://github.com/skylerh15/Details-Cata")
 		end)
 		forum_button:SetWidth (130)
 

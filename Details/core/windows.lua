@@ -2278,16 +2278,7 @@ local _utf8sub = string.utf8sub
 			end
 
 			local on_click = function (_, _, website)
-				if (website == 1) then
-					_detalhes:CopyPaste ([[http://www.wowinterface.com/downloads/addcomment.php?action=addcomment&fileid=23056]])
-
-				elseif (website == 2) then
-					_detalhes:CopyPaste ([[http://www.curse.com/addons/wow/details]])
-
-				elseif (website == 3) then
-					_detalhes:CopyPaste ([[http://www.mmo-champion.com/threads/1480721-New-damage-meter-%28Details!%29-need-help-with-tests-and-feedbacks]])
-
-				end
+				_detalhes:CopyPaste([[https://github.com/skylerh15/Details-Cata]])
 			end
 
 			local wowi_button = gump:CreateButton (panel, on_click, 103, 34, "", 1)
@@ -2719,18 +2710,18 @@ local _utf8sub = string.utf8sub
 		editbox:SetPoint (20, -106)
 		editbox:SetAutoFocus (false)
 		editbox:SetHook ("OnEditFocusGained", function()
-			editbox.text = "http://www.mmo-champion.com/threads/1480721-New-damage-meter-%28Details!%29-need-help-with-tests-and-feedbacks"
+			editbox.text = "https://github.com/skylerh15/Details-Cata"
 			editbox:HighlightText()
 		end)
 		editbox:SetHook ("OnEditFocusLost", function()
-			editbox.text = "http://www.mmo-champion.com/threads/1480721-New-damage-meter-%28Details!%29-need-help-with-tests-and-feedbacks"
+			editbox.text = "https://github.com/skylerh15/Details-Cata"
 			editbox:HighlightText()
 		end)
 		editbox:SetHook ("OnChar", function()
-			editbox.text = "http://www.mmo-champion.com/threads/1480721-New-damage-meter-%28Details!%29-need-help-with-tests-and-feedbacks"
+			editbox.text = "https://github.com/skylerh15/Details-Cata"
 			editbox:HighlightText()
 		end)
-		editbox.text = "http://www.mmo-champion.com/threads/1480721-New-damage-meter-%28Details!%29-need-help-with-tests-and-feedbacks"
+		editbox.text = "https://github.com/skylerh15/Details-Cata"
 
 
 		feedback_frame.midtext = feedback_frame:CreateFontString (nil, "artwork", "GameFontNormal")
@@ -3283,18 +3274,18 @@ local _utf8sub = string.utf8sub
 			editbox:SetPoint (20, -136)
 			editbox:SetAutoFocus (false)
 			editbox:SetHook ("OnEditFocusGained", function()
-				editbox.text = "http://www.curse.com/addons/wow/details"
+				editbox.text = "https://github.com/skylerh15/Details-Cata"
 				editbox:HighlightText()
 			end)
 			editbox:SetHook ("OnEditFocusLost", function()
-				editbox.text = "http://www.curse.com/addons/wow/details"
+				editbox.text = "https://github.com/skylerh15/Details-Cata"
 				editbox:HighlightText()
 			end)
 			editbox:SetHook ("OnChar", function()
-				editbox.text = "http://www.curse.com/addons/wow/details"
+				editbox.text = "https://github.com/skylerh15/Details-Cata"
 				editbox:HighlightText()
 			end)
-			editbox.text = "http://www.curse.com/addons/wow/details"
+			editbox.text = "https://github.com/skylerh15/Details-Cata"
 
 			updatewindow_frame.close = CreateFrame ("Button", "DetailsUpdateDialogCloseButton", updatewindow_frame, "OptionsButtonTemplate")
 			updatewindow_frame.close:SetPoint ("BOTTOMLEFT", updatewindow_frame, "BOTTOMLEFT", 8, 4)

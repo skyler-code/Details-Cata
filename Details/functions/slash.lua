@@ -1492,7 +1492,7 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 
 	--BFA BETA
 	elseif (msg == "update") then
-		_detalhes:CopyPaste ([[https://www.wowinterface.com/downloads/info23056-DetailsDamageMeter8.07.3.5.html]])
+		_detalhes:CopyPaste ([[https://github.com/skylerh15/Details-Cata]])
 
 
 	elseif (msg == "share") then
