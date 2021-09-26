@@ -93,8 +93,8 @@ function container_pets:PegaDono (pet_serial, pet_nome, pet_flags)
 
 	if (not dono_nome) then
 		if (pet_serial == _UnitGUID ("pet")) then
-			dono_nome = _GetUnitName ("player")
-			dono_serial = _UnitGUID ("player")
+			dono_nome = _detalhes.playername
+			dono_serial = _detalhes.playerserial
 			if (_IsInGroup() or _IsInRaid()) then
 				dono_flags = 0x00000417 --> emulate sourceflag flag
 			else

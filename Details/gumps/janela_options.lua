@@ -3818,7 +3818,7 @@ function window:CreateFrame1()
 				_detalhes:Msg (errortext)
 			end
 			--> we call again here, because if not accepted the box return the previous value and if successful accepted, update the value for formated string.
-			local nick = _detalhes:GetNickname (UnitName ("player"), UnitName ("player"), true)
+			local nick = _detalhes:GetNickname (_detalhes.playername, _detalhes.playername, true)
 
 			frame1.nicknameEntry.text = nick
 			_G.DetailsOptionsWindow1AvatarNicknameLabel:SetText (nick)

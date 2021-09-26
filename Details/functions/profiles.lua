@@ -13,7 +13,7 @@ function _detalhes:GetCurrentProfileName()
 
 	--> check is have a profile name
 		if (_detalhes_database.active_profile == "") then --  or not _detalhes_database.active_profile
-			local character_key = UnitName ("player") .. "-" .. GetRealmName()
+			local character_key = self.playername .. "-" .. GetRealmName()
 			_detalhes_database.active_profile = character_key
 		end
 
@@ -75,7 +75,7 @@ function _detalhes:EraseProfile (profile_name)
 
 		if (_detalhes_database.active_profile == profile_name) then
 
-			local character_key = UnitName ("player") .. "-" .. GetRealmName()
+			local character_key = self.playername .. "-" .. GetRealmName()
 
 			local my_profile = _detalhes:GetProfile (character_key)
 

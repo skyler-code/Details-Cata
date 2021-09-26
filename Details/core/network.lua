@@ -365,7 +365,7 @@ end
 --guild sync A = received missing encounters, add them
 
 function _detalhes.network.GuildSync (player, realm, core_version, type, data)
-	if (UnitName ("player") == player) then
+	if (self.playername == player) then
 		return
 	end
 
@@ -386,7 +386,7 @@ function _detalhes.network.GuildSync (player, realm, core_version, type, data)
 
 		local IDs = _detalhes.storage:GetIDsToGuildSync()
 		if (IDs and IDs [1]) then
-			local from = UnitName ("player")
+			local from = self.playername
 			local realm = GetRealmName()
 			_detalhes:SendCommMessage (CONST_DETAILS_PREFIX, _detalhes:Serialize (CONST_GUILD_SYNC, from, realm, _detalhes.realversion, "L", IDs), "WHISPER", player)
 		end
@@ -398,7 +398,7 @@ function _detalhes.network.GuildSync (player, realm, core_version, type, data)
 		local MissingIDs = _detalhes.storage:CheckMissingIDsToGuildSync (data)
 
 		if (MissingIDs and MissingIDs [1]) then
-			local from = UnitName ("player")
+			local from = self.playername
 			local realm = GetRealmName()
 			_detalhes:SendCommMessage (CONST_DETAILS_PREFIX, _detalhes:Serialize (CONST_GUILD_SYNC, from, realm, _detalhes.realversion, "G", MissingIDs), "WHISPER", player)
 		end
@@ -417,7 +417,7 @@ function _detalhes.network.GuildSync (player, realm, core_version, type, data)
 					return
 				end
 
-				local from = UnitName ("player")
+				local from = self.playername
 				local realm = GetRealmName()
 				--todo: need to check if the target is still online
 				_detalhes:SendCommMessage (CONST_DETAILS_PREFIX, _detalhes:Serialize (CONST_GUILD_SYNC, from, realm, _detalhes.realversion, "A", data), "WHISPER", task.Target)
@@ -497,16 +497,16 @@ function _detalhes:CommReceived (_, data, _, source)
 
 	local prefix, player, realm, dversion, arg6, arg7, arg8, arg9 =  _select (2, _detalhes:Deserialize (data))
 
-	if _detalhes.debug and player ~= _detalhes.playername then
+	if self.debug and player ~= self.playername then
 		_detalhes:Msg ("(debug) network received:", prefix, "length:", string.len (data))
 	end
 
 	--event
-	_detalhes:SendEvent ("COMM_EVENT_RECEIVED", nil, string.len (data), prefix, player, realm, dversion, arg6, arg7, arg8, arg9)
+	self:SendEvent ("COMM_EVENT_RECEIVED", nil, string.len (data), prefix, player, realm, dversion, arg6, arg7, arg8, arg9)
 
 	--print ("comm received", prefix, _detalhes.network.functions [prefix])
 
-	local func = _detalhes.network.functions [prefix]
+	local func = self.network.functions [prefix]
 	if (func) then
 		--todo: this call should be safe
 		func (player, realm, dversion, arg6, arg7, arg8, arg9)
@@ -517,7 +517,7 @@ function _detalhes:CommReceived (_, data, _, source)
 			--todo: this call should be safe
 			func (player, realm, dversion, arg6, arg7, arg8, arg9)
 		else
-			if (_detalhes.debug) then
+			if (self.debug) then
 				_detalhes:Msg ("comm prefix not found:", prefix)
 			end
 		end
@@ -635,19 +635,19 @@ end
 
 function _detalhes:SendHomeRaidData (type, ...)
 	if (IsInRaid () and IsInInstance()) then
-		_detalhes:SendCommMessage (CONST_DETAILS_PREFIX, _detalhes:Serialize (type, _UnitName ("player"), _GetRealmName(), _detalhes.realversion, ...), "RAID")
+		_detalhes:SendCommMessage (CONST_DETAILS_PREFIX, _detalhes:Serialize (type, _detalhes.playername, _GetRealmName(), _detalhes.realversion, ...), "RAID")
 	end
 end
 
 function _detalhes:SendRaidData (type, ...)
-	_detalhes:SendCommMessage (CONST_DETAILS_PREFIX, _detalhes:Serialize (type, _UnitName ("player"), _GetRealmName(), _detalhes.realversion, ...), "RAID")
+	_detalhes:SendCommMessage (CONST_DETAILS_PREFIX, _detalhes:Serialize (type, _detalhes.playername, _GetRealmName(), _detalhes.realversion, ...), "RAID")
 	if (_detalhes.debug) then
 		_detalhes:Msg ("(debug) sent comm to LOCAL raid group")
 	end
 end
 
 function _detalhes:SendPartyData (type, ...)
-	_detalhes:SendCommMessage (CONST_DETAILS_PREFIX, _detalhes:Serialize (type, _UnitName ("player"), _GetRealmName(), _detalhes.realversion, ...), "PARTY")
+	_detalhes:SendCommMessage (CONST_DETAILS_PREFIX, _detalhes:Serialize (type, _detalhes.playername, _GetRealmName(), _detalhes.realversion, ...), "PARTY")
 	if (_detalhes.debug) then
 		_detalhes:Msg ("(debug) sent comm to LOCAL party group")
 	end
@@ -663,7 +663,7 @@ end
 
 function _detalhes:SendGuildData (type, ...)
 	if not IsInGuild() then return end --> fix from Tim@WoWInterface
-	_detalhes:SendCommMessage (CONST_DETAILS_PREFIX, _detalhes:Serialize (type, _UnitName ("player"), _GetRealmName(), _detalhes.realversion, ...), "GUILD")
+	_detalhes:SendCommMessage (CONST_DETAILS_PREFIX, _detalhes:Serialize (type, _detalhes.playername, _GetRealmName(), _detalhes.realversion, ...), "GUILD")
 end
 
 
@@ -742,9 +742,7 @@ local city_zones = {
 
 function _detalhes:IsInCity()
 	SetMapToCurrentZone()
-	if city_zones[GetMapInfo()] then
-		return true
-	end
+	return city_zones[GetMapInfo()]
 end
 
 --> entrar no canal ap�s logar no servidor

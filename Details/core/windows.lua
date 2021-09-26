@@ -3653,7 +3653,7 @@ local _utf8sub = string.utf8sub
 				{"Antonidas", "MAGE"},
 				{"Your Math Teacher", "SHAMAN", },
 				{"King Djoffrey", "PALADIN", },
-				{UnitName ("player") .. " Snow", pclass, },
+				{self.playername .. " Snow", pclass, },
 				{"Helvis Phresley", "DEATHKNIGHT", },
 				{"Stormwind Guard", "WARRIOR", },
 				{"A PvP Player", "ROGUE", 260},
