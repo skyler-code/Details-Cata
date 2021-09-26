@@ -2116,7 +2116,7 @@ end
 
 function _detalhes:LibGroupTalents_Update(event, guid, unit, dominant_tree_id, n1, n2, n3)
 
-	if _detalhes.debug then
+	if _detalhes.debug and guid ~= _detalhes.playerserial then
 		_detalhes:Msg("(debug) received LibGroupTalents Update from user", guid)
 	end
 
