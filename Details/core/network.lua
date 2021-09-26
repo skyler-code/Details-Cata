@@ -160,8 +160,8 @@ function _detalhes.network.HighFive_DataReceived (player, realm, core_version, u
 end
 
 function _detalhes.network.Update_VersionReceived (player, realm, core_version, build_number)
-	if (_detalhes.debug) then
-		_detalhes:Msg ("(debug) received version alert ", build_number)
+	if _detalhes.debug and player ~= _detalhes.playername then
+		_detalhes:Msg ("(debug) received version alert ", build_number, "from", player)
 	end
 
 	build_number = tonumber (build_number)
@@ -497,7 +497,7 @@ function _detalhes:CommReceived (_, data, _, source)
 
 	local prefix, player, realm, dversion, arg6, arg7, arg8, arg9 =  _select (2, _detalhes:Deserialize (data))
 
-	if (_detalhes.debug) then
+	if _detalhes.debug and player ~= _detalhes.playername then
 		_detalhes:Msg ("(debug) network received:", prefix, "length:", string.len (data))
 	end
 
