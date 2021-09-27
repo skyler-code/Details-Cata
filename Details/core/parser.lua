@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+local addonName = ...
 local _detalhes = 		_G._detalhes
 local Loc = LibStub("AceLocale-3.0"):GetLocale( "Details" )
 local _tempo = time()
@@ -4447,7 +4447,7 @@ local start_details = function()
 end
 
 function _detalhes.parser_functions:ADDON_LOADED(addon_name)
-	if addon_name == "Details" then
+	if addon_name == addonName then
 		start_details()
 	end
 end
