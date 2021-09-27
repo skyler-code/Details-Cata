@@ -4443,6 +4443,7 @@ local start_details = function()
 	_detalhes:LoadConfig()
 
 	_detalhes:UpdateParserGears()
+	_detalhes:InitializeSlashCommands()
 --	_detalhes:Start()
 end
 

@@ -1,43 +1,41 @@
 
 
+local addonName = ...
 local _detalhes	= 	_G._detalhes
 local Loc = LibStub ("AceLocale-3.0"):GetLocale ( "Details" )
 
-local CreateFrame = CreateFrame
-local pairs = pairs
-local UIParent = UIParent
-local UnitGUID = UnitGUID
-local tonumber= tonumber
-local LoggingCombat = LoggingCombat
+local CreateFrame, pairs, UIParent, UnitGUID, tonumber, LoggingCombat = CreateFrame, pairs, UIParent, UnitGUID, tonumber, LoggingCombat
 
-SLASH_DETAILS1, SLASH_DETAILS2, SLASH_DETAILS3 = "/details", "/dt", "/de"
+function _detalhes:InitializeSlashCommands()
+	for k, v in pairs({ addonName:lower(), "dt", "de" }) do
+		_G["SLASH_"..addonName:upper()..k] = "/" .. v
+	end
+	SlashCmdList[addonName:upper()] = function(...) self:ParseParameters(...) end
+end
 
-function SlashCmdList.DETAILS (msg, editbox)
-
+function _detalhes:ParseParameters(msg, editbox)
 	local command, rest = msg:match("^(%S*)%s*(.-)$")
 	command = string.lower (command)
 
 	if (command == Loc ["STRING_SLASH_WIPE"] or command == "wipe") then
 
 	elseif (command == "api") then
-		_detalhes.OpenAPI()
-
-
+		self.OpenAPI()
 
 	elseif (command == Loc ["STRING_SLASH_NEW"] or command == "new") then
-		_detalhes:CriarInstancia (nil, true)
+		self:CriarInstancia (nil, true)
 
 	elseif (command == Loc ["STRING_SLASH_HISTORY"] or command == "history" or command == "score" or command == "rank" or command == "ranking" or command == "statistics" or command == "stats") then
-		_detalhes:OpenRaidHistoryWindow()
+		self:OpenRaidHistoryWindow()
 
 	elseif (command == Loc ["STRING_SLASH_TOGGLE"] or command == "toggle") then
 
 		local instance = rest:match ("^(%S*)%s*(.-)$")
 		instance = tonumber (instance)
 		if (instance) then
-			_detalhes:ToggleWindow (instance)
+			self:ToggleWindow (instance)
 		else
-			_detalhes:ToggleWindows()
+			self:ToggleWindows()
 		end
 
 	elseif (command == Loc ["STRING_SLASH_HIDE"] or command == Loc ["STRING_SLASH_HIDE_ALIAS1"] or command == "hide") then
@@ -45,19 +43,19 @@ function SlashCmdList.DETAILS (msg, editbox)
 		local instance = rest:match ("^(%S*)%s*(.-)$")
 		instance = tonumber (instance)
 		if (instance) then
-			local this_instance = _detalhes:GetInstance (instance)
+			local this_instance = self:GetInstance (instance)
 			if (not this_instance) then
-				return _detalhes:Msg (Loc ["STRING_WINDOW_NOTFOUND"])
+				return self:Msg (Loc ["STRING_WINDOW_NOTFOUND"])
 			end
 			if (this_instance:IsEnabled() and this_instance.baseframe) then
 				this_instance:ShutDown()
 			end
 		else
-			_detalhes:ShutDownAllInstances()
+			self:ShutDownAllInstances()
 		end
 
 	elseif (command == "softhide") then
-		for instanceID, instance in _detalhes:ListInstances() do
+		for instanceID, instance in self:ListInstances() do
 			if (instance:IsEnabled()) then
 				if (instance.hide_in_combat_type > 1) then
 					instance:SetWindowAlphaForCombat (true)
@@ -66,7 +64,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 		end
 
 	elseif (command == "softshow") then
-		for instanceID, instance in _detalhes:ListInstances() do
+		for instanceID, instance in self:ListInstances() do
 			if (instance:IsEnabled()) then
 				if (instance.hide_in_combat_type > 1) then
 					instance:SetWindowAlphaForCombat (false)
@@ -75,7 +73,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 		end
 
 	elseif (command == "softtoggle") then
-		for instanceID, instance in _detalhes:ListInstances() do
+		for instanceID, instance in self:ListInstances() do
 			if (instance:IsEnabled()) then
 				if (instance.hide_in_combat_type > 1) then
 					if (instance.baseframe:GetAlpha() > 0.1) then
@@ -91,65 +89,65 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 	elseif (command == Loc ["STRING_SLASH_SHOW"] or command == Loc ["STRING_SLASH_SHOW_ALIAS1"] or command == "show") then
 
-		_detalhes.LastShowCommand = GetTime()
+		self.LastShowCommand = GetTime()
 		local instance = rest:match ("^(%S*)%s*(.-)$")
 		instance = tonumber (instance)
 		if (instance) then
-			local this_instance = _detalhes:GetInstance (instance)
+			local this_instance = self:GetInstance (instance)
 			if (not this_instance) then
-				return _detalhes:Msg (Loc ["STRING_WINDOW_NOTFOUND"])
+				return self:Msg (Loc ["STRING_WINDOW_NOTFOUND"])
 			end
 			if (not this_instance:IsEnabled() and this_instance.baseframe) then
 				this_instance:EnableInstance()
 			end
 		else
-			_detalhes:ReabrirTodasInstancias()
+			self:ReabrirTodasInstancias()
 		end
 
 	elseif (command == Loc ["STRING_SLASH_WIPECONFIG"] or command == "reinstall") then
-		_detalhes:WipeConfig()
+		self:WipeConfig()
 
 	elseif (command == Loc ["STRING_SLASH_RESET"] or command == Loc ["STRING_SLASH_RESET_ALIAS1"] or command == "reset") then
-		_detalhes.tabela_historico:resetar()
+		self.tabela_historico:resetar()
 
 	elseif (command == Loc ["STRING_SLASH_DISABLE"] or command == "disable") then
 
-		_detalhes:CaptureSet (false, "damage", true)
-		_detalhes:CaptureSet (false, "heal", true)
-		_detalhes:CaptureSet (false, "energy", true)
-		_detalhes:CaptureSet (false, "miscdata", true)
-		_detalhes:CaptureSet (false, "aura", true)
-		_detalhes:CaptureSet (false, "spellcast", true)
+		self:CaptureSet (false, "damage", true)
+		self:CaptureSet (false, "heal", true)
+		self:CaptureSet (false, "energy", true)
+		self:CaptureSet (false, "miscdata", true)
+		self:CaptureSet (false, "aura", true)
+		self:CaptureSet (false, "spellcast", true)
 
-		print (Loc ["STRING_DETAILS1"] .. Loc ["STRING_SLASH_CAPTUREOFF"])
+		self:print(Loc ["STRING_SLASH_CAPTUREOFF"])
 
 	elseif (command == Loc ["STRING_SLASH_ENABLE"] or command == "enable") then
 
-		_detalhes:CaptureSet (true, "damage", true)
-		_detalhes:CaptureSet (true, "heal", true)
-		_detalhes:CaptureSet (true, "energy", true)
-		_detalhes:CaptureSet (true, "miscdata", true)
-		_detalhes:CaptureSet (true, "aura", true)
-		_detalhes:CaptureSet (true, "spellcast", true)
+		self:CaptureSet (true, "damage", true)
+		self:CaptureSet (true, "heal", true)
+		self:CaptureSet (true, "energy", true)
+		self:CaptureSet (true, "miscdata", true)
+		self:CaptureSet (true, "aura", true)
+		self:CaptureSet (true, "spellcast", true)
 
-		print (Loc ["STRING_DETAILS1"] .. Loc ["STRING_SLASH_CAPTUREON"])
+		self:print(Loc ["STRING_SLASH_CAPTUREON"])
 
 	elseif (command == Loc ["STRING_SLASH_OPTIONS"] or command == "options" or command == "config") then
 
 		if (rest and tonumber (rest)) then
 			local instanceN = tonumber (rest)
-			if (instanceN > 0 and instanceN <= #_detalhes.tabela_instancias) then
-				local instance = _detalhes:GetInstance (instanceN)
-				_detalhes:OpenOptionsWindow (instance)
+			if (instanceN > 0 and instanceN <= #self.tabela_instancias) then
+				local instance = self:GetInstance (instanceN)
+				self:OpenOptionsWindow (instance)
 			end
 		else
-			local lower_instance = _detalhes:GetLowerInstanceNumber()
+			local lower_instance = self:GetLowerInstanceNumber()
 			if (not lower_instance) then
-				local instance = _detalhes:GetInstance (1)
-				_detalhes.CriarInstancia (nil, nil, 1)
-				_detalhes:OpenOptionsWindow (instance)
+				local instance = self:GetInstance (1)
+				self.CriarInstancia (nil, nil, 1)
+				self:OpenOptionsWindow (instance)
 			else
-				_detalhes:OpenOptionsWindow (_detalhes:GetInstance (lower_instance))
+				self:OpenOptionsWindow (self:GetInstance (lower_instance))
 			end
 
 		end
@@ -162,15 +160,15 @@ function SlashCmdList.DETAILS (msg, editbox)
 		end
 
 	elseif (command == Loc ["STRING_SLASH_CHANGES"] or command == Loc ["STRING_SLASH_CHANGES_ALIAS1"] or command == Loc ["STRING_SLASH_CHANGES_ALIAS2"] or command == "news" or command == "updates") then
-		_detalhes:OpenNewsWindow()
+		self:OpenNewsWindow()
 
 	elseif (command == "discord") then
-		_detalhes:CopyPaste ("https://discord.gg/UXSc7nt")
+		self:CopyPaste ("https://discord.gg/UXSc7nt")
 
 
 	elseif (command == "debugwindow") then
 
-		local window1 = Details:GetWindow(1)
+		local window1 = self:GetWindow(1)
 		if (window1) then
 			local state = {
 				ParentName = window1.baseframe:GetParent():GetName(),
@@ -192,37 +190,37 @@ function SlashCmdList.DETAILS (msg, editbox)
 				NumPoints = parent:GetNumPoints(),
 			}
 
-			Details:Dump (state)
+			self:Dump (state)
 		else
-			Details:Msg ("Window 1 not found.")
+			self:Msg ("Window 1 not found.")
 		end
 
 	elseif (command == "spells") then
-		Details.OpenForge()
+		self.OpenForge()
 		DetailsForgePanel.SelectModule (nil, nil, 1)
 
 	elseif (command == "feedback") then
-		_detalhes.OpenFeedbackWindow()
+		self.OpenFeedbackWindow()
 
 	elseif (command == "profile") then
 		if (rest and rest ~= "") then
 
-			local profile = _detalhes:GetProfile (rest)
+			local profile = self:GetProfile (rest)
 			if (not profile) then
-				return _detalhes:Msg ("Profile Not Found.")
+				return self:Msg ("Profile Not Found.")
 			end
 
-			if (not _detalhes:ApplyProfile (rest)) then
+			if (not self:ApplyProfile (rest)) then
 				return
 			end
 
-			_detalhes:Msg (Loc ["STRING_OPTIONS_PROFILE_LOADED"], rest)
+			self:Msg (Loc ["STRING_OPTIONS_PROFILE_LOADED"], rest)
 			if (_G.DetailsOptionsWindow and _G.DetailsOptionsWindow:IsShown()) then
 				_G.DetailsOptionsWindow:Hide()
 				GameCooltip:Close()
 			end
 		else
-			_detalhes:Msg ("/details profile <profile name>")
+			self:Msg ("/details profile <profile name>")
 		end
 
 -------- debug ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -270,13 +268,13 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 	elseif (msg == "realmsync") then
 
-		_detalhes.realm_sync = not _detalhes.realm_sync
-		_detalhes:Msg ("Realm Sync: ", _detalhes.realm_sync and "Enabled" or "Disabled")
+		self.realm_sync = not self.realm_sync
+		self:Msg ("Realm Sync: ", self.realm_sync and "Enabled" or "Disabled")
 
-		if (not _detalhes.realm_sync) then
+		if (not self.realm_sync) then
 			LeaveChannelByName ("Details")
 		else
-			_detalhes:CheckChatOnLeaveGroup()
+			self:CheckChatOnLeaveGroup()
 		end
 
 	elseif (msg == "load") then
@@ -304,15 +302,15 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 
 	elseif (msg == "chaticon") then
-		_detalhes:Msg ("|TInterface\\AddOns\\Details\\images\\icones_barra:" .. 14 .. ":" .. 14 .. ":0:0:256:32:0:32:0:32|tteste")
+		self:Msg ("|TInterface\\AddOns\\Details\\images\\icones_barra:" .. 14 .. ":" .. 14 .. ":0:0:256:32:0:32:0:32|tteste")
 
 	elseif (msg == "align") then
 		local c = RightChatPanel
 		local w,h = c:GetSize()
 		print (w,h)
 
-		local instance1 = _detalhes.tabela_instancias [1]
-		local instance2 = _detalhes.tabela_instancias [2]
+		local instance1 = self.tabela_instancias [1]
+		local instance2 = self.tabela_instancias [2]
 
 		instance1.baseframe:ClearAllPoints()
 		instance2.baseframe:ClearAllPoints()
@@ -325,22 +323,22 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 	elseif (msg == "addcombat") then
 
-		local combat = _detalhes.combate:NovaTabela (true, _detalhes.tabela_overall, 1)
+		local combat = self.combate:NovaTabela (true, self.tabela_overall, 1)
 		local self = combat[1]:PegarCombatente (UnitGUID ("player"), UnitName ("player"), 1297, true)
 		self.total = 100000
 		self.total_without_pet = 100000
 
-		if (not _detalhes.um___) then
-			_detalhes.um___ = 0
-			_detalhes.next_um = 3
+		if (not self.um___) then
+			self.um___ = 0
+			self.next_um = 3
 		end
 
 		local cima = true
 
-		_detalhes.um___ = _detalhes.um___ + 1
+		self.um___ = self.um___ + 1
 
-		if (_detalhes.um___ == _detalhes.next_um) then
-			_detalhes.next_um = _detalhes.next_um + 3
+		if (self.um___ == self.next_um) then
+			self.next_um = self.next_um + 3
 			cima = false
 		end
 
@@ -371,25 +369,25 @@ function SlashCmdList.DETAILS (msg, editbox)
 		--combat.instance_type = "raid"
 		--combat.is_trash = true
 
-		_detalhes.tabela_vigente = combat
+		self.tabela_vigente = combat
 
-		_detalhes.tabela_historico:adicionar (combat)
+		self.tabela_historico:adicionar (combat)
 
-		_detalhes:InstanciaCallFunction (_detalhes.gump.Fade, "in", nil, "barras")
-		_detalhes:InstanciaCallFunction (_detalhes.AtualizaSegmentos) -- atualiza o instancia.showing para as novas tabelas criadas
-		_detalhes:InstanciaCallFunction (_detalhes.AtualizaSoloMode_AfertReset) -- verifica se precisa zerar as tabela da janela solo mode
-		_detalhes:InstanciaCallFunction (_detalhes.ResetaGump) --_detalhes:ResetaGump ("de todas as instancias")
-		_detalhes:AtualizaGumpPrincipal (-1, true) --atualiza todas as instancias
+		self:InstanciaCallFunction (self.gump.Fade, "in", nil, "barras")
+		self:InstanciaCallFunction (self.AtualizaSegmentos) -- atualiza o instancia.showing para as novas tabelas criadas
+		self:InstanciaCallFunction (self.AtualizaSoloMode_AfertReset) -- verifica se precisa zerar as tabela da janela solo mode
+		self:InstanciaCallFunction (self.ResetaGump) --self:ResetaGump ("de todas as instancias")
+		self:AtualizaGumpPrincipal (-1, true) --atualiza todas as instancias
 
 
 
 	elseif (msg == "pets") then
-		local f = _detalhes:CreateListPanel()
+		local f = self:CreateListPanel()
 
 		local i = 1
-		for k, v in pairs (_detalhes.tabela_pets.pets) do
+		for k, v in pairs (self.tabela_pets.pets) do
 			if (v[6] == "Guardian of Ancient Kings") then
-				_detalhes.ListPanel:add ( k.. ": " ..  v[1] .. " | " .. v[2] .. " | " .. v[3] .. " | " .. v[6], i)
+				self.ListPanel:add ( k.. ": " ..  v[1] .. " | " .. v[2] .. " | " .. v[3] .. " | " .. v[6], i)
 				i = i + 1
 			end
 		end
@@ -398,19 +396,19 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 	elseif (msg == "savepets") then
 
-		_detalhes.tabela_vigente.saved_pets = {}
+		self.tabela_vigente.saved_pets = {}
 
-		for k, v in pairs (_detalhes.tabela_pets.pets) do
-			_detalhes.tabela_vigente.saved_pets [k] = {v[1], v[2], v[3]}
+		for k, v in pairs (self.tabela_pets.pets) do
+			self.tabela_vigente.saved_pets [k] = {v[1], v[2], v[3]}
 		end
 
-		_detalhes:Msg ("pet table has been saved on current combat.")
+		self:Msg ("pet table has been saved on current combat.")
 
 	elseif (msg == "move") then
 
 		print ("moving...")
 
-		local instance = _detalhes.tabela_instancias [1]
+		local instance = self.tabela_instancias [1]
 		instance.baseframe:ClearAllPoints()
 		--instance.baseframe:SetPoint ("CENTER", UIParent, "CENTER", 300, 100)
 		instance.baseframe:SetPoint ("LEFT", DetailsWelcomeWindow, "RIGHT", 10, 0)
@@ -480,7 +478,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 		print (actorName)
 
-		local guid = _detalhes:FindGUIDFromName ("Ditador")
+		local guid = self:FindGUIDFromName ("Ditador")
 		print (guid)
 
 		for i = 1, GetNumGroupMembers(), 1 do
@@ -489,15 +487,15 @@ function SlashCmdList.DETAILS (msg, editbox)
 		end
 
 	elseif (msg == "cacheparser") then
-		_detalhes:PrintParserCacheIndexes()
+		self:PrintParserCacheIndexes()
 	elseif (msg == "parsercache") then
-		_detalhes:PrintParserCacheIndexes()
+		self:PrintParserCacheIndexes()
 
 	elseif (msg == "captures") then
-		for k, v in pairs (_detalhes.capture_real) do
+		for k, v in pairs (self.capture_real) do
 			print ("real -",k,":",v)
 		end
-		for k, v in pairs (_detalhes.capture_current) do
+		for k, v in pairs (self.capture_current) do
 			print ("current -",k,":",v)
 		end
 
@@ -530,25 +528,25 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 	elseif (msg == "bcollor") then
 
-		--local instancia = _detalhes.tabela_instancias [1]
-		_detalhes.ResetButton.Middle:SetVertexColor (1, 1, 0, 1)
+		--local instancia = self.tabela_instancias [1]
+		self.ResetButton.Middle:SetVertexColor (1, 1, 0, 1)
 
-		--print (_detalhes.ResetButton:GetHighlightTexture())
+		--print (self.ResetButton:GetHighlightTexture())
 
-		local t = _detalhes.ResetButton:GetHighlightTexture()
+		local t = self.ResetButton:GetHighlightTexture()
 		t:SetVertexColor (0, 1, 0, 1)
 		--print (t:GetObjectType())
-		--_detalhes.ResetButton:SetHighlightTexture (t)
-		_detalhes.ResetButton:SetNormalTexture (t)
+		--self.ResetButton:SetHighlightTexture (t)
+		self.ResetButton:SetNormalTexture (t)
 
-		print ("backdrop", _detalhes.ResetButton:GetBackdrop())
+		print ("backdrop", self.ResetButton:GetBackdrop())
 
-		_detalhes.ResetButton:SetBackdropColor (0, 0, 1, 1)
+		self.ResetButton:SetBackdropColor (0, 0, 1, 1)
 
-		--vardump (_detalhes.ResetButton)
+		--vardump (self.ResetButton)
 
 	elseif (command == "mini") then
-		local instance = _detalhes.tabela_instancias [1]
+		local instance = self.tabela_instancias [1]
 		--vardump ()
 		--print (instance, instance.StatusBar.options, instance.StatusBar.left)
 		print (instance.StatusBar.options [instance.StatusBar.left.mainPlugin.real_name].textSize)
@@ -592,13 +590,13 @@ function SlashCmdList.DETAILS (msg, editbox)
 		segment = tonumber (segment or 0)
 		print ("dumping buffs of ", playername, segment)
 
-		local c = _detalhes:GetCombat ("current")
+		local c = self:GetCombat ("current")
 		if (c) then
 
 			local playerActor
 
 			if (segment and segment ~= 0) then
-				local c = _detalhes:GetCombat (segment)
+				local c = self:GetCombat (segment)
 				playerActor = c (4, playername)
 				print ("using segment", segment, c, "player actor:", playerActor)
 			else
@@ -626,8 +624,8 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 		local test_plugin = TESTPLUGIN
 		if (not test_plugin) then
-			local p = _detalhes:NewPluginObject ("DetailsTestPlugin", nil, "STATUSBAR")
-			_detalhes:InstallPlugin ("STATUSBAR", "Plugin Test", [[Interface\COMMON\StreamCircle]], p, "TESTPLUGIN", 1, "Details!", "v1.0")
+			local p = self:NewPluginObject ("DetailsTestPlugin", nil, "STATUSBAR")
+			self:InstallPlugin ("STATUSBAR", "Plugin Test", [[Interface\COMMON\StreamCircle]], p, "TESTPLUGIN", 1, "Details!", "v1.0")
 			test_plugin = TESTPLUGIN
 
 			function test_plugin:ReceiveAA (a, b, c, d, e, f, g)
@@ -647,11 +645,11 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 	elseif (msg == "teste") then
 
-		local a, b = _detalhes:GetEncounterEnd (1098, 3)
+		local a, b = self:GetEncounterEnd (1098, 3)
 		print (a, unpack (b))
 
 	elseif (msg == "yesno") then
-		--_detalhes:Show()
+		--self:Show()
 
 	elseif (msg == "imageedit") then
 
@@ -661,7 +659,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 			print ("crop: ", unpack (texCoords))
 		end
 
-		_detalhes.gump:ImageEditor (callback, "Interface\\TALENTFRAME\\bg-paladin-holy", nil, {1, 1, 1, 1}) -- {0.25, 0.25, 0.25, 0.25}
+		self.gump:ImageEditor (callback, "Interface\\TALENTFRAME\\bg-paladin-holy", nil, {1, 1, 1, 1}) -- {0.25, 0.25, 0.25, 0.25}
 
 	elseif (msg == "chat") then
 
@@ -676,23 +674,23 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 	--> debug
 	elseif (command == "resetcapture") then
-		_detalhes.capture_real = {
+		self.capture_real = {
 			["damage"] = true,
 			["heal"] = true,
 			["energy"] = true,
 			["miscdata"] = true,
 			["aura"] = true,
 		}
-		_detalhes.capture_current = _detalhes.capture_real
-		_detalhes:CaptureRefresh()
-		print (Loc ["STRING_DETAILS1"] .. "capture has been reseted.")
+		self.capture_current = self.capture_real
+		self:CaptureRefresh()
+		self:print("capture has been reseted.")
 
 	--> debug
 	elseif (command == "barra") then
 
 		local qual_barra = rest and tonumber (rest) or 1
 
-		local instancia = _detalhes.tabela_instancias [1]
+		local instancia = self.tabela_instancias [1]
 		local barra = instancia.barras [qual_barra]
 
 		for i = 1, barra:GetNumPoints() do
@@ -701,7 +699,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 		end
 
 	elseif (msg == "opened") then
-		print ("Instances opened: " .. _detalhes.opened_windows)
+		print ("Instances opened: " .. self.opened_windows)
 
 	--> debug, get a guid of something
 	elseif (command == "backdrop") then --> localize-me
@@ -728,13 +726,13 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 	elseif (command == "callfunction") then
 
-		_detalhes:InstanceCall (_detalhes.SetCombatAlpha, nil, nil, true)
+		self:InstanceCall (self.SetCombatAlpha, nil, nil, true)
 
 	elseif (command == "guid") then --> localize-me
 
 		local pass_guid = rest:match("^(%S*)%s*(.-)$")
 
-		if (not _detalhes.id_frame) then
+		if (not self.id_frame) then
 
 			local backdrop = {
 			bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
@@ -742,55 +740,55 @@ function SlashCmdList.DETAILS (msg, editbox)
 			tile = true, edgeSize = 1, tileSize = 5,
 			}
 
-			_detalhes.id_frame = CreateFrame ("Frame", "DetailsID", UIParent)
-			_detalhes.id_frame:SetHeight(14)
-			_detalhes.id_frame:SetWidth(120)
-			_detalhes.id_frame:SetPoint ("CENTER", UIParent, "CENTER")
-			_detalhes.id_frame:SetBackdrop(backdrop)
+			self.id_frame = CreateFrame ("Frame", "DetailsID", UIParent)
+			self.id_frame:SetHeight(14)
+			self.id_frame:SetWidth(120)
+			self.id_frame:SetPoint ("CENTER", UIParent, "CENTER")
+			self.id_frame:SetBackdrop(backdrop)
 
 			tinsert (UISpecialFrames, "DetailsID")
 
-			_detalhes.id_frame.texto = CreateFrame ("editbox", nil, _detalhes.id_frame)
-			_detalhes.id_frame.texto:SetPoint ("TOPLEFT", _detalhes.id_frame, "TOPLEFT")
-			_detalhes.id_frame.texto:SetAutoFocus(false)
-			_detalhes.id_frame.texto:SetFontObject (GameFontHighlightSmall)
-			_detalhes.id_frame.texto:SetHeight(14)
-			_detalhes.id_frame.texto:SetWidth(120)
-			_detalhes.id_frame.texto:SetJustifyH("CENTER")
-			_detalhes.id_frame.texto:EnableMouse(true)
-			_detalhes.id_frame.texto:SetBackdrop(ManualBackdrop)
-			_detalhes.id_frame.texto:SetBackdropColor(0, 0, 0, 0.5)
-			_detalhes.id_frame.texto:SetBackdropBorderColor(0.3, 0.3, 0.30, 0.80)
-			_detalhes.id_frame.texto:SetText ("") --localize-me
-			_detalhes.id_frame.texto.perdeu_foco = nil
+			self.id_frame.texto = CreateFrame ("editbox", nil, self.id_frame)
+			self.id_frame.texto:SetPoint ("TOPLEFT", self.id_frame, "TOPLEFT")
+			self.id_frame.texto:SetAutoFocus(false)
+			self.id_frame.texto:SetFontObject (GameFontHighlightSmall)
+			self.id_frame.texto:SetHeight(14)
+			self.id_frame.texto:SetWidth(120)
+			self.id_frame.texto:SetJustifyH("CENTER")
+			self.id_frame.texto:EnableMouse(true)
+			self.id_frame.texto:SetBackdrop(ManualBackdrop)
+			self.id_frame.texto:SetBackdropColor(0, 0, 0, 0.5)
+			self.id_frame.texto:SetBackdropBorderColor(0.3, 0.3, 0.30, 0.80)
+			self.id_frame.texto:SetText ("") --localize-me
+			self.id_frame.texto.perdeu_foco = nil
 
-			_detalhes.id_frame.texto:SetScript ("OnEnterPressed", function ()
-				_detalhes.id_frame.texto:ClearFocus()
-				_detalhes.id_frame:Hide()
+			self.id_frame.texto:SetScript ("OnEnterPressed", function ()
+				self.id_frame.texto:ClearFocus()
+				self.id_frame:Hide()
 			end)
 
-			_detalhes.id_frame.texto:SetScript ("OnEscapePressed", function()
-				_detalhes.id_frame.texto:ClearFocus()
-				_detalhes.id_frame:Hide()
+			self.id_frame.texto:SetScript ("OnEscapePressed", function()
+				self.id_frame.texto:ClearFocus()
+				self.id_frame:Hide()
 			end)
 
 		end
 
-		_detalhes.id_frame:Show()
-		_detalhes.id_frame.texto:SetFocus()
+		self.id_frame:Show()
+		self.id_frame.texto:SetFocus()
 
 		if (pass_guid == "-") then
 			local guid = UnitGUID ("target")
 			if (guid) then
-				local g = _detalhes:GetNpcIdFromGuid (guid)
-				_detalhes.id_frame.texto:SetText ("" .. g)
-				_detalhes.id_frame.texto:HighlightText()
+				local g = self:GetNpcIdFromGuid (guid)
+				self.id_frame.texto:SetText ("" .. g)
+				self.id_frame.texto:HighlightText()
 			end
 
 		else
 			print (pass_guid.. " -> " .. tonumber (pass_guid:sub(6, 10), 16))
-			_detalhes.id_frame.texto:SetText (""..tonumber (pass_guid:sub(6, 10), 16))
-			_detalhes.id_frame.texto:HighlightText()
+			self.id_frame.texto:SetText (""..tonumber (pass_guid:sub(6, 10), 16))
+			self.id_frame.texto:HighlightText()
 		end
 
 	--> debug
@@ -808,7 +806,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 							playerName = playerName .. "-" .. realmName
 						end
 
-						_detalhes.parser:add_buff_uptime (nil, GetTime(), nil, UnitGUID ("raid"..raidIndex), playerName, 0x00000417, nil, UnitGUID ("raid"..raidIndex), playerName, nil, spellid, name, in_or_out)
+						self.parser:add_buff_uptime (nil, GetTime(), nil, UnitGUID ("raid"..raidIndex), playerName, 0x00000417, nil, UnitGUID ("raid"..raidIndex), playerName, nil, spellid, name, in_or_out)
 
 					else
 						--break
@@ -823,14 +821,14 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 		print ("Force apply profile: ", profile)
 
-		_detalhes:ApplyProfile (profile, false)
+		self:ApplyProfile (profile, false)
 
 	elseif (msg == "users" or msg == "version" or msg == "versioncheck") then
-		_detalhes.users = {{UnitName("player"), GetRealmName(), (_detalhes.userversion or "") .. " (" .. _detalhes.APIVersion .. ")"}}
-		_detalhes.sent_highfive = GetTime()
-		_detalhes:SendRaidData (_detalhes.network.ids.HIGHFIVE_REQUEST)
+		self.users = {{UnitName("player"), GetRealmName(), (self.userversion or "") .. " (" .. self.APIVersion .. ")"}}
+		self.sent_highfive = GetTime()
+		self:SendRaidData (self.network.ids.HIGHFIVE_REQUEST)
 
-		print (Loc ["STRING_DETAILS1"] .. "highfive sent, HI!")
+		self:print ("highfive sent, HI!")
 
 		C_Timer.After (0.3, function()
 			Details.RefreshUserList()
@@ -868,12 +866,12 @@ function SlashCmdList.DETAILS (msg, editbox)
 			return print ("not T found.")
 		end
 
-		local f = _detalhes.ListPanel
+		local f = self.ListPanel
 		if (not f) then
-			f = _detalhes:CreateListPanel()
+			f = self:CreateListPanel()
 		end
 
-		local container = _detalhes.tabela_vigente [t]._NameIndexTable
+		local container = self.tabela_vigente [t]._NameIndexTable
 
 		local i = 0
 		for name, _ in pairs (container) do
@@ -894,12 +892,12 @@ function SlashCmdList.DETAILS (msg, editbox)
 			return print ("not T found.")
 		end
 
-		local f = _detalhes.ListPanel
+		local f = self.ListPanel
 		if (not f) then
-			f = _detalhes:CreateListPanel()
+			f = self:CreateListPanel()
 		end
 
-		local container = _detalhes.tabela_vigente [t]._ActorTable
+		local container = self.tabela_vigente [t]._ActorTable
 		print (#container, "actors found.")
 		for index, actor in ipairs (container) do
 			f:add (actor.nome, index, filter)
@@ -910,7 +908,7 @@ function SlashCmdList.DETAILS (msg, editbox)
 	--> debug
 	elseif (msg == "save") then
 		print ("running... this is a debug command, details wont work until next /reload.")
-		_detalhes:PrepareTablesForSave()
+		self:PrepareTablesForSave()
 
 	elseif (msg == "buffs") then
 		for i = 1, 40 do
@@ -932,36 +930,36 @@ function SlashCmdList.DETAILS (msg, editbox)
 
 	--> debug
 	elseif (command == "debug") then
-		if (_detalhes.debug) then
-			_detalhes.debug = false
-			print (Loc ["STRING_DETAILS1"] .. "diagnostic mode has been turned off.")
+		_detalhes_database.debug = not _detalhes_database.debug and 1 or nil
+		self.debug = _detalhes_database.debug
+		if not self.debug then
+			self:print ("diagnostic mode has been turned off.")
 			return
 		else
-			_detalhes.debug = true
-			print (Loc ["STRING_DETAILS1"] .. "diagnostic mode has been turned on.")
+			self:print ("diagnostic mode has been turned on.")
 
 			if (rest and rest ~= "") then
 				if (rest == "-clear") then
 					_detalhes_global.debug_chr_log = ""
-					print (Loc ["STRING_DETAILS1"] .. "log for characters has been wiped.")
+					self:print ("log for characters has been wiped.")
 					return
 				end
-				_detalhes.debug_chr = rest
+				self.debug_chr = rest
 				_detalhes_global.debug_chr_log = _detalhes_global.debug_chr_log or ""
-				print (Loc ["STRING_DETAILS1"] .. "diagnostic for character " .. rest .. " turned on.")
+				self:print ("diagnostic for character " .. rest .. " turned on.")
 				return
 			end
 
-			local current_combat = _detalhes.tabela_vigente
+			local current_combat = self.tabela_vigente
 
-			if (not _detalhes.DebugWindow) then
-				_detalhes.DebugWindow = _detalhes.gump:CreateSimplePanel (UIParent, 800, 600, "Details! Debug", "DetailsDebugPanel")
-				local TextBox = _detalhes.gump:NewSpecialLuaEditorEntry (_detalhes.DebugWindow, 760, 560, "text", "$parentTextEntry", true)
-				TextBox:SetPoint ("CENTER", _detalhes.DebugWindow, "CENTER", 0, -10)
+			if (not self.DebugWindow) then
+				self.DebugWindow = self.gump:CreateSimplePanel (UIParent, 800, 600, "Details! Debug", "DetailsDebugPanel")
+				local TextBox = self.gump:NewSpecialLuaEditorEntry (self.DebugWindow, 760, 560, "text", "$parentTextEntry", true)
+				TextBox:SetPoint ("CENTER", self.DebugWindow, "CENTER", 0, -10)
 				TextBox:SetBackdrop ({edgeFile = [[Interface\Buttons\WHITE8X8]], edgeSize = 1, bgFile = [[Interface\Tooltips\UI-Tooltip-Background]], tileSize = 64, tile = true})
 				TextBox:SetBackdropColor (0, 0, 0, 0.9)
 				TextBox:SetBackdropBorderColor (0, 0, 0, 1)
-				_detalhes.DebugWindow.TextBox = TextBox
+				self.DebugWindow.TextBox = TextBox
 			end
 
 			local text = [[
@@ -991,23 +989,23 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 
 ]]
 
-			text = text:gsub ([[@VERSION]], _detalhes.userversion)
-			text = text:gsub ([[@CORE]], _detalhes.realversion)
+			text = text:gsub ([[@VERSION]], self.userversion)
+			text = text:gsub ([[@CORE]], self.realversion)
 
-			text = text:gsub ([[@TICKRATE]], _detalhes.update_speed)
-			text = text:gsub ([[@TICKHEALTH]], _detalhes:TimeLeft (_detalhes.atualizador) ~= 0 and "|cFF22FF22good|r" or "|cFFFF2222bad|r")
-			text = text:gsub ([[@TICKLAST]], _detalhes.LastUpdateTick .. " (" .. _detalhes._tempo - _detalhes.LastUpdateTick .. " seconds ago)")
-			text = text:gsub ([[@TICKNEXT]], _detalhes:TimeLeft (_detalhes.atualizador))
+			text = text:gsub ([[@TICKRATE]], self.update_speed)
+			text = text:gsub ([[@TICKHEALTH]], self:TimeLeft (self.atualizador) ~= 0 and "|cFF22FF22good|r" or "|cFFFF2222bad|r")
+			text = text:gsub ([[@TICKLAST]], self.LastUpdateTick .. " (" .. self._tempo - self.LastUpdateTick .. " seconds ago)")
+			text = text:gsub ([[@TICKNEXT]], self:TimeLeft (self.atualizador))
 
-			text = text:gsub ([[@COMBATID]], _detalhes.combat_id)
-			text = text:gsub ([[@COMBATCONTAINERS]], _detalhes.tabela_vigente[1] and _detalhes.tabela_vigente[2] and _detalhes.tabela_vigente[3] and _detalhes.tabela_vigente[4] and "|cFF22FF22good|r" or "|cFFFF2222bad|r")
-			text = text:gsub ([[@COMBATDAMAGEACTORS]], #_detalhes.tabela_vigente[1] and _detalhes.tabela_vigente[1]._ActorTable and #_detalhes.tabela_vigente[1]._ActorTable)
+			text = text:gsub ([[@COMBATID]], self.combat_id)
+			text = text:gsub ([[@COMBATCONTAINERS]], self.tabela_vigente[1] and self.tabela_vigente[2] and self.tabela_vigente[3] and self.tabela_vigente[4] and "|cFF22FF22good|r" or "|cFFFF2222bad|r")
+			text = text:gsub ([[@COMBATDAMAGEACTORS]], #self.tabela_vigente[1] and self.tabela_vigente[1]._ActorTable and #self.tabela_vigente[1]._ActorTable)
 
-			text = text:gsub ([[@PARSERHEALTH]], _detalhes.parser_frame:GetScript ("OnEvent") == _detalhes.OnParserEvent and "|cFF22FF22good|r" or "|cFFFF2222bad|r")
+			text = text:gsub ([[@PARSERHEALTH]], self.parser_frame:GetScript ("OnEvent") == self.OnParserEvent and "|cFF22FF22good|r" or "|cFFFF2222bad|r")
 
 			local captureStr = ""
-			for _ , captureName in ipairs (_detalhes.capture_types) do
-				if (_detalhes.capture_current [captureName]) then
+			for _ , captureName in ipairs (self.capture_types) do
+				if (self.capture_current [captureName]) then
 					captureStr = captureStr .. " " .. captureName .. ": |cFF22FF22okay|r"
 				else
 					captureStr = captureStr .. " " .. captureName .. ": |cFFFF2222X|r"
@@ -1015,9 +1013,9 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 			end
 			text = text:gsub ([[@PARSERCAPTURE]], captureStr)
 
-			local instance = _detalhes:GetLowerInstanceNumber()
+			local instance = self:GetLowerInstanceNumber()
 			if (instance) then
-				instance = _detalhes:GetInstance (instance)
+				instance = self:GetInstance (instance)
 			end
 
 			if (instance) then
@@ -1027,9 +1025,9 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 					text = text:gsub ([[@INSTANCESHOWN]], "|cFFFFFF22not visible|r")
 				end
 
-				text = text:gsub ([[@INSTANCESEGMENT]], (instance.showing == _detalhes.tabela_vigente and "|cFF22FF22good|r" or "|cFFFFFF22isn't the current combat object|r") .. (" window segment: " .. instance:GetSegment()))
+				text = text:gsub ([[@INSTANCESEGMENT]], (instance.showing == self.tabela_vigente and "|cFF22FF22good|r" or "|cFFFFFF22isn't the current combat object|r") .. (" window segment: " .. instance:GetSegment()))
 
-				text = text:gsub ([[@INSTANCEDAMAGESTATUS]], (_detalhes._tempo - (_detalhes.LastFullDamageUpdate or 0)) < 3 and "|cFF22FF22good|r" or "|cFFFF2222last update registered is > than 3 seconds, is there actors to show?|r")
+				text = text:gsub ([[@INSTANCEDAMAGESTATUS]], (self._tempo - (self.LastFullDamageUpdate or 0)) < 3 and "|cFF22FF22good|r" or "|cFFFF2222last update registered is > than 3 seconds, is there actors to show?|r")
 			else
 				text = text:gsub ([[@INSTANCESHOWN]], "|cFFFFFF22not found|r")
 				text = text:gsub ([[@INSTANCESEGMENT]], "|cFFFFFF22not found|r")
@@ -1037,25 +1035,25 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 
 			end
 
-			_detalhes.DebugWindow.TextBox:SetText (text)
+			self.DebugWindow.TextBox:SetText (text)
 
-			_detalhes.DebugWindow:Show()
+			self.DebugWindow:Show()
 		end
 
 	--> debug combat log
 	elseif (msg == "combatlog") then
-		if (_detalhes.isLoggingCombat) then
+		if (self.isLoggingCombat) then
 			LoggingCombat (false)
 			print ("Wow combatlog record turned OFF.")
-			_detalhes.isLoggingCombat = nil
+			self.isLoggingCombat = nil
 		else
 			LoggingCombat (true)
 			print ("Wow combatlog record turned ON.")
-			_detalhes.isLoggingCombat = true
+			self.isLoggingCombat = true
 		end
 
 	elseif (msg == "gs") then
-		_detalhes:teste_grayscale()
+		self:teste_grayscale()
 
 	elseif (msg == "bwload") then
 		if not BigWigs then LoadAddOn("BigWigs_Core") end
@@ -1084,7 +1082,7 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 		local x, y = GetPlayerMapPosition ("player")
 
 		if (not DetailsPosBox) then
-			_detalhes.gump:CreateTextEntry (UIParent, function()end, 200, 20, nil, "DetailsPosBox")
+			self.gump:CreateTextEntry (UIParent, function()end, 200, 20, nil, "DetailsPosBox")
 			DetailsPosBox:SetPoint ("CENTER", UIParent, "CENTER")
 		end
 
@@ -1099,7 +1097,7 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 
 	elseif (msg == "outline") then
 
-		local instancia = _detalhes.tabela_instancias [1]
+		local instancia = self.tabela_instancias [1]
 		for _, barra in ipairs (instancia.barras) do
 			local _, _, flags = barra.texto_esquerdo:GetFont()
 			print ("outline:",flags)
@@ -1142,11 +1140,11 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 		end
 
 	elseif (msg == "forge") then
-		_detalhes:OpenForge()
+		self:OpenForge()
 
 	elseif (msg == "parser") then
 
-		_detalhes:OnParserEvent (
+		self:OnParserEvent (
 			"COMBAT_LOG_EVENT_UNFILTERED", --evento =
 			1548754114, --time =
 			"SPELL_DAMAGE", --token =
@@ -1195,13 +1193,13 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 	elseif (msg == "ilvl" or msg == "itemlevel" or msg == "ilevel") then
 
 		local avgItemLevel, avgItemLevelEquipped = GetAverageItemLevel()
-		_detalhes:Msg ("average ilvl: " .. avgItemLevel, "| average equipped ilvl:", avgItemLevelEquipped)
+		self:Msg ("average ilvl: " .. avgItemLevel, "| average equipped ilvl:", avgItemLevelEquipped)
 
-		_detalhes.ilevel:CalcItemLevel (nil, nil, true)
+		self.ilevel:CalcItemLevel (nil, nil, true)
 
 	elseif (msg == "score") then
 
-		_detalhes:OpenRaidHistoryWindow ("Hellfire Citadel", 1800, 2, "DAMAGER", "Rock Lobster", 2, "Keyspell")
+		self:OpenRaidHistoryWindow ("Dragon Soul", 1800, 2, "DAMAGER", "Bad", 2, "Brues")
 
 	elseif (msg == "bar") then
 		local bar = _G.DetailsTestBar
@@ -1252,7 +1250,7 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 		local y = -50
 		local allspecs = {}
 
-		for a, b in pairs (_detalhes.class_specs_coords) do
+		for a, b in pairs (self.class_specs_coords) do
 			tinsert (allspecs, a)
 		end
 
@@ -1284,7 +1282,7 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 				--texture:SetTexture ([[Interface\Store\Store-Splash]])
 				--texture:SetTexture ([[Interface\AddOns\Details\images\options_window]])
 				--texture:SetTexture ([[Interface\CHARACTERFRAME\Button_BloodPresence_DeathKnight]])
-				--texture:SetTexCoord (unpack (_detalhes.class_specs_coords [spec]))
+				--texture:SetTexCoord (unpack (self.class_specs_coords [spec]))
 
 				--a:SetAlpha (abs (math.sin (time)))
 				--a:SetValue (abs (math.sin (time)))
@@ -1292,37 +1290,36 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 		end
 
 	elseif (msg == "alert") then
-		--local instancia = _detalhes.tabela_instancias [1]
+		--local instancia = self.tabela_instancias [1]
 		local f = function (a, b, c, d, e, f, g) print (a, b, c, d, e, f, g) end
 		--instancia:InstanceAlert (Loc ["STRING_PLEASE_WAIT"], {[[Interface\COMMON\StreamCircle]], 22, 22, true}, 5, {f, 1, 2, 3, 4, 5})
 
-		local lower_instance = _detalhes:GetLowerInstanceNumber()
+		local lower_instance = self:GetLowerInstanceNumber()
 		if (lower_instance) then
-			local instance = _detalhes:GetInstance (lower_instance)
+			local instance = self:GetInstance (lower_instance)
 			if (instance) then
-				local func = {_detalhes.OpenRaidHistoryWindow, _detalhes, "Hellfire Citadel", 1800, 15, "DAMAGER", "Rock Lobster", 2, "Keyspell"}
+				local func = {self.OpenRaidHistoryWindow, self, "Dragon Soul", 1800, 15, "DAMAGER", "Bad", 2, "Brues"}
 				instance:InstanceAlert ("Boss Defeated, Open History! ", {[[Interface\AddOns\Details\images\icons]], 16, 16, false, 434/512, 466/512, 243/512, 273/512}, 40, func, true)
 			end
 		end
 
 	elseif (msg == "teste1") then	-- /de teste1
-		_detalhes:OpenRaidHistoryWindow (1530, 1886, 15, "damage", "Rock Lobster", 2, "Keyspell") --, _role, _guild, _player_base, _player_name)
+		self:OpenRaidHistoryWindow (1530, 1886, 15, "damage", "Bad", 2, "Brues") --, _role, _guild, _player_base, _player_name)
 
 	elseif (msg == "qq") then
 		local my_role = "DAMAGER"
-		local raid_name = "Tomb of Sargeras"
-		local guildName = "Rock Lobster"
-		local func = {_detalhes.OpenRaidHistoryWindow, _detalhes, raid_name, 2050, 15, my_role, guildName} --, 2, UnitName ("player")
-		--local icon = {[[Interface\AddOns\Details\images\icons]], 16, 16, false, 434/512, 466/512, 243/512, 273/512}
+		local raid_name = "Dragon Soul"
+		local guildName = "Bad"
+		local func = {self.OpenRaidHistoryWindow, self, raid_name, 2050, 15, my_role, guildName} --, 2, UnitName ("player")
 		local icon = {[[Interface\PvPRankBadges\PvPRank08]], 16, 16, false, 0, 1, 0, 1}
 
-		local lower_instance = _detalhes:GetLowerInstanceNumber()
-		local instance = _detalhes:GetInstance (lower_instance)
+		local lower_instance = self:GetLowerInstanceNumber()
+		local instance = self:GetInstance (lower_instance)
 
 		instance:InstanceAlert ("Boss Defeated! Show Ranking", icon, 10, func, true)
 
 	elseif (msg == "scroll" or msg == "scrolldamage" or msg == "scrolling") then
-		Details:ScrollDamage()
+		self:ScrollDamage()
 
 	elseif (msg == "spec") then
 
@@ -1330,46 +1327,42 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 	if (spec) then
 		local specID = DetailsFramework.GetSpecializationInfo (spec)
 		if (specID and specID ~= 0) then
-			print ("Current SpecID: ", specID)
+			local _, specName = DetailsFramework.GetSpecializationInfoByID(specID)
+			self:print(specName, "SpecID:", specID)
 		end
 	end
 
 
 	elseif (msg == "senditemlevel") then
-		_detalhes:SendCharacterData()
+		self:SendCharacterData()
 		print ("Item level dispatched.")
 
 	elseif (msg == "talents") then
+		print ("name", "texture", "tier", "column", "rank", "maxRank", "meetsPrereq", "previewRank", "meetsPreviewPreq")
 		local talents = {}
-		for i = 1, 7 do
-			for o = 1, 3 do
-				local talentID, name, texture, selected, available = GetTalentInfo (i, o, 1)
-				if (selected) then
-					tinsert (talents, talentID)
-					break
+		for i = 1, GetNumTalentTabs() do
+			for j = 1, GetNumTalents(i) do
+				local rank = select(5,GetTalentInfo(i, j))
+				if rank > 0 then
+					print(GetTalentInfo(i, j))
 				end
 			end
-		end
-
-		print ("talentID", "name", "texture", "selected", "available", "spellID", "unknown", "row", "column", "unknown", "unknown")
-		for i = 1, #talents do
-			print (GetTalentInfoByID (talents [i]))
 		end
 
 	elseif (msg == "merge") then
 
 		--> at this point, details! should not be in combat
-		if (_detalhes.in_combat) then
-			_detalhes:Msg ("already in combat, closing current segment.")
-			_detalhes:SairDoCombate()
+		if (self.in_combat) then
+			self:Msg ("already in combat, closing current segment.")
+			self:SairDoCombate()
 		end
 
 		--> create a new combat to be the overall for the mythic run
-		_detalhes:EntrarEmCombate()
+		self:EntrarEmCombate()
 
 		--> get the current combat just created and the table with all past segments
-		local newCombat = _detalhes:GetCurrentCombat()
-		local segmentHistory = _detalhes:GetCombatSegments()
+		local newCombat = self:GetCurrentCombat()
+		local segmentHistory = self:GetCombatSegments()
 		local totalTime = 0
 		local startDate, endDate = "", ""
 		local lastSegment
@@ -1395,7 +1388,7 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 		end
 
 		newCombat.is_trash = false
-		_detalhes:Msg ("done merging, segments: " .. segmentsAdded .. ", total time: " .. DetailsFramework:IntegerToTimer (totalTime))
+		self:Msg ("done merging, segments: " .. segmentsAdded .. ", total time: " .. DetailsFramework:IntegerToTimer (totalTime))
 
 		--> set some data
 		newCombat:SetStartTime (GetTime() - totalTime)
@@ -1405,7 +1398,7 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 		newCombat.data_fim = endDate
 
 		--> immediatly finishes the segment just started
-		_detalhes:SairDoCombate()
+		self:SairDoCombate()
 
 		--> cleanup the past segments table
 		for i = 25, 1, -1 do
@@ -1419,11 +1412,11 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 		--> clear memory
 		collectgarbage()
 
-		_detalhes:InstanciaCallFunction (_detalhes.gump.Fade, "in", nil, "barras")
-		_detalhes:InstanciaCallFunction (_detalhes.AtualizaSegmentos)
-		_detalhes:InstanciaCallFunction (_detalhes.AtualizaSoloMode_AfertReset)
-		_detalhes:InstanciaCallFunction (_detalhes.ResetaGump)
-		_detalhes:AtualizaGumpPrincipal (-1, true)
+		self:InstanciaCallFunction (self.gump.Fade, "in", nil, "barras")
+		self:InstanciaCallFunction (self.AtualizaSegmentos)
+		self:InstanciaCallFunction (self.AtualizaSoloMode_AfertReset)
+		self:InstanciaCallFunction (self.ResetaGump)
+		self:AtualizaGumpPrincipal (-1, true)
 
 	elseif (msg == "ej") then
 
@@ -1469,10 +1462,10 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 	elseif (msg == "record") then
 
 
-			_detalhes.ScheduleLoadStorage()
-			_detalhes.TellDamageRecord = C_Timer.NewTicker (0.6, _detalhes.PrintEncounterRecord, 1)
-			_detalhes.TellDamageRecord.Boss = 2032
-			_detalhes.TellDamageRecord.Diff = 16
+			self.ScheduleLoadStorage()
+			self.TellDamageRecord = C_Timer.NewTicker (0.6, self.PrintEncounterRecord, 1)
+			self.TellDamageRecord.Boss = 2032
+			self.TellDamageRecord.Diff = 16
 
 	elseif (msg == "recordtest") then
 
@@ -1492,7 +1485,7 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 
 	--BFA BETA
 	elseif (msg == "update") then
-		_detalhes:CopyPaste ([[https://github.com/skylerh15/Details-Cata]])
+		self:CopyPaste ([[https://github.com/skylerh15/Details-Cata]])
 
 
 	elseif (msg == "share") then
@@ -1544,8 +1537,8 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 			return t1
 		end
 
-		--local copySegment = f.copy ({}, _detalhes.tabela_vigente)
-		local copySegment = f.copy ({}, _detalhes.tabela_historico.tabelas [2])
+		--local copySegment = f.copy ({}, self.tabela_vigente)
+		local copySegment = f.copy ({}, self.tabela_historico.tabelas [#self.tabela_historico.tabelas])
 
 		--the segment received is raw and does not have metatables, need to refresh them
 		local zipData = Details:CompressData (copySegment, "print")
@@ -1555,55 +1548,55 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 		Details:Dump ({zipData})
 	else
 
-		--if (_detalhes.opened_windows < 1) then
-		--	_detalhes:CriarInstancia()
+		--if (self.opened_windows < 1) then
+		--	self:CriarInstancia()
 		--end
 
 		if (command) then
 			--> check if the line passed is a parameters in the default profile
-			if (_detalhes.default_profile [command]) then
+			if (self.default_profile [command]) then
 				if (rest and (rest ~= "" and rest ~= " ")) then
-					local whichType = type (_detalhes.default_profile [command])
+					local whichType = type (self.default_profile [command])
 
 					--> attempt to cast the passed value to the same value as the type in the profile
 					if (whichType == "number") then
 						rest = tonumber (rest)
 						if (rest) then
-							_detalhes [command] = rest
-							print (Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' set to " .. rest)
+							self [command] = rest
+							self:print("config '" .. command .. "' set to " .. rest)
 						else
-							print (Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' expects a number")
+							self:print("config '" .. command .. "' expects a number")
 						end
 
 					elseif (whichType == "string") then
 						rest = tostring (rest)
 						if (rest) then
-							_detalhes [command] = rest
-							print (Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' set to " .. rest)
+							self [command] = rest
+							self:print ("config '" .. command .. "' set to " .. rest)
 						else
-							print (Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' expects a string")
+							self:print ("config '" .. command .. "' expects a string")
 						end
 
 					elseif (whichType == "boolean") then
 						if (rest == "true") then
-							_detalhes [command] = true
-							print (Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' set to true")
+							self [command] = true
+							self:print ("config '" .. command .. "' set to true")
 
 						elseif (rest == "false") then
-							_detalhes [command] = false
-							print (Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' set to false")
+							self [command] = false
+							self:print ("config '" .. command .. "' set to false")
 
 						else
-							print (Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' expects true or false")
+							self:print ("config '" .. command .. "' expects true or false")
 						end
 					end
 
 				else
-					local value = _detalhes [command]
+					local value = self [command]
 					if (type (value) == "boolean") then
 						value = value and "true" or "false"
 					end
-					print (Loc ["STRING_DETAILS1"] .. "config '" .. command .. "' current value is: " .. value)
+					self:print ("config '" .. command .. "' current value is: " .. value)
 				end
 
 				return
@@ -1612,9 +1605,6 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 		end
 
 		print (" ")
-		--local v = _detalhes.game_version .. "." .. (_detalhes.build_counter >= _detalhes.alpha_build_counter and _detalhes.build_counter or _detalhes.alpha_build_counter)
-		--print (Loc ["STRING_DETAILS1"] .. "" .. v .. " [|cFFFFFF00CORE: " .. _detalhes.realversion .. "|r] " ..  Loc ["STRING_COMMAND_LIST"] .. ":")
-
 		print ("|cffffaeae/details|r |cffffff33" .. Loc ["STRING_SLASH_NEW"] .. "|r: " .. Loc ["STRING_SLASH_NEW_DESC"])
 		print ("|cffffaeae/details|r |cffffff33" .. Loc ["STRING_SLASH_SHOW"] .. " " .. Loc ["STRING_SLASH_HIDE"] .. " " .. Loc ["STRING_SLASH_TOGGLE"] .. "|r|cfffcffb0 <" .. Loc ["STRING_WINDOW_NUMBER"] .. ">|r: " .. Loc ["STRING_SLASH_SHOWHIDETOGGLE_DESC"])
 		print ("|cffffaeae/details|r |cffffff33" .. Loc ["STRING_SLASH_ENABLE"] .. " " .. Loc ["STRING_SLASH_DISABLE"] .. "|r: " .. Loc ["STRING_SLASH_CAPTURE_DESC"])
@@ -1627,9 +1617,9 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 		--print ("|cffffaeae/details " .. Loc ["STRING_SLASH_WORLDBOSS"] .. "|r: " .. Loc ["STRING_SLASH_WORLDBOSS_DESC"])
 		print (" ")
 
-		local v = _detalhes.game_version .. "." .. (_detalhes.build_counter >= _detalhes.alpha_build_counter and _detalhes.build_counter or _detalhes.alpha_build_counter)
-		print (Loc ["STRING_DETAILS1"] .. "|cFFFFFF00DETAILS! VERSION|r: |cFFFFAA00R" .. (_detalhes.build_counter >= _detalhes.alpha_build_counter and _detalhes.build_counter or _detalhes.alpha_build_counter))
-		print (Loc ["STRING_DETAILS1"] .. "|cFFFFFF00GAME VERSION|r: |cFFFFAA00" .. _detalhes.game_version)
+		local v = (self.build_counter >= self.alpha_build_counter and self.build_counter or self.alpha_build_counter)
+		self:print("|cFFFFFF00DETAILS! VERSION|r: |cFFFFAA00R" .. v)
+		self:print("|cFFFFFF00GAME VERSION|r: |cFFFFAA00" .. self.game_version)
 
 	end
 end
@@ -1803,22 +1793,19 @@ end
 
 function _detalhes:CreateListPanel()
 
-
-
-
-	_detalhes.ListPanel = _detalhes.gump:NewPanel (UIParent, nil, "DetailsActorsFrame", nil, 300, 600)
-	_detalhes.ListPanel:SetPoint ("CENTER", UIParent, "CENTER", 300, 0)
-	_detalhes.ListPanel.barras = {}
+	self.ListPanel = self.gump:NewPanel (UIParent, nil, "DetailsActorsFrame", nil, 300, 600)
+	self.ListPanel:SetPoint ("CENTER", UIParent, "CENTER", 300, 0)
+	self.ListPanel.barras = {}
 
 	tinsert (UISpecialFrames, "DetailsActorsFrame")
-	_detalhes.ListPanel.close_with_right = true
+	self.ListPanel.close_with_right = true
 
-	local container_barras_window = CreateFrame ("ScrollFrame", "Details_ActorsBarrasScroll", _detalhes.ListPanel.widget)
+	local container_barras_window = CreateFrame ("ScrollFrame", "Details_ActorsBarrasScroll", self.ListPanel.widget)
 	local container_barras = CreateFrame ("Frame", "Details_ActorsBarras", container_barras_window)
-	_detalhes.ListPanel.container = container_barras
+	self.ListPanel.container = container_barras
 
-	_detalhes.ListPanel.width = 500
-	_detalhes.ListPanel.locked = false
+	self.ListPanel.width = 500
+	self.ListPanel.locked = false
 
 	container_barras_window:SetBackdrop({
 		edgeFile = "Interface\\DialogFrame\\UI-DialogBox-gold-Border", tile = true, tileSize = 16, edgeSize = 5,
@@ -1840,9 +1827,9 @@ function _detalhes:CreateListPanel()
 	container_barras_window:SetWidth (460)
 	container_barras_window:SetHeight (550)
 	container_barras_window:SetScrollChild (container_barras)
-	container_barras_window:SetPoint ("TOPLEFT", _detalhes.ListPanel.widget, "TOPLEFT", 21, -10)
+	container_barras_window:SetPoint ("TOPLEFT", self.ListPanel.widget, "TOPLEFT", 21, -10)
 
-	_detalhes.gump:NewScrollBar (container_barras_window, container_barras, -10, -17)
+	self.gump:NewScrollBar (container_barras_window, container_barras, -10, -17)
 	container_barras_window.slider:Altura (560)
 	container_barras_window.slider:cimaPoint (0, 1)
 	container_barras_window.slider:baixoPoint (0, -3)
@@ -1852,12 +1839,12 @@ function _detalhes:CreateListPanel()
 
 	container_barras_window.gump = container_barras
 
-	function _detalhes.ListPanel:add (text, index, filter)
-		local row = _detalhes.ListPanel.barras [index]
+	function self.ListPanel:add (text, index, filter)
+		local row = self.barras [index]
 		if (not row) then
-			row = {text = _detalhes.ListPanel.container:CreateFontString (nil, "overlay", "GameFontNormal")}
-			_detalhes.ListPanel.barras [index] = row
-			row.text:SetPoint ("TOPLEFT", _detalhes.ListPanel.container, "TOPLEFT", 0, -index * 15)
+			row = {text = self.container:CreateFontString (nil, "overlay", "GameFontNormal")}
+			self.barras [index] = row
+			row.text:SetPoint ("TOPLEFT", self.container, "TOPLEFT", 0, -index * 15)
 		end
 
 		if (filter and text:find (filter)) then
@@ -1869,7 +1856,7 @@ function _detalhes:CreateListPanel()
 		row.text:SetText (text)
 	end
 
-	return _detalhes.ListPanel
+	return self.ListPanel
 end
 
 --doe

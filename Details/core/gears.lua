@@ -1610,11 +1610,11 @@ function _detalhes:StoreEncounter (combat)
 
 			if (myBestDps > d_one) then
 				if (not _detalhes.deny_score_messages) then
-					print (Loc ["STRING_DETAILS1"] .. format (Loc ["STRING_SCORE_NOTBEST"], _detalhes:ToK2 (d_one), _detalhes:ToK2 (myBestDps), onencounter.date, mybest[2]))
+					self:print(format (Loc ["STRING_SCORE_NOTBEST"], _detalhes:ToK2 (d_one), _detalhes:ToK2 (myBestDps), onencounter.date, mybest[2]))
 				end
 			else
 				if (not _detalhes.deny_score_messages) then
-					print (Loc ["STRING_DETAILS1"] .. format (Loc ["STRING_SCORE_BEST"], _detalhes:ToK2 (d_one)))
+					self:print(format (Loc ["STRING_SCORE_BEST"], _detalhes:ToK2 (d_one)))
 				end
 			end
 		end
