@@ -5514,9 +5514,11 @@ DF.HeaderCoreFunctions = {
 		if (type (defaultShown) ~= "boolean") then
 			arrowIcon:Show()
 		else
-			arrowIcon:SetShown (defaultShown)
 			if (defaultShown) then
+				arrowIcon:Show()
 				self:SetBackdropColorForSelectedColumnHeader (columnHeader)
+			else
+				arrowIcon:Hide()
 			end
 		end
 

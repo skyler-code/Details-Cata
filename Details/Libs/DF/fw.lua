@@ -524,8 +524,6 @@ function DF.GetSpecializationID(class, index)
 	return specIDs[class] and specIDs[class][index]
 end
 
-
-
 function DF.GetSpecializationInfoByID (specId, ...)
 	if (GetSpecializationInfoByID) then
 		return GetSpecializationInfoByID (specId, ...)
@@ -3329,18 +3327,26 @@ local SetBorderColor = function (self, r, g, b)
 	end
 end
 
+local SetShown = function(texture, shown)
+	if shown then
+		texture:Show()
+	else
+		texture:Hide()
+	end
+end
+
 local SetLayerVisibility = function (self, layer1Shown, layer2Shown, layer3Shown)
 
 	for _, texture in ipairs (self.Borders.Layer1) do
-		texture:SetShown (layer1Shown)
+		SetShown (texture, layer1Shown)
 	end
 
 	for _, texture in ipairs (self.Borders.Layer2) do
-		texture:SetShown (layer2Shown)
+		SetShown (texture, layer2Shown)
 	end
 
 	for _, texture in ipairs (self.Borders.Layer3) do
-		texture:SetShown (layer3Shown)
+		SetShown (texture, layer3Shown)
 	end
 
 end
