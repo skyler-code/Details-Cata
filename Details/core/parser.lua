@@ -23,6 +23,8 @@ local _IsInGroup = IsInGroup --wow api local
 local _GetNumGroupMembers = GetNumGroupMembers --wow api local
 local _GetTime = GetTime
 local _UnitBuff = UnitBuff
+local _IsResting = IsResting
+local _InCombatLockdown = InCombatLockdown
 
 local _cstr = string.format --lua local
 local _str_sub = string.sub --lua local
@@ -209,7 +211,6 @@ local _recording_buffs_and_debuffs = false
 local _in_combat = false
 local _current_encounter_id
 local _is_storing_cleu = false
-local _in_resting_zone = false
 
 --> deathlog
 local _death_event_amt = 16
@@ -1333,7 +1334,7 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 
 		--> only capture heal if is in combat
 		if(not _in_combat) then
-			if(not _in_resting_zone) then
+			if(not _detalhes.is_resting) then
 				return
 			end
 		end
@@ -3676,8 +3677,13 @@ end
 function _detalhes:GetZoneType()
 	return _detalhes.zone_type
 end
+
 function _detalhes.parser_functions:ZONE_CHANGED_NEW_AREA(...)
 	return _detalhes:ScheduleTimer("Check_ZONE_CHANGED_NEW_AREA", 0.5)
+end
+
+function _detalhes.parser_functions:PLAYER_UPDATE_RESTING()
+	_detalhes.is_resting = _IsResting()
 end
 
 function _detalhes:Check_ZONE_CHANGED_NEW_AREA(...)
@@ -3687,8 +3693,6 @@ function _detalhes:Check_ZONE_CHANGED_NEW_AREA(...)
 	_detalhes.zone_type = zoneType
 	_detalhes.zone_id = zoneMapID
 	_detalhes.zone_name = zoneName
-
-	_in_resting_zone = IsResting()
 
 	_is_in_instance = false
 
@@ -4118,7 +4122,7 @@ function _detalhes.parser_functions:PLAYER_REGEN_ENABLED(...)
 	if _detalhes.debug then
 		_detalhes:Msg("(debug) |cFFFFFF00PLAYER_REGEN_ENABLED|r event triggered.")
 
-		print("combat lockdown:", InCombatLockdown())
+		print("combat lockdown:", _InCombatLockdown())
 		print("affecting combat:", UnitAffectingCombat("player"))
 
 		if _current_encounter_id and IsInInstance() then

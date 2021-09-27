@@ -20,6 +20,7 @@ function _detalhes:ApplyBasicKeys()
 	--> who is
 		self.playername = UnitName ("player")
 		self.playerserial = UnitGUID ("player")
+		self.is_resting = IsResting()
 
 	--> player faction and enemy faction
 		self.faction = UnitFactionGroup ("player")

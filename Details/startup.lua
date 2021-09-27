@@ -259,6 +259,7 @@ function _G._detalhes:Start()
 
 			self.listener:RegisterEvent ("ZONE_CHANGED_NEW_AREA")
 			self.listener:RegisterEvent ("PLAYER_ENTERING_WORLD")
+			self.listener:RegisterEvent ("PLAYER_UPDATE_RESTING")
 
 			self.listener:RegisterEvent ("ENCOUNTER_START")
 			self.listener:RegisterEvent ("ENCOUNTER_END")
