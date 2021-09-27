@@ -365,7 +365,7 @@ end
 --guild sync A = received missing encounters, add them
 
 function _detalhes.network.GuildSync (player, realm, core_version, type, data)
-	if (self.playername == player) then
+	if (_detalhes.playername == player) then
 		return
 	end
 
@@ -386,7 +386,7 @@ function _detalhes.network.GuildSync (player, realm, core_version, type, data)
 
 		local IDs = _detalhes.storage:GetIDsToGuildSync()
 		if (IDs and IDs [1]) then
-			local from = self.playername
+			local from = _detalhes.playername
 			local realm = GetRealmName()
 			_detalhes:SendCommMessage (CONST_DETAILS_PREFIX, _detalhes:Serialize (CONST_GUILD_SYNC, from, realm, _detalhes.realversion, "L", IDs), "WHISPER", player)
 		end
@@ -398,7 +398,7 @@ function _detalhes.network.GuildSync (player, realm, core_version, type, data)
 		local MissingIDs = _detalhes.storage:CheckMissingIDsToGuildSync (data)
 
 		if (MissingIDs and MissingIDs [1]) then
-			local from = self.playername
+			local from = _detalhes.playername
 			local realm = GetRealmName()
 			_detalhes:SendCommMessage (CONST_DETAILS_PREFIX, _detalhes:Serialize (CONST_GUILD_SYNC, from, realm, _detalhes.realversion, "G", MissingIDs), "WHISPER", player)
 		end
@@ -417,7 +417,7 @@ function _detalhes.network.GuildSync (player, realm, core_version, type, data)
 					return
 				end
 
-				local from = self.playername
+				local from = _detalhes.playername
 				local realm = GetRealmName()
 				--todo: need to check if the target is still online
 				_detalhes:SendCommMessage (CONST_DETAILS_PREFIX, _detalhes:Serialize (CONST_GUILD_SYNC, from, realm, _detalhes.realversion, "A", data), "WHISPER", task.Target)

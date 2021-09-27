@@ -3640,7 +3640,7 @@ local _utf8sub = string.utf8sub
 	end
 
 	function _detalhes:CreateTestBars (alphabet)
-		local current_combat = _detalhes:GetCombat ("current")
+		local current_combat = self:GetCombat ("current")
 		local pclass = select (2, UnitClass ("player"))
 
 		local actors_name = {

@@ -4220,7 +4220,7 @@ function _detalhes.BuildDeathTableFromRecap (recapID)
 	ArtificialDeathLog = {
 		{}, --deathlog events
 		(events [1] and events [1].timestamp) or (DeathRecapFrame and DeathRecapFrame.DeathTimeStamp) or 0, --time of death
-		self.playername,
+		_detalhes.playername,
 		select (2, UnitClass ("player")),
 		UnitHealthMax ("player"),
 		"0m 0s", --formated fight time
