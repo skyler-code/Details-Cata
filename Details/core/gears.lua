@@ -2115,8 +2115,8 @@ function _detalhes:GetSpecFromSerial (guid)
 end
 
 function _detalhes:LibGroupTalents_Update(event, guid, unit, dominant_tree_id, n1, n2, n3)
-
-	if _detalhes.debug and guid ~= _detalhes.playerserial then
+	self.playerserial = self.playerserial or UnitGUID("player")
+	if _detalhes.debug and guid ~= self.playerserial then
 		_detalhes:Msg("(debug) received LibGroupTalents Update from user", guid)
 	end
 
