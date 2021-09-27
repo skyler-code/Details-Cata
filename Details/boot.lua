@@ -2,9 +2,9 @@
 --> global name declaration
 _detalhes = LibStub("AceAddon-3.0"):NewAddon("_detalhes", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "NickTag-1.0")
 
-_detalhes.build_counter = 8017
+_detalhes.build_counter = 8022
 _detalhes.alpha_build_counter = 7269 --if this is higher than the regular counter, use it instead
-_detalhes.game_version = "v"..GetBuildInfo()
+_detalhes.game_version = "v4.3.4"
 _detalhes.userversion = _detalhes.game_version .. "." .. _detalhes.build_counter
 _detalhes.realversion = 200 --core version, this is used to check API version for scripts and plugins (see alias below)
 _detalhes.APIVersion = _detalhes.realversion --core version
