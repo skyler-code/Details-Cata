@@ -4137,7 +4137,7 @@ function _detalhes.parser_functions:PLAYER_REGEN_ENABLED(...)
 	for _, npcID in _ipairs(_detalhes.cache_dead_npc) do
 		if _detalhes.debug then
 			if not printedNpcs[npcID] then
-				print(npcID)
+				_detalhes:Msg("(debug) NPCID:", npcID)
 				printedNpcs[npcID] = true
 			end
 		end
