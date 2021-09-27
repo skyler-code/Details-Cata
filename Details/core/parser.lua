@@ -413,6 +413,9 @@ function parser:spell_dmg(token, time, hide_caster, who_serial, who_name, who_fl
 		return
 	end
 
+	--> don't log dot ticks while out of combat and in a resting area (mainly for target dummies)
+	if token == "SPELL_PERIODIC_DAMAGE" and not _InCombatLockdown() and _detalhes.is_resting then return end
+
 	--check if the target actor isn't in the temp blacklist
 --	if ignore_actors[alvo_serial] then
 --		return
