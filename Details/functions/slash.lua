@@ -152,12 +152,19 @@ function _detalhes:ParseParameters(msg, editbox)
 
 		end
 
-	elseif (command == Loc ["STRING_SLASH_WORLDBOSS"] or command == "worldboss") then
+	elseif command == "bh" or command == "baradinhold" then
 
-		local questIds = {{"Tarlna the Ageless", 81535}, {"Drov the Ruiner ", 87437}, {"Rukhmar", 87493}}
-		for _, _table in pairs (questIds) do
-			print (format ("%s: \124cff%s\124r", _table [1], IsQuestFlaggedCompleted (_table [2]) and "ff0000"..Loc ["STRING_KILLED"] or "00ff00"..Loc ["STRING_ALIVE"]))
+		local bhName = EJ_GetInstanceInfo(75)
+		for i = 1, GetNumSavedInstances() do
+			if GetSavedInstanceInfo(i) == bhName then
+				for bossIndex = 1, 3 do
+					local name, _, killed = GetSavedInstanceEncounterInfo(i, bossIndex)
+					self:print(format ([[%s T1%s: |cff%s|r]], name, bossIndex, killed and "ff0000"..Loc ["STRING_KILLED"] or "00ff00"..Loc ["STRING_ALIVE"]))
+				end
+				return
+			end
 		end
+		self:print("No lockout information found for", bhName)
 
 	elseif (command == Loc ["STRING_SLASH_CHANGES"] or command == Loc ["STRING_SLASH_CHANGES_ALIAS1"] or command == Loc ["STRING_SLASH_CHANGES_ALIAS2"] or command == "news" or command == "updates") then
 		self:OpenNewsWindow()
@@ -305,7 +312,7 @@ function _detalhes:ParseParameters(msg, editbox)
 
 
 	elseif (msg == "chaticon") then
-		self:Msg ("|TInterface\\AddOns\\Details\\images\\icones_barra:" .. 14 .. ":" .. 14 .. ":0:0:256:32:0:32:0:32|tteste")
+		self:Msg ([[|TInterface\AddOns\Details\images\icones_barra:]] .. 14 .. ":" .. 14 .. ":0:0:256:32:0:32:0:32|tteste")
 
 	elseif (msg == "align") then
 		local c = RightChatPanel
