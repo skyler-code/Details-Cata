@@ -12,7 +12,7 @@
 function _detalhes:ApplyBasicKeys()
 
 	--> we are not in debug mode
-		self.debug = _detalhes_database.debug
+		self.debug = (_detalhes_database or {}).debug
 
 	--> connected to realm channel
 		self.is_connected = false
