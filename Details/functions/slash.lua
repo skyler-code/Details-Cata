@@ -674,7 +674,12 @@ function _detalhes:ParseParameters(msg, editbox)
 	--> debug, get a guid of something
 	elseif (command == "backdrop") then --> localize-me
 		local f = MacroFrameTextBackground
-		local backdrop = MacroFrameTextBackground:GetBackdrop()
+		if not f then
+			ShowMacroFrame()
+			f = MacroFrameTextBackground
+			HideUIPanel(MacroFrame)
+		end
+		local backdrop = f:GetBackdrop()
 
 		vardump (backdrop)
 		vardump (backdrop.insets)
@@ -684,7 +689,7 @@ function _detalhes:ParseParameters(msg, editbox)
 
 	elseif (command == "myguid") then --> localize-me
 
-		local g = UnitGUID ("player")
+		local g = self.playerserial
 		print (type (g))
 		print (g)
 		print (string.len (g))
@@ -800,33 +805,9 @@ function _detalhes:ParseParameters(msg, editbox)
 
 		self:print ("highfive sent, HI!")
 
-		C_Timer.After (0.3, function()
-			Details.RefreshUserList()
-		end)
-		C_Timer.After (0.6, function()
-			Details.RefreshUserList (true)
-		end)
-		C_Timer.After (0.9, function()
-			Details.RefreshUserList (true)
-		end)
-		C_Timer.After (1.3, function()
-			Details.RefreshUserList (true)
-		end)
-		C_Timer.After (1.6, function()
-			Details.RefreshUserList (true)
-		end)
-		C_Timer.After (3, function()
-			Details.RefreshUserList (true)
-		end)
-		C_Timer.After (4, function()
-			Details.RefreshUserList (true)
-		end)
-		C_Timer.After (5, function()
-			Details.RefreshUserList (true)
-		end)
-		C_Timer.After (8, function()
-			Details.RefreshUserList (true)
-		end)
+		for k,v in ipairs({0.3, 0.6, 0.9, 1.3, 1.6, 3, 4, 5, 8}) do
+			C_Timer.After (v, function() Details.RefreshUserList(k>1) end)
+		end
 
 	elseif (command == "names") then
 		local t, filter = rest:match("^(%S*)%s*(.-)$")
@@ -881,12 +862,15 @@ function _detalhes:ParseParameters(msg, editbox)
 		self:PrepareTablesForSave()
 
 	elseif (msg == "buffs") then
+		local unitId = (UnitExists("target") and not UnitIsUnit("player", "target")) and "target" or "player"
+		local unitName = UnitName(unitId)
+		self:print(unitName, "buffs:")
 		for i = 1, 40 do
-			local name, texture, count, debuffType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellid = UnitBuff ("player", i)
+			local name, rank, texture, count, debuffType, duration, expirationTime, caster, canStealOrPurge, nameplateShowPersonal, spellid = UnitBuff (unitId, i)
 			if (not name) then
 				return
 			end
-			print (spellid, name)
+			self:print (spellid, name)
 		end
 
 	elseif (msg == "id") then
@@ -1090,7 +1074,9 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 				end
 			end
 		end
-		print(GetCoinText(c))
+		if c > 0 then
+			self:print(GetMoneyString(c))
+		end
 
 		--sell green equip
 		local c, i, n, v = 0
@@ -1099,9 +1085,9 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 				local texture, itemCount, locked, quality, readable, lootable, itemLink = GetContainerItemInfo (b, s)
 				if (quality == 2) then --a green item
 					local itemName, itemLink, itemRarity, itemLevel, _, itemType, itemSubType = GetItemInfo (itemLink)
-					if (itemType == "Armor" or itemType == "Weapon") then --a weapon or armor
-						if (itemLevel < 460) then
-							print ("Selling", itemName, itemType)
+					if (itemType == ARMOR or itemType == ENCHSLOT_WEAPON) then --a weapon or armor
+						if (itemLevel < 272) then
+							self:print ("Selling", itemLink, itemType)
 							UseContainerItem (b, s)
 						end
 					end
@@ -1190,75 +1176,6 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 
 		--C_Timer.After (5, function() bar:CancelTimerBar() end)
 
-
-	elseif (msg == "q") then
-
-		local myframe = TestFrame
-		if (not myframe) then
-			myframe = TestFrame or CreateFrame ("Frame", "TestFrame", UIParent)
-			myframe:SetPoint ("CENTER", UIParent, "CENTER")
-			myframe:SetSize (300, 300)
-			myframe.texture = myframe:CreateTexture (nil, "overlay")
-			myframe.texture:SetAllPoints()
-			myframe.texture:SetTexture ([[Interface\AddOns\WorldQuestTracker\media\icon_flag_common]])
-		else
-			if (myframe.texture:IsShown()) then
-				myframe.texture:Hide()
-			else
-				print (myframe.texture:GetTexture())
-				myframe.texture:Show()
-				print (myframe.texture:GetTexture())
-			end
-		end
-
-
-
-		if (true) then
-			return
-		end
-
-		local y = -50
-		local allspecs = {}
-
-		for a, b in pairs (self.class_specs_coords) do
-			tinsert (allspecs, a)
-		end
-
-		for i = 1, 10 do
-
-			local a = CreateFrame ("statusbar", nil, UIParent)
-			a:SetPoint ("TOPLEFT", UIParent, "TOPLEFT", i*32, y)
-			a:SetSize (32, 32)
-			a:SetMinMaxValues (0, 1)
-
-			local texture = a:CreateTexture (nil, "overlay")
-			texture:SetSize (32, 32)
-			texture:SetPoint ("TOPLEFT")
-
-			if (i%10 == 0) then
-				y = y - 32
-			end
-
---	/run for o=1,10 do local f=CreateFrame("Frame");f:SetPoint("CENTER");f:SetSize(300,300); local t=f:CreateTexture(nil,"overlay");t:SetAllPoints();f:SetScript("OnUpdate",function() t:SetTexture("Interface\\1024")end);end;
---	https://www.dropbox.com/s/ulyeqa2z0ummlu7/1024.tga?dl=0
-
-			local time = 0
-			a:SetScript ("OnUpdate", function (self, deltaTime)
-				time = time + deltaTime
-
-				--texture:SetSize (math.random (50, 300), math.random (50, 300))
-				--local spec = allspecs [math.random (#allspecs)]
-				texture:SetTexture ([[Interface\AddOns\Details\images\options_window]])
-				--texture:SetTexture ([[Interface\Store\Store-Splash]])
-				--texture:SetTexture ([[Interface\AddOns\Details\images\options_window]])
-				--texture:SetTexture ([[Interface\CHARACTERFRAME\Button_BloodPresence_DeathKnight]])
-				--texture:SetTexCoord (unpack (self.class_specs_coords [spec]))
-
-				--a:SetAlpha (abs (math.sin (time)))
-				--a:SetValue (abs (math.sin (time)))
-			end)
-		end
-
 	elseif (msg == "alert") then
 		--local instancia = self.tabela_instancias [1]
 		local f = function (a, b, c, d, e, f, g) print (a, b, c, d, e, f, g) end
@@ -1305,16 +1222,17 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 
 	elseif (msg == "senditemlevel") then
 		self:SendCharacterData()
-		print ("Item level dispatched.")
+		self:print ("Item level dispatched.")
 
 	elseif (msg == "talents") then
 		print ("name", "texture", "tier", "column", "rank", "maxRank", "meetsPrereq", "previewRank", "meetsPreviewPreq")
 		local talents = {}
+		local isInspect = (not UnitIsUnit("player", "target")) and UnitPlayerControlled("target") and CheckInteractDistance("target", 1)
 		for i = 1, GetNumTalentTabs() do
 			for j = 1, GetNumTalents(i) do
-				local rank = select(5,GetTalentInfo(i, j))
+				local rank = select(5,GetTalentInfo(i, j,isInspect))
 				if rank > 0 then
-					print(GetTalentInfo(i, j))
+					self:print(GetTalentInfo(i, j,isInspect))
 				end
 			end
 		end
