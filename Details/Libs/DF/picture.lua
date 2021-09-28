@@ -115,11 +115,11 @@ local ImageMetaFunctions = _G [DF.GlobalWidgetControlNames ["image"]]
 	end
 	--> width
 	local smember_width = function (_object, _value)
-		return _object.image:SetWidth (_value)
+		return _object.image:SetWidth (_value or 0)
 	end
 	--> height
 	local smember_height = function (_object, _value)
-		return _object.image:SetHeight (_value)
+		return _object.image:SetHeight (_value or 0)
 	end
 	--> alpha
 	local smember_alpha = function (_object, _value)

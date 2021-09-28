@@ -430,27 +430,6 @@ function _detalhes:ParseParameters(msg, editbox)
 		frame:SetWidth(300);
 		frame:SetDisplayInfo (49585);
 
-	elseif (msg == "ej2") then
-
-		--[[ get the EJ_ raid id
-		local wantRaids = true -- set false to get 5-man list
-		for i=1,1000 do
-		    instanceID,name,description,bgImage,buttonImage,loreImage, dungeonAreaMapID, link = DetailsFramework.EncounterJournal.EJ_GetInstanceByIndex(i,wantRaids)
-		    if not instanceID then break end
-		    DEFAULT_CHAT_FRAME:AddMessage(      instanceID.." "..name ,1,0.7,0.5)
-		end
-		--]]
-
-		local iid=362
-
-		for i=1, 100 do
-		    local name, description, encounterID, rootSectionID, link = DetailsFramework.EncounterJournal.EJ_GetEncounterInfoByIndex (i, iid)
-
-		    if not encounterID then break end
-		    local msg = encounterID .. " , " ..  name .. ", ".. rootSectionID.. ", "..link
-		    DEFAULT_CHAT_FRAME:AddMessage(msg, 1,0.7,0.5)
-		end
-
 	elseif (msg == "time") then
 		print ("GetTime()", GetTime())
 		print ("time()", time())
@@ -556,34 +535,23 @@ function _detalhes:ParseParameters(msg, editbox)
 
 	elseif (command == "owner") then
 
-		local petname = rest:match ("^(%S*)%s*(.-)$")
-		local petGUID = UnitGUID ("target")
-
-		if (not _G.DetailsScanTooltip) then
-			local scanTool = CreateFrame ("GameTooltip", "DetailsScanTooltip", nil, "GameTooltipTemplate")
-			scanTool:SetOwner (WorldFrame, "ANCHOR_NONE")
+		if not self.scanTool then
+			self.scanTool = CreateFrame("GameTooltip", "DetailsScanTooltip", nil, "GameTooltipTemplate")
+			self.scanTool:SetOwner(WorldFrame, "ANCHOR_NONE")
 		end
 
-		function getPetOwner (petName)
-			local scanTool = _G.DetailsScanTooltip
-			local scanText = _G ["DetailsScanTooltipTextLeft2"] -- This is the line with <[Player]'s Pet>
+		self.scanTool:ClearLines()
 
-			scanTool:ClearLines()
+		self.scanTool:SetUnit("target")
 
-			print (petName)
-			scanTool:SetUnit (petName)
-
-			local ownerText = scanText:GetText()
-			if (not ownerText) then
-				return nil
-			end
+		local scanText = _G[self.scanTool:GetName().."TextLeft2"]
+		local ownerText = scanText and scanText:GetText()
+		if ownerText then
 			local owner, _ = string.split ("'", ownerText)
-
-			return owner -- This is the pet's owner
+			self:print(UnitName("target").."'s owner:", owner)
 		end
 
-		--print (getPetOwner (petname))
-		print (getPetOwner (petGUID))
+		self.scanTool:ClearLines()
 
 
 	elseif (command == "buffsof") then
@@ -661,7 +629,7 @@ function _detalhes:ParseParameters(msg, editbox)
 			print ("crop: ", unpack (texCoords))
 		end
 
-		self.gump:ImageEditor (callback, "Interface\\TALENTFRAME\\bg-paladin-holy", nil, {1, 1, 1, 1}) -- {0.25, 0.25, 0.25, 0.25}
+		self.gump:ImageEditor (callback, [[Interface\EncounterJournal\UI-EJ-BACKGROUND-DragonSoul]], nil, {1, 1, 1, 1}) -- {0.25, 0.25, 0.25, 0.25}
 
 	elseif (msg == "chat") then
 
