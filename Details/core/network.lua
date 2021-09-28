@@ -18,7 +18,7 @@ local _pairs = pairs
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --> constants
 
-local CONST_REALM_SYNC_ENABLED = false
+DETAILS_REALM_SYNC_ENABLED = false
 
 local CONST_DETAILS_PREFIX = "DTLS"
 
@@ -747,7 +747,7 @@ end
 
 --> entrar no canal ap�s logar no servidor
 function _detalhes:EnterChatChannel()
-	if (not _detalhes.realm_sync or not CONST_REALM_SYNC_ENABLED) then
+	if (not self.realm_sync or not DETAILS_REALM_SYNC_ENABLED) then
 		return
 	end
 
@@ -786,7 +786,7 @@ function _detalhes:EnterChatChannel()
 end
 
 function _detalhes:LeaveChatChannel()
-	if (not _detalhes.realm_sync or not CONST_REALM_SYNC_ENABLED) then
+	if (not _detalhes.realm_sync or not DETAILS_REALM_SYNC_ENABLED) then
 		return
 	end
 
@@ -848,18 +848,18 @@ function _detalhes:DoZoneCheck()
 end
 
 function _detalhes:CheckChatOnZoneChange()
-	if (not _detalhes.realm_sync or not CONST_REALM_SYNC_ENABLED) then
+	if (not self.realm_sync or not DETAILS_REALM_SYNC_ENABLED) then
 		return
 	end
-	_detalhes:ScheduleTimer ("DoZoneCheck", 2)
+	self:ScheduleTimer ("DoZoneCheck", 2)
 end
 
 function _detalhes:IsConnected()
-	if (not _detalhes.is_connected) then
-		local id = _detalhes:GetChannelId ("Details")
+	if (not self.is_connected) then
+		local id = self:GetChannelId ("Details")
 		if (id) then
-			_detalhes.is_connected = true
+			self.is_connected = true
 		end
 	end
-	return _detalhes.is_connected
+	return self.is_connected
 end

@@ -901,27 +901,16 @@ function _detalhes:EstaEmCombate()
 end
 
 function _detalhes:FindGUIDFromName(name)
-	if _IsInRaid() then
-		for i = 1, _GetNumGroupMembers(), 1 do
-			local this_name, _ = UnitName("raid"..i)
-			if this_name == name then
-				return UnitGUID("raid"..i)
-			end
-		end
-	elseif _IsInGroup() then
-		for i = 1, _GetNumGroupMembers(), 1 do
-			local this_name, _ = UnitName("party"..i)
-			if this_name == name then
-				return UnitGUID("party"..i)
-			end
+	if self.playername == name then
+		return self.playerserial
+	end
+	local unitType = _IsInRaid() and "raid" or "party"
+	for i = 1, _GetNumGroupMembers() do
+		local this_name, _ = UnitName(unitType..i)
+		if this_name == name then
+			return UnitGUID(unitType..i)
 		end
 	end
-
-	if UnitName("player") == name then
-		return UnitGUID("player")
-	end
-
-	return nil
 end
 
 --[[ test grayscale ]]

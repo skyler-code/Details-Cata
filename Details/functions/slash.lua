@@ -4,7 +4,7 @@ local addonName = ...
 local _detalhes	= 	_G._detalhes
 local Loc = LibStub ("AceLocale-3.0"):GetLocale ( "Details" )
 
-local CreateFrame, pairs, UIParent, UnitGUID, tonumber, LoggingCombat = CreateFrame, pairs, UIParent, UnitGUID, tonumber, LoggingCombat
+local CreateFrame, pairs, UIParent, UnitGUID, tonumber, LoggingCombat, UnitName, strlen, IsInRaid = CreateFrame, pairs, UIParent, UnitGUID, tonumber, LoggingCombat, UnitName, strlen, IsInRaid
 
 function _detalhes:InitializeSlashCommands()
 	for k, v in pairs({ addonName:lower(), "dt", "de" }) do
@@ -267,14 +267,17 @@ function _detalhes:ParseParameters(msg, editbox)
 
 
 	elseif (msg == "realmsync") then
-
+		if not DETAILS_REALM_SYNC_ENABLED then
+			self:print("The realm sync feature is not available.")
+			return
+		end
 		self.realm_sync = not self.realm_sync
 		self:Msg ("Realm Sync: ", self.realm_sync and "Enabled" or "Disabled")
 
 		if (not self.realm_sync) then
 			LeaveChannelByName ("Details")
 		else
-			self:CheckChatOnLeaveGroup()
+			self:CheckChatOnZoneChange()
 		end
 
 	elseif (msg == "load") then
@@ -324,7 +327,7 @@ function _detalhes:ParseParameters(msg, editbox)
 	elseif (msg == "addcombat") then
 
 		local combat = self.combate:NovaTabela (true, self.tabela_overall, 1)
-		local self = combat[1]:PegarCombatente (UnitGUID ("player"), UnitName ("player"), 1297, true)
+		local self = combat[1]:PegarCombatente (self.playerserial, self.playername, 1297, true)
 		self.total = 100000
 		self.total_without_pet = 100000
 
@@ -463,27 +466,19 @@ function _detalhes:ParseParameters(msg, editbox)
 		if (realm) then
 			nome = nome.."-"..realm
 		end
-		print (nome, realm)
+		print (nome)
 
 	elseif (msg == "raid") then
-
-		local player, realm = "Ditador", "Azralon"
-
-		local actorName
-		if (realm ~= GetRealmName()) then
-			actorName = player.."-"..realm
-		else
-			actorName = player
-		end
-
-		print (actorName)
-
-		local guid = self:FindGUIDFromName ("Ditador")
-		print (guid)
-
-		for i = 1, GetNumGroupMembers(), 1 do
-			local name, realm = UnitName ("party"..i)
-			print (name, " -- ", realm)
+		local unitType = (IsInRaid() and "raid" or "party")
+		for i = 1, GetNumGroupMembers() do
+			local name, realm = UnitName (unitType..i)
+			if name and name ~= self.playername then
+				local guid = UnitGUID (unitType..i)
+				if realm and strlen(realm) > 0 then
+					name = name.."-"..realm
+				end
+				self:print (name, guid)
+			end
 		end
 
 	elseif (msg == "cacheparser") then

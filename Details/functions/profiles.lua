@@ -1223,7 +1223,7 @@ local default_global_data = {
 		lastUpdateWarning = 0,
 		update_warning_timeout = 10,
 		report_where = "SAY",
-		realm_sync = true,
+		realm_sync = DETAILS_REALM_SYNC_ENABLED,
 		spell_school_cache = {},
 		global_plugin_database = {},
 
