@@ -481,8 +481,7 @@ local specInfo = {
 		},
 }
 
- local function GetFeralSubSpec(unit)
-	local talentGroup = LibGroupTalents:GetActiveTalentGroup(unit)
+ local function GetFeralSubSpec(unit, talentGroup)
 	local guardianSpells = {
 		[57880] = 1, -- Natural Reactions
 		[80313] = 0, -- Pulverize
@@ -498,13 +497,12 @@ local specInfo = {
 end
 
 function DF.GetSpecialization(unit)
-	if not unit then unit = "player" end
-	local talantGroup = LibGroupTalents:GetActiveTalentGroup(unit)
+	unit = unit or "player"
+	local talentGroup = LibGroupTalents:GetActiveTalentGroup(unit)
 	local maxPoints, specIdx = 0, 0
 
 	for i = 1, MAX_TALENT_TABS do
-		local _, name, _, icon, pointsSpent = LibGroupTalents:GetTalentTabInfo(unit, i, talantGroup)
-		print(i, pointsSpent)
+		local _, name, _, icon, pointsSpent = LibGroupTalents:GetTalentTabInfo(unit, i, talentGroup)
 		if pointsSpent and pointsSpent ~= 0 then
 			if maxPoints < pointsSpent then
 				maxPoints = pointsSpent
@@ -512,7 +510,7 @@ function DF.GetSpecialization(unit)
 					if i == 3 then 
 						specIdx = 4
 					elseif i == 2 then 
-						specIdx = GetFeralSubSpec(unit)
+						specIdx = GetFeralSubSpec(unit, talentGroup)
 					end
 				else
 					specIdx = i
