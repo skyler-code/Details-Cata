@@ -1227,7 +1227,7 @@ Damage Update Status: @INSTANCEDAMAGESTATUS
 	elseif (msg == "talents") then
 		print ("name", "texture", "tier", "column", "rank", "maxRank", "meetsPrereq", "previewRank", "meetsPreviewPreq")
 		local talents = {}
-		local isInspect = (not UnitIsUnit("player", "target")) and UnitPlayerControlled("target") and CheckInteractDistance("target", 1)
+		local isInspect = (not UnitIsUnit("player", "target")) and UnitIsPlayer("target") and CheckInteractDistance("target", 1)
 		for i = 1, GetNumTalentTabs() do
 			for j = 1, GetNumTalents(i) do
 				local rank = select(5,GetTalentInfo(i, j,isInspect))
