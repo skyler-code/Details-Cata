@@ -481,18 +481,20 @@ local specInfo = {
 		},
 }
 
-local function GetFeralSubSpec(unit)
-	--57881 = Natural Reactions - Increase bear dodge and regen rage on dodge.
-	--other options:
-	--57877 = Protector of the Pack - Increase attack power by 6% and reduced damage taken by 12% in bear form.
-	--16858 = Feral Aggression (0 points in bear) - Increased attack power reduction of demo roar and increase ferocious bite damage.
-	--16931 = Thick Hide - Increase armor from cloth and leather items. 
-	local points = LibGroupTalents:UnitHasTalent(unit, GetSpellInfo(57881), LibGroupTalents:GetActiveTalentGroup(unit))
-	if points and points > 0 then 
-		return 3 -- we are a guardian druid
-	else
-		return 2
+ local function GetFeralSubSpec(unit)
+	local talentGroup = LibGroupTalents:GetActiveTalentGroup(unit)
+	local guardianSpells = {
+		[57880] = 1, -- Natural Reactions
+		[80313] = 0, -- Pulverize
+		[16929] = 2, -- Thick Hide
+	}
+	for k,v in pairs(guardianSpells) do 
+		local points = LibGroupTalents:UnitHasTalent(unit, GetSpellInfo(k), talentGroup) or 0
+		if points <= v then
+			return 2
+		end
 	end
+	return 3 -- we are a guardian druid
 end
 
 function DF.GetSpecialization(unit)
@@ -502,7 +504,8 @@ function DF.GetSpecialization(unit)
 
 	for i = 1, MAX_TALENT_TABS do
 		local _, name, _, icon, pointsSpent = LibGroupTalents:GetTalentTabInfo(unit, i, talantGroup)
-		if pointsSpent ~= nil then
+		print(i, pointsSpent)
+		if pointsSpent and pointsSpent ~= 0 then
 			if maxPoints < pointsSpent then
 				maxPoints = pointsSpent
 				if select(2, UnitClass(unit)) == "DRUID" and i >= 2 then
