@@ -4,8 +4,6 @@ local Loc = LibStub ("AceLocale-3.0"):GetLocale ( "Details" )
 local g =	_detalhes.gump
 local _
 
-
-
 function _detalhes:OpenNewsWindow (text_to_show, dumpvalues, keeptext)
 
 	_detalhes.latest_news_saw = _detalhes.userversion
