@@ -156,7 +156,9 @@ function _detalhes:ParseParameters(msg, editbox)
 
 		local bhName = EJ_GetInstanceInfo(75)
 		for i = 1, GetNumSavedInstances() do
-			if GetSavedInstanceInfo(i) == bhName then
+			local instanceName, _, _, _, locked = GetSavedInstanceInfo(i)
+			if instanceName == bhName then
+				if not locked then break end
 				for bossIndex = 1, 3 do
 					local name, _, killed = GetSavedInstanceEncounterInfo(i, bossIndex)
 					self:print(format ([[%s T1%s: |cff%s|r]], name, bossIndex, killed and "ff0000"..Loc ["STRING_KILLED"] or "00ff00"..Loc ["STRING_ALIVE"]))
@@ -171,7 +173,6 @@ function _detalhes:ParseParameters(msg, editbox)
 
 	elseif (command == "discord") then
 		self:CopyPaste ("https://discord.gg/UXSc7nt")
-
 
 	elseif (command == "debugwindow") then
 
