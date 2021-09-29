@@ -2,7 +2,7 @@
 --> global name declaration
 _detalhes = LibStub("AceAddon-3.0"):NewAddon("_detalhes", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "NickTag-1.0")
 
-_detalhes.build_counter = 8032
+_detalhes.build_counter = 8036
 _detalhes.alpha_build_counter = 7269 --if this is higher than the regular counter, use it instead
 _detalhes.game_version = "v4.3.4"
 _detalhes.userversion = _detalhes.game_version .. "." .. _detalhes.build_counter
@@ -25,16 +25,12 @@ do
 
 	local Loc = LibStub ("AceLocale-3.0"):GetLocale ( "Details" )
 --[[
-|cFFFFFF00v4.3.4.8032.200 (|cFFFFCC00September 28th, 2021|r|cFFFFFF00)|r:\n
-|cFFFFFF00-|r Added "/details bh" slash command to check your Baradin Hold lockout\n
-|cFFFFFF00-|r Various slash command performance enchancements\n
-|cFFFFFF00-|r Important nil check fixes\n
-|cFFFFFF00-|r Will no longer add dungeons to storage\n
-|cFFFFFF00-|r Improved rest tracking\n
-|cFFFFFF00-|r Extra dot ticks while the player is resting and not in combat will no longer trigger extra logs\n\n
+|cFFFFFF00v4.3.4.8036.200 (|cFFFFCC00September 29th, 2021|r|cFFFFFF00)|r:\n
+|cFFFFFF00-|r /details bh command was showing incorrect data\n
+|cFFFFFF00-|r Improved feral guardian detection\n\n
 --]]
 
-	Loc ["STRING_VERSION_LOG"] = "|cFFFFFF00v4.3.4.8032.200 (|cFFFFCC00September 28th, 2021|r|cFFFFFF00)|r:\n|cFFFFFF00-|r Added \"/details bh\" slash command to check your Baradin Hold lockout\n|cFFFFFF00-|r Various slash command performance enchancements\n|cFFFFFF00-|r Important nil check fixes\n|cFFFFFF00-|r Will no longer add dungeons to storage\n|cFFFFFF00-|r Improved rest tracking\n|cFFFFFF00-|r Extra dot ticks while the player is resting and not in combat will no longer trigger extra logs\n\n|cFFFFFF00v4.3.4.8009.200 (|cFFFFCC00September 20th, 2021|r|cFFFFFF00)|r:\n|cFFFFFF00-|r Absorbed healing (healing denied by Searing Plasma for example) now counts towards healing\n|cFFFFFF00-|r 4.0 instances were missing map names\n|cFFFFFF00-|r Statistics window should only show raids\n\n|cFFFFFF00v4.3.4.8000.200 (|cFFFFCC00September 19th, 2021|r|cFFFFFF00)|r:\n|cFFFFFF00-|r Updated for Cataclysm\n\n"
+	Loc ["STRING_VERSION_LOG"] = "|cFFFFFF00v4.3.4.8036.200 (|cFFFFCC00September 29th, 2021|r|cFFFFFF00)|r:\n|cFFFFFF00-|r /details bh command was showing incorrect data\n|cFFFFFF00-|r Improved feral guardian detection\n\n|cFFFFFF00v4.3.4.8032.200 (|cFFFFCC00September 28th, 2021|r|cFFFFFF00)|r:\n|cFFFFFF00-|r Added \"/details bh\" slash command to check your Baradin Hold lockout\n|cFFFFFF00-|r Various slash command performance enchancements\n|cFFFFFF00-|r Important nil check fixes\n|cFFFFFF00-|r Will no longer add dungeons to storage\n|cFFFFFF00-|r Improved rest tracking\n|cFFFFFF00-|r Extra dot ticks while the player is resting and not in combat will no longer trigger extra logs\n\n|cFFFFFF00v4.3.4.8009.200 (|cFFFFCC00September 20th, 2021|r|cFFFFFF00)|r:\n|cFFFFFF00-|r Absorbed healing (healing denied by Searing Plasma for example) now counts towards healing\n|cFFFFFF00-|r 4.0 instances were missing map names\n|cFFFFFF00-|r Statistics window should only show raids\n\n|cFFFFFF00v4.3.4.8000.200 (|cFFFFCC00September 19th, 2021|r|cFFFFFF00)|r:\n|cFFFFFF00-|r Updated for Cataclysm\n\n"
 
 	Loc ["STRING_DETAILS1"] = "|cffffaeaeDetails!:|r"
 
