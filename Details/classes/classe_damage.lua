@@ -64,7 +64,7 @@
 	local TooltipMaximizedMethod = 1
 
 	--local CLASS_ICON_TCOORDS = _G.CLASS_ICON_TCOORDS
-	local is_player_class = _detalhes.player_class
+	local is_player_class = _detalhes.classstring_to_classid
 
 	_detalhes.tooltip_key_overlay1 = {1, 1, 1, .2}
 	_detalhes.tooltip_key_overlay2 = {1, 1, 1, .5}

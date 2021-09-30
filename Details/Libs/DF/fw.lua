@@ -3713,7 +3713,7 @@ local specs_per_class = {
 }
 
 function DF:GetClassSpecIDs (class)
-	return specs_per_class [class]
+	return specs_per_class [strupper(class or "")]
 end
 
 local dispatch_error = function (context, errortext)

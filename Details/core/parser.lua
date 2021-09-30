@@ -4019,40 +4019,39 @@ end
 --> this function is guaranteed to run after a combat is done
 --> can also run when the player leaves combat state(regen enabled)
 function _detalhes:RunScheduledEventsAfterCombat(OnRegenEnabled)
-	if _detalhes.debug then
-		_detalhes:Msg("(debug) running scheduled events after combat end.")
+	if self.debug then
+		self:Msg("(debug) running scheduled events after combat end.")
 	end
 
 	--when the user requested data from the storage but is in combat lockdown
-	if _detalhes.schedule_storage_load then
-		_detalhes.schedule_storage_load = nil
-		_detalhes.ScheduleLoadStorage()
+	if self.schedule_storage_load then
+		self.schedule_storage_load = nil
+		self.ScheduleLoadStorage()
 	end
 
 	--store a boss encounter when out of combat since it might need to load the storage
-	if _detalhes.schedule_store_boss_encounter then
-		if not _detalhes.logoff_saving_data then
-			--_detalhes.StoreEncounter()
-			local successful, errortext = pcall(_detalhes.StoreEncounter)
+	if self.schedule_store_boss_encounter then
+		if not self.logoff_saving_data then
+			local successful, errortext = pcall(function() self:StoreEncounter() end)
 			if not successful then
-				_detalhes:Msg("error occurred on StoreEncounter():", errortext)
+				self:Msg("error occurred on StoreEncounter():", errortext)
 			end
 		end
 
-		_detalhes.schedule_store_boss_encounter = nil
+		self.schedule_store_boss_encounter = nil
 	end
 
 	--when a large amount of data has been removed and the player is in combat, schedule to run the hard garbage collector(the blizzard one, not the details! internal)
-	if _detalhes.schedule_hard_garbage_collect then
-		if _detalhes.debug then
-			_detalhes:Msg("(debug) found schedule collectgarbage().")
+	if self.schedule_hard_garbage_collect then
+		if self.debug then
+			self:Msg("(debug) found schedule collectgarbage().")
 		end
 
-		_detalhes.schedule_hard_garbage_collect = false
+		self.schedule_hard_garbage_collect = false
 		collectgarbage()
 	end
 
-	for index, instancia in ipairs(_detalhes.tabela_instancias) do
+	for index, instancia in ipairs(self.tabela_instancias) do
 		if instancia.ativa and instancia.hide_in_combat_type ~= 1 then --> 1 = none, we doesn't need to call
 			instancia:SetCombatAlpha(nil, nil, true)
 		end
@@ -4061,57 +4060,57 @@ function _detalhes:RunScheduledEventsAfterCombat(OnRegenEnabled)
 	if not OnRegenEnabled then
 		_table_wipe(bitfield_swap_cache)
 		_table_wipe(ignore_actors)
-		_detalhes:DispatchAutoRunCode("on_leavecombat")
+		self:DispatchAutoRunCode("on_leavecombat")
 	end
 
-	if _detalhes.solo and _detalhes.PluginCount.SOLO > 0 then --code too old and I don't have documentation for it
-		if _detalhes.SoloTables.Plugins[_detalhes.SoloTables.Mode].Stop then
-			_detalhes.SoloTables.Plugins[_detalhes.SoloTables.Mode].Stop()
+	if self.solo and self.PluginCount.SOLO > 0 then --code too old and I don't have documentation for it
+		if self.SoloTables.Plugins[self.SoloTables.Mode].Stop then
+			self.SoloTables.Plugins[self.SoloTables.Mode].Stop()
 		end
 	end
 
 	--deprecated shcedules
 	do
-		if _detalhes.schedule_add_to_overall and #_detalhes.schedule_add_to_overall > 0 then --deprecated(combat are now added immediatelly since there's no script run too long)
-			if _detalhes.debug then
-				_detalhes:Msg("(debug) adding ", #_detalhes.schedule_add_to_overall, "combats in queue to overall data.")
+		if self.schedule_add_to_overall and #self.schedule_add_to_overall > 0 then --deprecated(combat are now added immediatelly since there's no script run too long)
+			if self.debug then
+				self:Msg("(debug) adding ", #self.schedule_add_to_overall, "combats in queue to overall data.")
 			end
 
-			for i = #_detalhes.schedule_add_to_overall, 1, -1 do
-				local CombatToAdd = tremove(_detalhes.schedule_add_to_overall, i)
+			for i = #self.schedule_add_to_overall, 1, -1 do
+				local CombatToAdd = tremove(self.schedule_add_to_overall, i)
 				if CombatToAdd then
-					_detalhes.historico:adicionar_overall(CombatToAdd)
+					self.historico:adicionar_overall(CombatToAdd)
 				end
 			end
 		end
 
-		if _detalhes.schedule_flag_boss_components then --deprecated(combat are now added immediatelly since there's no script run too long)
-			_detalhes.schedule_flag_boss_components = false
-			_detalhes:FlagActorsOnBossFight()
+		if self.schedule_flag_boss_components then --deprecated(combat are now added immediatelly since there's no script run too long)
+			self.schedule_flag_boss_components = false
+			self:FlagActorsOnBossFight()
 		end
 
-		if _detalhes.schedule_remove_overall then --deprecated(combat are now added immediatelly since there's no script run too long)
-			if _detalhes.debug then
-				_detalhes:Msg("(debug) found schedule overall data clean up.")
+		if self.schedule_remove_overall then --deprecated(combat are now added immediatelly since there's no script run too long)
+			if self.debug then
+				self:Msg("(debug) found schedule overall data clean up.")
 			end
 
-			_detalhes.schedule_remove_overall = false
-			_detalhes.tabela_historico:resetar_overall()
+			self.schedule_remove_overall = false
+			self.tabela_historico:resetar_overall()
 		end
 
-		if _detalhes.wipe_called and false then --disabled
-			_detalhes.wipe_called = nil
-			_detalhes:CaptureSet(nil, "damage", true)
-			_detalhes:CaptureSet(nil, "energy", true)
-			_detalhes:CaptureSet(nil, "aura", true)
-			_detalhes:CaptureSet(nil, "energy", true)
-			_detalhes:CaptureSet(nil, "spellcast", true)
+		if self.wipe_called and false then --disabled
+			self.wipe_called = nil
+			self:CaptureSet(nil, "damage", true)
+			self:CaptureSet(nil, "energy", true)
+			self:CaptureSet(nil, "aura", true)
+			self:CaptureSet(nil, "energy", true)
+			self:CaptureSet(nil, "spellcast", true)
 
-			_detalhes:CaptureSet(false, "damage", false, 10)
-			_detalhes:CaptureSet(false, "energy", false, 10)
-			_detalhes:CaptureSet(false, "aura", false, 10)
-			_detalhes:CaptureSet(false, "energy", false, 10)
-			_detalhes:CaptureSet(false, "spellcast", false, 10)
+			self:CaptureSet(false, "damage", false, 10)
+			self:CaptureSet(false, "energy", false, 10)
+			self:CaptureSet(false, "aura", false, 10)
+			self:CaptureSet(false, "energy", false, 10)
+			self:CaptureSet(false, "spellcast", false, 10)
 		end
 	end
 end

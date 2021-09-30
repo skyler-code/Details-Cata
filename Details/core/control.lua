@@ -591,7 +591,7 @@ function _detalhes:SairDoCombate(bossKilled, from_encounter_end)
 			--> add to storage
 			if not InCombatLockdown() and not UnitAffectingCombat("player") and not _detalhes.logoff_saving_data then
 --				_detalhes.StoreEncounter()
-				local successful, errortext = pcall(_detalhes.StoreEncounter)
+				local successful, errortext = pcall(function() _detalhes:StoreEncounter() end)
 				if not successful then
 					_detalhes:Msg("error occurred on StoreEncounter():", errortext)
 				end

@@ -498,7 +498,7 @@ function _detalhes:OpenOptionsWindow (instance, no_reopen, section)
 		g:NewColor ("C_OptionsButtonOrange", 0.9999, 0.8196, 0, 1)
 
 		local create_test_bars_func = function()
-			_detalhes.CreateTestBars()
+			_detalhes:CreateTestBars()
 			if (not _detalhes.test_bar_update) then
 				_detalhes:StartTestBarUpdate()
 			else

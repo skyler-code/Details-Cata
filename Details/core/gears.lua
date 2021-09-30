@@ -1415,7 +1415,7 @@ function _detalhes:StoreEncounter (combat)
 	combat = combat or _detalhes.tabela_vigente
 
 	if (not combat) then
-		if (_detalhes.debug) then
+		if (self.debug) then
 			print ("|cFFFFFF00Details! Storage|r: combat not found.")
 		end
 		return
@@ -1427,15 +1427,15 @@ function _detalhes:StoreEncounter (combat)
 	local encounter_id = boss_info and boss_info.id
 
 	if (not encounter_id) then
-		if (_detalhes.debug) then
+		if (self.debug) then
 			print ("|cFFFFFF00Details! Storage|r: encounter ID not found.")
 		end
 		return
 	end
 
-	local instance_info = _detalhes.EncounterInformation[mapID]
+	local instance_info = self.EncounterInformation[mapID]
 	if not instance_info or not instance_info["is_raid"] or not instance_info["boss_ids"][encounter_id] then
-		if (_detalhes.debug) then
+		if (self.debug) then
 			print ("|cFFFFFF00Details! Storage|r: instance not allowed.")
 		end
 		return
@@ -1458,13 +1458,13 @@ function _detalhes:StoreEncounter (combat)
 			end
 
 			if (match < raid_size * 0.75 and not storageDebug) then
-				if (_detalhes.debug) then
+				if (self.debug) then
 					print ("|cFFFFFF00Details! Storage|r: can't save the encounter, need at least 75% of players be from your guild.")
 				end
 				return
 			end
 		else
-			if (_detalhes.debug) then
+			if (self.debug) then
 				print ("|cFFFFFF00Details! Storage|r: player isn't in a guild.")
 			end
 			return
@@ -1474,7 +1474,7 @@ function _detalhes:StoreEncounter (combat)
 		if (not IsAddOnLoaded ("Details_DataStorage")) then
 			local loaded, reason = LoadAddOn ("Details_DataStorage")
 			if (not loaded) then
-				if (_detalhes.debug) then
+				if (self.debug) then
 					print ("|cFFFFFF00Details! Storage|r: can't save the encounter, couldn't load DataStorage, may be the addon is disabled.")
 				end
 				return
@@ -1484,16 +1484,16 @@ function _detalhes:StoreEncounter (combat)
 		--> get the storage table
 		local db = DetailsDataStorage
 
-		if (not db and _detalhes.CreateStorageDB) then
-			db = _detalhes:CreateStorageDB()
+		if (not db and self.CreateStorageDB) then
+			db = self:CreateStorageDB()
 			if (not db) then
-				if (_detalhes.debug) then
+				if (self.debug) then
 					print ("|cFFFFFF00Details! Storage|r: can't save the encounter, couldn't load DataStorage, may be the addon is disabled.")
 				end
 				return
 			end
 		elseif (not db) then
-			if (_detalhes.debug) then
+			if (self.debug) then
 				print ("|cFFFFFF00Details! Storage|r: can't save the encounter, couldn't load DataStorage, may be the addon is disabled.")
 			end
 			return
@@ -1569,7 +1569,7 @@ function _detalhes:StoreEncounter (combat)
 					local damage_actor = damage_container_pool [damage_container_hash [player_name]]
 					if (damage_actor) then
 						local guid = UnitGUID (player_name) or UnitGUID (UnitName ("raid" .. i))
-						this_combat_data.damage [player_name] = {floor (damage_actor.total), (ItemLevelMixIn and ItemLevelMixIn:GetItemLevel(guid)) or _detalhes.item_level_pool [guid] and _detalhes.item_level_pool [guid].ilvl or 0, class or 0}
+						this_combat_data.damage [player_name] = {floor (damage_actor.total), (ItemLevelMixIn and ItemLevelMixIn:GetItemLevel(guid)) or self.item_level_pool [guid] and self.item_level_pool [guid].ilvl or 0, class or 0}
 					end
 				elseif (role == "HEALER") then
 					local player_name, player_realm = UnitName ("raid" .. i)
@@ -1583,7 +1583,7 @@ function _detalhes:StoreEncounter (combat)
 					local heal_actor = healing_container_pool [healing_container_hash [player_name]]
 					if (heal_actor) then
 						local guid = UnitGUID (player_name) or UnitGUID (UnitName ("raid" .. i))
-						this_combat_data.healing [player_name] = {floor (heal_actor.total), (ItemLevelMixIn and ItemLevelMixIn:GetItemLevel(guid)) or _detalhes.item_level_pool [guid] and _detalhes.item_level_pool [guid].ilvl or 0, class or 0}
+						this_combat_data.healing [player_name] = {floor (heal_actor.total), (ItemLevelMixIn and ItemLevelMixIn:GetItemLevel(guid)) or self.item_level_pool [guid] and self.item_level_pool [guid].ilvl or 0, class or 0}
 					end
 				end
 			end
@@ -1591,54 +1591,54 @@ function _detalhes:StoreEncounter (combat)
 
 		--> add the encounter data
 		tinsert (encounter_database, this_combat_data)
-		if (_detalhes.debug) then
+		if (self.debug) then
 			print ("|cFFFFFF00Details! Storage|r: combat data added to encounter database.")
 		end
 
 		local myrole =  UnitGroupRolesAssigned("player")
-		local mybest, onencounter = _detalhes.storage:GetBestFromPlayer (diff, encounter_id, myrole, _detalhes.playername, true) --> get dps or hps
+		local mybest, onencounter = self.storage:GetBestFromPlayer (diff, encounter_id, myrole, self.playername, true) --> get dps or hps
 
 		if (mybest) then
 			local myBestDps = mybest [1] or 0
 			myBestDps = myBestDps / onencounter.elapsed
 			local d_one = 0
 			if (myrole == "DAMAGER" or myrole == "TANK") then
-				d_one = combat (1, _detalhes.playername) and combat (1, _detalhes.playername).total / combat:GetCombatTime()
+				d_one = combat (1, self.playername) and combat (1, self.playername).total / combat:GetCombatTime()
 			elseif (myrole == "HEALER") then
-				d_one = combat (2, _detalhes.playername) and combat (2, _detalhes.playername).total / combat:GetCombatTime()
+				d_one = combat (2, self.playername) and combat (2, self.playername).total / combat:GetCombatTime()
 			end
 
 			if (myBestDps > d_one) then
-				if (not _detalhes.deny_score_messages) then
-					self:print(format (Loc ["STRING_SCORE_NOTBEST"], _detalhes:ToK2 (d_one), _detalhes:ToK2 (myBestDps), onencounter.date, mybest[2]))
+				if (not self.deny_score_messages) then
+					self:print(format (Loc ["STRING_SCORE_NOTBEST"], self:ToK2 (d_one), self:ToK2 (myBestDps), onencounter.date, mybest[2]))
 				end
 			else
-				if (not _detalhes.deny_score_messages) then
-					self:print(format (Loc ["STRING_SCORE_BEST"], _detalhes:ToK2 (d_one)))
+				if (not self.deny_score_messages) then
+					self:print(format (Loc ["STRING_SCORE_BEST"], self:ToK2 (d_one)))
 				end
 			end
 		end
 
-		local lower_instance = _detalhes:GetLowerInstanceNumber()
+		local lower_instance = self:GetLowerInstanceNumber()
 		if (lower_instance) then
-			local instance = _detalhes:GetInstance (lower_instance)
+			local instance = self:GetInstance (lower_instance)
 			if (instance) then
 				local my_role = UnitGroupRolesAssigned("player")
 				if (my_role == "TANK") then
 					my_role = "DAMAGER"
 				end
 				local raid_name = GetInstanceInfo()
-				local func = {_detalhes.OpenRaidHistoryWindow, _detalhes, raid_name, encounter_id, diff, my_role, guildName} --, 2, UnitName ("player")
+				local func = {self.OpenRaidHistoryWindow, self, raid_name, encounter_id, diff, my_role, guildName} --, 2, UnitName ("player")
 				--local icon = {[[Interface\AddOns\Details\images\icons]], 16, 16, false, 434/512, 466/512, 243/512, 273/512}
 				local icon = {[[Interface\PvPRankBadges\PvPRank08]], 16, 16, false, 0, 1, 0, 1}
 
-				if (not _detalhes.deny_score_messages) then
-					instance:InstanceAlert (Loc ["STRING_GUILDDAMAGERANK_WINDOWALERT"], icon, _detalhes.update_warning_timeout, func, true)
+				if (not self.deny_score_messages) then
+					instance:InstanceAlert (Loc ["STRING_GUILDDAMAGERANK_WINDOWALERT"], icon, self.update_warning_timeout, func, true)
 				end
 			end
 		end
 	else
-		if (_detalhes.debug) then
+		if (self.debug) then
 			print ("|cFFFFFF00Details! Storage|r: raid difficulty must be 10 normal or 25 normal or 10 heroic or 25 heroic.")
 		end
 	end

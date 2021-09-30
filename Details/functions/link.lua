@@ -4579,7 +4579,7 @@ function _detalhes.OpenDetailsDeathRecap (segment, RecapID, fromChat)
 						source = source:gsub ((" <.*"), "")
 
 						--> if a player?
-						if (_detalhes.player_class [sourceClass]) then
+						if (_detalhes.classstring_to_classid [sourceClass]) then
 							source = _detalhes:AddClassOrSpecIcon (source, sourceClass, sourceSpec, 16, true)
 
 						elseif (sourceClass == "PET") then

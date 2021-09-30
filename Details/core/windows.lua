@@ -3783,35 +3783,8 @@ local _utf8sub = string.utf8sub
 
 			if (who[3]) then
 				robot.spec = who[3]
-			elseif (robot.classe == "DEATHKNIGHT") then
-				local specs = {250, 251, 252}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "DRUID") then
-				local specs = {102, 103, 104, 105}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "HUNTER") then
-				local specs = {253, 254, 255}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "MAGE") then
-				local specs = {62, 63, 64}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "PALADIN") then
-				local specs = {65, 66, 70}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "PRIEST") then
-				local specs = {256, 257, 258}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "ROGUE") then
-				local specs = {259, 260, 261}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "SHAMAN") then
-				local specs = {262, 263, 264}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "WARLOCK") then
-				local specs = {265, 266, 267}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "WARRIOR") then
-				local specs = {71, 72, 73}
+			else
+				local specs = self.gump:GetClassSpecIDs(robot.classe)
 				robot.spec = specs [math.random (1, #specs)]
 			end
 
@@ -3842,35 +3815,8 @@ local _utf8sub = string.utf8sub
 
 			if (who[3]) then
 				robot.spec = who[3]
-			elseif (robot.classe == "DEATHKNIGHT") then
-				local specs = {250, 251, 252}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "DRUID") then
-				local specs = {102, 103, 104, 105}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "HUNTER") then
-				local specs = {253, 254, 255}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "MAGE") then
-				local specs = {62, 63, 64}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "PALADIN") then
-				local specs = {65, 66, 70}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "PRIEST") then
-				local specs = {256, 257, 258}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "ROGUE") then
-				local specs = {259, 260, 261}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "SHAMAN") then
-				local specs = {262, 263, 264}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "WARLOCK") then
-				local specs = {265, 266, 267}
-				robot.spec = specs [math.random (1, #specs)]
-			elseif (robot.classe == "WARRIOR") then
-				local specs = {71, 72, 73}
+			else
+				local specs = self.gump:GetClassSpecIDs(robot.classe)
 				robot.spec = specs [math.random (1, #specs)]
 			end
 
@@ -5784,7 +5730,7 @@ local CreateEventTrackerFrame = function (parent, name)
 				end
 
 				--> add the class color
-				if (_detalhes.player_class [class]) then
+				if (_detalhes.classstring_to_classid [class]) then
 					--> is a player, add the class color
 					player_name = _detalhes:AddColorString (player_name, class)
 				end
@@ -5801,7 +5747,7 @@ local CreateEventTrackerFrame = function (parent, name)
 
 				if (class) then
 					--> add the class color
-					if (_detalhes.player_class [class]) then
+					if (_detalhes.classstring_to_classid [class]) then
 						--> is a player, add the class color
 						player_name = _detalhes:AddColorString (player_name, class)
 					end

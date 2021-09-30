@@ -412,42 +412,24 @@ do
 			NONE = {139/256, 196/256, 69/256, 127/256},
 		}
 
-		_detalhes.player_class = {
-			["HUNTER"] = true,
-			["WARRIOR"] = true,
-			["PALADIN"] = true,
-			["SHAMAN"] = true,
-			["MAGE"] = true,
-			["ROGUE"] = true,
-			["PRIEST"] = true,
-			["WARLOCK"] = true,
-			["DRUID"] = true,
-			["DEATHKNIGHT"] = true,
-		}
-		_detalhes.classstring_to_classid = {
-			["WARRIOR"] = 1,
-			["PALADIN"] = 2,
-			["HUNTER"] = 3,
-			["ROGUE"] = 4,
-			["PRIEST"] = 5,
-			["DEATHKNIGHT"] = 6,
-			["SHAMAN"] = 7,
-			["MAGE"] = 8,
-			["WARLOCK"] = 9,
-			["DRUID"] = 10,
-		}
 		_detalhes.classid_to_classstring = {
-			[1] = "WARRIOR",
-			[2] = "PALADIN",
-			[3] = "HUNTER",
-			[4] = "ROGUE",
-			[5] = "PRIEST",
-			[6] = "DEATHKNIGHT",
-			[7] = "SHAMAN",
-			[8] = "MAGE",
-			[9] = "WARLOCK",
-			[10] = "DRUID",
+			"WARRIOR",
+			"PALADIN",
+			"HUNTER",
+			"ROGUE",
+			"PRIEST",
+			"DEATHKNIGHT",
+			"SHAMAN",
+			"MAGE",
+			"WARLOCK",
+			"DRUID",
 		}
+
+		_detalhes.classstring_to_classid = {}
+
+		for k,v in ipairs(_detalhes.classid_to_classstring) do
+			_detalhes.classstring_to_classid[v] = k
+		end
 
 		_detalhes.segmentos = {
 			label = Loc ["STRING_SEGMENT"]..": ",
@@ -613,21 +595,21 @@ do
 	--> welcome
 		function _detalhes:WelcomeMsgLogon()
 
-			_detalhes:Msg ("you can always reset the addon running the command |cFFFFFF00'/details reinstall'|r if it does fail to load after being updated.")
+			self:Msg ("you can always reset the addon running the command |cFFFFFF00'/details reinstall'|r if it does fail to load after being updated.")
 
-			function _detalhes:wipe_combat_after_failed_load()
-				_detalhes.tabela_historico = _detalhes.historico:NovoHistorico()
-				_detalhes.tabela_overall = _detalhes.combate:NovaTabela()
-				_detalhes.tabela_vigente = _detalhes.combate:NovaTabela (nil, _detalhes.tabela_overall)
-				_detalhes.tabela_pets = _detalhes.container_pets:NovoContainer()
-				_detalhes:UpdateContainerCombatentes()
+			function self:wipe_combat_after_failed_load()
+				self.tabela_historico = self.historico:NovoHistorico()
+				self.tabela_overall = self.combate:NovaTabela()
+				self.tabela_vigente = self.combate:NovaTabela (nil, self.tabela_overall)
+				self.tabela_pets = self.container_pets:NovoContainer()
+				self:UpdateContainerCombatentes()
 
 				_detalhes_database.tabela_overall = nil
 				_detalhes_database.tabela_historico = nil
 
-				_detalhes:Msg ("seems failed to load, please type /reload to try again.")
+				self:Msg ("seems failed to load, please type /reload to try again.")
 			end
-			_detalhes:ScheduleTimer ("wipe_combat_after_failed_load", 5)
+			self:ScheduleTimer ("wipe_combat_after_failed_load", 5)
 
 		end
 		_detalhes.failed_to_load = _detalhes:ScheduleTimer ("WelcomeMsgLogon", 20)
