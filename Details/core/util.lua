@@ -1355,11 +1355,27 @@ local function getKeysSortedByValue(tbl, sortFunction)
 	for key in pairs(tbl) do
 		_table_insert(keys, key)
 	end
-  
+
 	_table_sort(keys, function(a, b) return sortFunction(tbl[a], tbl[b]) end)
-  
+
 	return keys
 end
+
+
+local function dump_unsorted_table_with_values_only(val)
+	if type(val) == 'table' then
+		local sortedKeys = getKeysSortedByValue(val, compare)
+		local s = '{ '
+		for k,v in ipairs(val) do
+			if type(k) ~= 'number' then k = '"'..k..'"' end
+			s = s .. dump_table(v) .. ','
+			--s = s .. '['..k..'] = ' .. dump_table(v) .. ',\n'
+		end
+		return s .. '} '
+	end
+	return format('%s', val)
+end
+
 
 local function dump_table(val)
 	if type(val) == 'table' then
@@ -1377,4 +1393,3 @@ end
 
 function _detalhes.dump_table_sorted_by_value(val)
 	return dump_table(val)
-end
