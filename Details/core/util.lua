@@ -1363,22 +1363,24 @@ end
 
 
 local function dump_unsorted_table_with_values_only(val)
-	if type(val) == 'table' then
-		local sortedKeys = getKeysSortedByValue(val, compare)
+	local valType = type(val)
+	if valType == 'table' then
 		local s = '{ '
 		for k,v in ipairs(val) do
 			if type(k) ~= 'number' then k = '"'..k..'"' end
-			s = s .. dump_table(v) .. ','
-			--s = s .. '['..k..'] = ' .. dump_table(v) .. ',\n'
+			s = s .. dump_unsorted_table_with_values_only(v) .. ','
 		end
 		return s .. '} '
+	elseif valType == 'string' then
+		return format('"%s"', val)
 	end
-	return format('%s', val)
+	return val
 end
 
 
 local function dump_table(val)
-	if type(val) == 'table' then
+	local valType = type(val)
+	if valType == 'table' then
 		local sortedKeys = getKeysSortedByValue(val, compare)
 		local s = '{ '
 		for _,k in ipairs(sortedKeys) do
@@ -1387,8 +1389,10 @@ local function dump_table(val)
 			s = s .. '['..k..'] = ' .. dump_table(v) .. ',\n'
 		end
 		return s .. '} '
+	elseif valType == 'string' then
+		return format('"%s"', val)
 	end
-	return format('"%s"', val)
+	return val
 end
 
 function _detalhes.dump_table_sorted_by_value(val)
