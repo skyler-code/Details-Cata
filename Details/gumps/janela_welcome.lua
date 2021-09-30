@@ -52,8 +52,6 @@ function _detalhes:OpenWelcomeWindow()
 		cancel:SetHighlightTexture ([[Interface\Buttons\UI-GROUPLOOT-PASS-HIGHLIGHT]])
 		cancel:SetNormalTexture ([[Interface\Buttons\UI-GroupLoot-Pass-Up]])
 		cancel:SetScript ("OnClick", function() window:Hide() end)
-		cancel:GetNormalTexture():SetDesaturated (true)
-		cancel:Disable()
 
 		local cancelText = cancel:CreateFontString (nil, "overlay", "GameFontNormal")
 		cancelText:SetTextColor (1, 1, 1)
@@ -1459,10 +1457,6 @@ local window_openned_at = time()
 		final_frame:SetSize (1, 1)
 		final_frame:SetPoint ("center")
 		final_frame:Hide()
-		final_frame:SetScript ("OnShow", function()
-			cancel:Enable()
-			cancel:GetNormalTexture():SetDesaturated (false)
-		end)
 
 		pages [#pages+1] = {bg8, texto8, texto, final_frame}
 
