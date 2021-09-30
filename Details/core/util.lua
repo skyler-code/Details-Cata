@@ -1344,7 +1344,19 @@ function _detalhes:name_space_generic(barra, separador)
 	end
 end
 
-
+local function dump_unsorted_table_with_values_only(val)
+	local valType = type(val)
+	if valType == 'table' then
+		local s = '{ '
+		for _,v in ipairs(val) do
+			s = s .. dump_unsorted_table_with_values_only(v) .. ','
+		end
+		return s .. '} '
+	elseif valType == 'string' then
+		return format('"%s"', val)
+	end
+	return val
+end
 
 local function compare(a,b)
 	return a < b
@@ -1360,23 +1372,6 @@ local function getKeysSortedByValue(tbl, sortFunction)
 
 	return keys
 end
-
-
-local function dump_unsorted_table_with_values_only(val)
-	local valType = type(val)
-	if valType == 'table' then
-		local s = '{ '
-		for k,v in ipairs(val) do
-			if type(k) ~= 'number' then k = '"'..k..'"' end
-			s = s .. dump_unsorted_table_with_values_only(v) .. ','
-		end
-		return s .. '} '
-	elseif valType == 'string' then
-		return format('"%s"', val)
-	end
-	return val
-end
-
 
 local function dump_table(val)
 	local valType = type(val)
