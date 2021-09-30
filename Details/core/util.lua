@@ -1393,3 +1393,4 @@ end
 
 function _detalhes.dump_table_sorted_by_value(val)
 	return dump_table(val)
+end
