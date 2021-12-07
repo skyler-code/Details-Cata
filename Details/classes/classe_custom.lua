@@ -1771,7 +1771,7 @@ function _detalhes:AddDefaultCustomDisplays()
 
 	local MySpells = {
 		name = Loc["STRING_CUSTOM_MYSPELLS"],
-		icon =[[Interface\CHATFRAME\UI-ChatIcon-Battlenet]],
+		icon =[[Interface\CHATFRAME\UI-ChatIcon-WoW]],
 		attribute = false,
 		spellid = false,
 		author = "Details!",
