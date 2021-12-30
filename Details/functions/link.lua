@@ -53,6 +53,7 @@
 		["fontSize"] = 24,
 		["color"] = {1, 1, 1, 1},
 		["displayText"] = "%c\n",
+		["internalVersion"] = 2,
 		["customText"] = "function()\n    return aura_env.text\nend \n\n",
 		["untrigger"] = {
 			["custom"] = "function()\n    return not InCombatLockdown()\nend",
@@ -162,6 +163,7 @@
 		["displayText"] = "%c\n",
 		["customText"] = "function()\n    return aura_env.text\nend \n\n",
 		["yOffset"] = 174.820495605469,
+		["internalVersion"] = 2,
 		["anchorPoint"] = "CENTER",
 		["customTextUpdate"] = "event",
 		["actions"] = {
@@ -267,6 +269,7 @@
 		["animate"] = true,
 		["xOffset"] = 0,
 		["border"] = "None",
+		["internalVersion"] = 2,
 		["yOffset"] = 370,
 		["anchorPoint"] = "CENTER",
 		["untrigger"] = {},
@@ -362,6 +365,7 @@
 		["background"] = "None",
 		["expanded"] = true,
 		["constantFactor"] = "RADIUS",
+		["internalVersion"] = 2,
 		["trigger"] = {
 			["type"] = "aura",
 			["spellIds"] = {},
@@ -427,6 +431,7 @@
 			["yOffset"] = 328.723449707031,
 			["anchorPoint"] = "CENTER",
 			["borderColor"] = {0, 0, 0, 1},
+			["internalVersion"] = 2,
 			["rotateText"] = "NONE",
 			["backgroundColor"] = {
 				0, -- [1]
@@ -631,6 +636,7 @@
 		["customTextUpdate"] = "update",
 		["icon"] = true,
 		["fontFlags"] = "OUTLINE",
+		["internalVersion"] = 2,
 		["selfPoint"] = "CENTER",
 		["trigger"] = {
 			["type"] = "custom",
@@ -768,6 +774,7 @@
 		["displayText"] = "%c\n",
 		["customText"] = "function()\n    local at = aura_env.untrigger_at\n    if (at) then\n        return \"\" .. aura_env.ability_text .. \"\\n==>     \" .. format (\"%.1f\", at - GetTime()) .. \"     <==\"\n    else\n        return \"\"\n    end    \n    \nend\n",
 		["yOffset"] = 157.554321289063,
+		["internalVersion"] = 2,
 		["anchorPoint"] = "CENTER",
 		["customTextUpdate"] = "update",
 		["actions"] = {
@@ -868,6 +875,7 @@
 		["displayText"] = "",
 		["yOffset"] = 0,
 		["anchorPoint"] = "CENTER",
+		["internalVersion"] = 2,
 		["customTextUpdate"] = "update",
 		["actions"] = {
 			["start"] = {
@@ -954,6 +962,7 @@
 		["stacksFlags"] = "None",
 		["yOffset"] = 0,
 		["anchorPoint"] = "CENTER",
+		["internalVersion"] = 2,
 		["borderColor"] = {1, 1, 1, 0.5},
 		["rotateText"] = "NONE",
 		["backgroundColor"] = { 0, 0, 0, 0.5,},
@@ -1088,6 +1097,7 @@
 		["color"] = {1, 1, 1, 1},
 		["stacksPoint"] = "BOTTOMRIGHT",
 		["regionType"] = "icon",
+		["internalVersion"] = 2,
 		["untrigger"] = {},
 		["anchorPoint"] = "CENTER",
 		["icon"] = true,
