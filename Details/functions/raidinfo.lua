@@ -1510,38 +1510,38 @@ do --> data for Blackwing Descent
 	local LOADINGSCREEN_FILE, LOADINGSCREEN_COORDS = "LoadScreenBlackwingDescentRaid", {0, 1, 285/1024, 875/1024}
 
 	local BOSS_IDS = {
-		[41570]	= 1,	-- Magmaw
-		[51101]	= 1,	-- Magmaw
-		[51102]	= 1,	-- Magmaw
-		[51103]	= 1,	-- Magmaw
-		[42166]	= 2,	-- Arcanotron
-		[49056]	= 2,	-- Arcanotron
-		[49057]	= 2,	-- Arcanotron
-		[49058]	= 2,	-- Arcanotron
-		[42178]	= 2,	-- Magmatron
-		[49053]	= 2,	-- Magmatron
-		[49054]	= 2,	-- Magmatron
-		[49055]	= 2,	-- Magmatron
-		[42179]	= 2,	-- Electron
-		[49047]	= 2,	-- Electron
-		[49048]	= 2,	-- Electron
-		[49049]	= 2,	-- Electron
-		[42180]	= 2,	-- Toxitron
-		[49050]	= 2,	-- Toxitron
-		[49051]	= 2,	-- Toxitron
-		[49052]	= 2,	-- Toxitron
-		[41378]	= 3,	-- Maloriak
-		[49974]	= 3,	-- Maloriak
-		[49980]	= 3,	-- Maloriak
-		[49986]	= 3,	-- Maloriak
-		[41442]	= 4,	-- Atramedes
-		[49583]	= 4,	-- Atramedes
-		[49584]	= 4,	-- Atramedes
-		[49585]	= 4,	-- Atramedes
-		[43296]	= 5,	-- Chimaeron
-		[47774]	= 5,	-- Chimaeron
-		[47775]	= 5,	-- Chimaeron
-		[47776]	= 5,	-- Chimaeron
+		[42166]	= 1,	-- Arcanotron
+		[49056]	= 1,	-- Arcanotron
+		[49057]	= 1,	-- Arcanotron
+		[49058]	= 1,	-- Arcanotron
+		[42178]	= 1,	-- Magmatron
+		[49053]	= 1,	-- Magmatron
+		[49054]	= 1,	-- Magmatron
+		[49055]	= 1,	-- Magmatron
+		[42179]	= 1,	-- Electron
+		[49047]	= 1,	-- Electron
+		[49048]	= 1,	-- Electron
+		[49049]	= 1,	-- Electron
+		[42180]	= 1,	-- Toxitron
+		[49050]	= 1,	-- Toxitron
+		[49051]	= 1,	-- Toxitron
+		[49052]	= 1,	-- Toxitron
+		[41570]	= 2,	-- Magmaw
+		[51101]	= 2,	-- Magmaw
+		[51102]	= 2,	-- Magmaw
+		[51103]	= 2,	-- Magmaw
+		[41442]	= 3,	-- Atramedes
+		[49583]	= 3,	-- Atramedes
+		[49584]	= 3,	-- Atramedes
+		[49585]	= 3,	-- Atramedes
+		[43296]	= 4,	-- Chimaeron
+		[47774]	= 4,	-- Chimaeron
+		[47775]	= 4,	-- Chimaeron
+		[47776]	= 4,	-- Chimaeron
+		[41378]	= 5,	-- Maloriak
+		[49974]	= 5,	-- Maloriak
+		[49980]	= 5,	-- Maloriak
+		[49986]	= 5,	-- Maloriak
 		[41270] = 6,	-- Onyxia
 		[51116] = 6,	-- Onyxia
 		[51117] = 6,	-- Onyxia
@@ -1553,11 +1553,11 @@ do --> data for Blackwing Descent
 	}
 
 	local ENCOUNTER_ID_CL = {
-		41570,	-- Magmaw
 		42178,	-- Magmatron
-		41378,	-- Maloriak
+		41570,	-- Magmaw
 		41442,	-- Atramedes
 		43296,	-- Chimaeron
+		41378,	-- Maloriak
 		41376,	-- Nefarian
 	}
 
