@@ -10,7 +10,7 @@ local _
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --> constants
-
+	
 	local container_playernpc	=	_detalhes.container_type.CONTAINER_PLAYERNPC
 	local container_damage	=	_detalhes.container_type.CONTAINER_DAMAGE_CLASS
 	local container_heal		= 	_detalhes.container_type.CONTAINER_HEAL_CLASS
@@ -31,47 +31,47 @@ local _
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --> internals
-
+	
 	function container_habilidades:NovoContainer (tipo_do_container)
 		local _newContainer = {
 			funcao_de_criacao = container_habilidades:FuncaoDeCriacao (tipo_do_container),
 			tipo = tipo_do_container,
 			_ActorTable = {}
 		}
-
+		
 		_setmetatable (_newContainer, container_habilidades)
-
+		
 		return _newContainer
 	end
 
 	function container_habilidades:GetSpell (id)
 		return self._ActorTable [id]
 	end
-
+	
 	function container_habilidades:GetAmount (id, key)
 		local spell = self._ActorTable [id]
 		if (spell) then
 			return spell [key]
 		end
 	end
-
+	
 	function container_habilidades:ListActors()
-		return pairs (self._ActorTable)
+		return _pairs (self._ActorTable)
 	end
 
 	function container_habilidades:PegaHabilidade (id, criar, token, cria_shadow)
-
+	
 		local esta_habilidade = self._ActorTable [id]
-
+		
 		if (esta_habilidade) then
 			return esta_habilidade
 		else
 			if (criar) then
-
+			
 				local novo_objeto = self.funcao_de_criacao (nil, id, shadow_objeto, token)
-
+			
 				self._ActorTable [id] = novo_objeto
-
+				
 				return novo_objeto
 			else
 				return nil
@@ -82,16 +82,16 @@ local _
 	function container_habilidades:FuncaoDeCriacao (tipo)
 		if (tipo == container_damage) then
 			return habilidade_dano.NovaTabela
-
+			
 		elseif (tipo == container_heal) then
 			return habilidade_cura.NovaTabela
 
 		elseif (tipo == container_energy) then
 			return habilidade_e_energy.NovaTabela
-
+			
 		elseif (tipo == container_misc) then
 			return habilidade_misc.NovaTabela
-
+			
 		end
 	end
 
