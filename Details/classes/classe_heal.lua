@@ -919,7 +919,7 @@ function _detalhes:CloseShields (combat)
 					if (amount > 0) then
 						local obj = container:PegarCombatente (_, owner)
 						if (obj) then
-							parser:heal ("SPELL_AURA_REMOVED", time, obj.serial, obj.hide_caster, owner, obj.flag_original, obj.flag_original2, tgt.serial, alvo_name, tgt.flag_original, tgt.flag_original2, spellid, spellname, nil, 0, _math_ceil (amount), 0, 0, nil, true)
+							parser:heal ("SPELL_AURA_REMOVED", time, obj.hide_caster, obj.serial, owner, obj.flag_original, obj.flag_original2, tgt.serial, alvo_name, tgt.flag_original, tgt.flag_original2, spellid, spellname, nil, 0, _math_ceil (amount), 0, 0, nil, true)
 						end
 					end
 
