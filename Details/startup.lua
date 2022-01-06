@@ -354,15 +354,15 @@ function _G._detalhes:Start()
 		end
 
 	--> send feedback panel if the user got 100 or more logons with details
-		if (self.tutorial.logons == 100) then --  and self.tutorial.logons < 104
-			if (not self.tutorial.feedback_window1 and not _detalhes.streamer_config.no_alerts) then
-				--> check if isn't inside an instance
-				if (_detalhes:IsInCity()) then
-					self.tutorial.feedback_window1 = true
-					_detalhes:ShowFeedbackRequestWindow()
-				end
-			end
-		end
+		-- if (self.tutorial.logons == 100) then --  and self.tutorial.logons < 104
+		-- 	if (not self.tutorial.feedback_window1 and not _detalhes.streamer_config.no_alerts) then
+		-- 		--> check if isn't inside an instance
+		-- 		if (_detalhes:IsInCity()) then
+		-- 			self.tutorial.feedback_window1 = true
+		-- 			_detalhes:ShowFeedbackRequestWindow()
+		-- 		end
+		-- 	end
+		-- end
 
 	--> check is this is the first run of this version
 		if (self.is_version_first_run) then
