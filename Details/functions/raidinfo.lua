@@ -4,8 +4,11 @@ local LBZ = LibStub("LibBabble-Zone-3.0"):GetLookupTable()
 local tinsert, select, EJ_SelectInstance, EJ_GetInstanceInfo, EJ_GetEncounterInfoByIndex, EJ_GetCreatureInfo =
 tinsert, select, EJ_SelectInstance, EJ_GetInstanceInfo, EJ_GetEncounterInfoByIndex, EJ_GetCreatureInfo
 
-local function BuildInstanceInfo(EJ_INSTANCEID)
+local function BuildInstanceInfo(EJ_INSTANCEID, isHeroic)
 	EJ_SelectInstance(EJ_INSTANCEID)
+	if isHeroic then
+		EJ_SetDifficulty(6)
+	end
 	local mapName, _, _, dungeonBG, backgroundEJ, mapID = EJ_GetInstanceInfo()
 
 	local ENCOUNTERS = {}
@@ -1643,7 +1646,7 @@ do --> data for Bastion of Twilight
 		ENCOUNTER_ID_CL[ENCOUNTER_ID_CL[i]] = i
 	end
 
-	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID)
+	local mapName, mapID, dungeonBG, backgroundEJ, ENCOUNTERS, BOSSNAMES = BuildInstanceInfo(EJ_INSTANCEID, true)
 
 	_detalhes:InstallEncounter({
 		id = mapID,
